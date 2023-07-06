@@ -31,7 +31,10 @@ const Home = () => {
 
             <div>
                 <h1> {resource} </h1>
-                <Link to={"/redirect"}> Frontend Login </Link>
+                <Link to={"/redirect"}> Login </Link>
+            </div>
+            <div>
+                <Link to={"/logout"}> Logout </Link>
             </div>
 
         </div>

@@ -4,6 +4,7 @@ import  Home  from './components/Home';
 import Welcome from './components/Welcome';
 import  Redirect  from './components/Redirect';
 import PrivateRoute from './authorization/PrivateRoute';
+import Logout from './components/Logout';
 
 
 
@@ -18,9 +19,11 @@ function App() {
           <Route path='/authorized' element={ <Redirect /> } /> 
           <Route path='/home' element={ <Home /> } />
 
-          <Route exact path='/' element={<PrivateRoute/>}>
-            <Route exact path='/' element={<Welcome/>}/>
+          <Route path='/' element={<PrivateRoute/>}>
+            <Route path='/' element={<Welcome/>}/>
           </Route>
+
+          <Route path='/logout' element={<Logout />} />
         </Routes>
       </BrowserRouter>
 
