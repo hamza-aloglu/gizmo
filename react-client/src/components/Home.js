@@ -32,7 +32,12 @@ const Home = () => {
 
             <div>
                 <h1> {resource} </h1>
-                {AuthService.isLoggedIn() ? <Link to={"/logout"}> Logout </Link> : <Link to={"/redirect"}> Login </Link>}
+                {AuthService.isLoggedIn() ? <Link to={"/logout"}> Logout </Link> : (
+                    <div>
+                        <Link to={"/redirect"}> Login </Link>
+                        <Link to={"/register"}> Register </Link>
+                    </div>)
+                }
             </div>
 
         </div>
