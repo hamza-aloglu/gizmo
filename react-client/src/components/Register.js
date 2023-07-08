@@ -12,7 +12,7 @@ const Register = () => {
         e.preventDefault();
         AuthService.registerUser(username, password, "basicuser").then(async (response) => {
             const jsonResponse = await response.json();
-            setStatus(jsonResponse.message);
+            setStatus(JSON.stringify(jsonResponse));
 
             if(response.ok) {
                 navigate("/home");

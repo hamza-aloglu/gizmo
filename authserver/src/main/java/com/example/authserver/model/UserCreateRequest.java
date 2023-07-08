@@ -1,7 +1,13 @@
 package com.example.authserver.model;
 
+import jakarta.validation.constraints.Size;
+
 public class UserCreateRequest {
+    @Size(min = 3, message = "username is too short")
+    @Size(max = 30, message = "username is too long")
     private String username;
+    @Size(min = 3, message = "password is too short")
+    @Size(max = 30, message = "password is too long")
     private String password;
     private String roles;
 

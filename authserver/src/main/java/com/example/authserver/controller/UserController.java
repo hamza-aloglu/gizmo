@@ -1,6 +1,7 @@
 package com.example.authserver.controller;
 
 import com.example.authserver.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +19,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/register")
-    public Map<String, String> register(@RequestBody UserCreateRequest userCreateRequest) {
+    public Map<String, String> register(@Valid @RequestBody UserCreateRequest userCreateRequest) {
         userService.register(userCreateRequest.getUsername(), userCreateRequest.getPassword(),
                 userCreateRequest.getRoles());
 
