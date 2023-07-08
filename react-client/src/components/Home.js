@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import resourceUrl from '../authorization/links/resourceUrl';
 import { Link } from 'react-router-dom';
+import AuthService from '../services/AuthService';
 
 const Home = () => {
     const [resource, setResource] = useState("default backend resource");
@@ -31,10 +32,7 @@ const Home = () => {
 
             <div>
                 <h1> {resource} </h1>
-                <Link to={"/redirect"}> Login </Link>
-            </div>
-            <div>
-                <Link to={"/logout"}> Logout </Link>
+                {AuthService.isLoggedIn() ? <Link to={"/logout"}> Logout </Link> : <Link to={"/redirect"}> Login </Link>}
             </div>
 
         </div>
