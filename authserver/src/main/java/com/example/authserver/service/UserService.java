@@ -1,5 +1,6 @@
 package com.example.authserver.service;
 
+import com.example.authserver.exception.UserAlreadyExistsAuthenticationException;
 import com.example.authserver.model.User;
 import com.example.authserver.model.UserCreateRequest;
 import com.example.authserver.repository.UserRepository;
@@ -26,11 +27,15 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public void register(UserCreateRequest userCreateRequest) {
+    public void register(String username, String pw, String roles) {
+        if (userRepository.existsUserByUsername(username)) {
+            throw new UserAlreadyExistsAuthenticationException("Username: " + username + " already exists");
+        }
+
         userRepository.save(new User(
-                userCreateRequest.getUsername(),
-                passwordEncoder.encode(userCreateRequest.getPassword()),
-                userCreateRequest.getRoles()
+                username,
+                passwordEncoder.encode(pw),
+                roles
         ));
     }
 }

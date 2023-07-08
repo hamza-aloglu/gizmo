@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.authserver.model.UserCreateRequest;
 
+import java.util.Collections;
+import java.util.Map;
+
 @RestController
 public class UserController {
     private final UserService userService;
@@ -14,9 +17,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/register")
-    public String register(@RequestBody UserCreateRequest userCreateRequest) {
-        userService.register(userCreateRequest);
-        return "successfully registered";
+    @PostMapping(value = "/register")
+    public Map<String, String> register(@RequestBody UserCreateRequest userCreateRequest) {
+        userService.register(userCreateRequest.getUsername(), userCreateRequest.getPassword(),
+                userCreateRequest.getRoles());
+
+        // Return simple string as valid JSON
+        return Collections.singletonMap("message", "Successfully registered");
     }
 }
