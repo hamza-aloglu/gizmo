@@ -1,14 +1,20 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import './css/spinner.css';
 
 const Logout = () => {
+    const navigate = useNavigate();
 
     useEffect(() => {
         sessionStorage.removeItem(process.env.REACT_APP_TOKEN);
-        window.location.href = "http://localhost:8080/logout";
+        navigate("/home");
     }, []);
 
     return (
-        <h3> Logging out... </h3>
+        <div className="spinner-container">
+            <div className="spinner"></div>
+            <span className="text">Logging out</span>
+        </div>
     )
 }
 
