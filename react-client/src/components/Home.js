@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import resourceUrl from '../authorization/links/resourceUrl';
-import { Link } from 'react-router-dom';
-import AuthService from '../services/AuthService';
+import Header from './Header';
 
 const Home = () => {
     const [resource, setResource] = useState("default backend resource");
 
     useEffect(() => {
+        // example resource server request. Will be overwritten.
         const headers = new Headers();
         headers.set("Authorization", `Bearer ${sessionStorage.getItem(process.env.REACT_APP_TOKEN)}`);
         const url = resourceUrl();
@@ -25,21 +25,9 @@ const Home = () => {
 
     return (
         <div>
+            <Header />
 
-            <div className='Header'>
-                Header...
-            </div>
-
-            <div>
-                <h1> {resource} </h1>
-                {AuthService.isLoggedIn() ? <Link to={"/logout"}> Logout </Link> : (
-                    <div>
-                        <Link to={"/redirect"}> Login </Link>
-                        <Link to={"/register"}> Register </Link>
-                    </div>)
-                }
-            </div>
-
+            <h1> {resource} </h1>
         </div>
     )
 }
