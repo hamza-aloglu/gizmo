@@ -3,6 +3,8 @@ import AuthService from "../services/AuthService";
 import { useNavigate } from "react-router";
 import './css/register.css';
 import './css/style.css';
+import authorizationServerUrl from "../authorization/links/authorizationServerUrl";
+import { Link } from 'react-router-dom';
 
 const Register = () => {
     const [username, setUsername] = useState("");
@@ -44,9 +46,9 @@ const Register = () => {
                             <input type="password" name="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} />
                         </div>
                         <input className="button" type="submit" value="Submit" />
-                        <a className="link-text" href="http://localhost:8080/login">
+                        <Link className="link-text" to={authorizationServerUrl() + "/login"}>
                             Have an account? Login.
-                        </a>
+                        </Link>
                     </form>
                 </div>
             </div>
