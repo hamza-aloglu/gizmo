@@ -8,7 +8,7 @@
 <body>
 <div class="login-page">
     <div class="form">
-        <h1>Spring Boot Tutorial</h1>
+        <h1>Gizmo</h1>
         <h2>Please Log In</h2>
         <div class="error" th:if="${param.error}">
             Invalid username and password.</div>
@@ -22,6 +22,9 @@
                 <input type="password" name="password" placeholder="Password"/>
             </div>
             <input class="button" type="submit" value="Log in" />
+            <a class="link-text" href="http://127.0.0.1:3000/register">
+                Don't have an account? Sign up.
+            </a>
         </form>
     </div>
 </div>

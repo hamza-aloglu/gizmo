@@ -1,20 +1,22 @@
 import { useState } from "react";
 import AuthService from "../services/AuthService";
 import { useNavigate } from "react-router";
+import './css/register.css';
+import './css/style.css';
 
 const Register = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [status, setStatus] = useState("");
+    const [status, setStatus] = useState([]);
     const navigate = useNavigate();
 
     function handleRegistrationSubmit(e) {
         e.preventDefault();
         AuthService.registerUser(username, password, "basicuser").then(async (response) => {
             const jsonResponse = await response.json();
-            setStatus(JSON.stringify(jsonResponse));
+            setStatus(Object.entries(jsonResponse));
 
-            if(response.ok) {
+            if (response.ok) {
                 navigate("/home");
             }
         });
@@ -22,13 +24,32 @@ const Register = () => {
 
     return (
         <div>
-            <form onSubmit={handleRegistrationSubmit}>
-                <input type="text" name="username" placeholder="username" onChange={(e) => setUsername(e.target.value)} />
-                <input type="password" name="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} />
-                <button type="submit"> Submit </button>
-            </form>
+            <div className="login-page">
+                <div className="form">
+                    <h1>Gizmo</h1>
+                    <h2>Please Register</h2>
+                    <div className="error-container">
+                        {status.map(([key, value]) => (
+                            <div className="error" key={key}>
+                                {value}
+                            </div>
+                        ))}
+                    </div>
 
-            <h3> {status} </h3>
+                    <form onSubmit={handleRegistrationSubmit} className="login-form">
+                        <div>
+                            <input type="text" name="username" placeholder="username" onChange={(e) => setUsername(e.target.value)} />
+                        </div>
+                        <div>
+                            <input type="password" name="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} />
+                        </div>
+                        <input className="button" type="submit" value="Submit" />
+                        <a className="link-text" href="http://localhost:8080/login">
+                            Have an account? Login.
+                        </a>
+                    </form>
+                </div>
+            </div>
         </div>
     )
 }

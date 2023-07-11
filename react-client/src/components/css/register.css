@@ -46,6 +46,9 @@
     color: #b3b3b3;
     font-size: 12px;
 }
+.form .error-container {
+    margin: 15px;
+}
 .form .error {
     color: red;
 }
@@ -61,7 +64,4 @@ body {
     font-family: "Roboto", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}
-.link-text {
-    text-decoration: none;
 }
