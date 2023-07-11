@@ -1,5 +1,6 @@
 import AuthService from "../services/AuthService"
 import './css/header.css'
+import './css/style.css'
 import { Link } from 'react-router-dom';
 
 
@@ -11,15 +12,15 @@ const Header = () => {
             <h1 className="header-title">My App</h1>
             {isLoggedIn ? (
                 <button className="header-button">
-                <Link to={"/logout"}> Logout </Link> 
+                    <Link className="link-text" to={"/logout"}> Logout </Link>
                 </button>
             ) : (
                 <div>
                     <button className="header-button">
-                        <Link to={"/redirect"}> Login </Link>
+                        <Link className="link-text" to={"/redirect"}> Login </Link>
                     </button>
                     <button className="header-button">
-                        <Link to={"/register"}> Register </Link>
+                        <Link className="link-text" to={"/register"}> Register </Link>
                     </button>
                 </div>
             )}
