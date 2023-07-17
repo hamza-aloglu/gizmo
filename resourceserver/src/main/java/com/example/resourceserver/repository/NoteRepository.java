@@ -1,10 +1,9 @@
 package com.example.resourceserver.repository;
 
-import com.example.resourceserver.model.Card;
+import com.example.resourceserver.model.Note;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CardRepository extends ListCrudRepository<Card, Long> {
-    Card getCardById(Long id);
+public interface NoteRepository extends ListCrudRepository<Note, Long> {
 }
