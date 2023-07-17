@@ -1,8 +1,13 @@
 package com.example.resourceserver.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 public class NoteCreateRequest {
     private String title;
     private String content;
+    @NotNull
     private Long cardId;
 
     public NoteCreateRequest() {
