@@ -5,8 +5,10 @@ import com.example.resourceserver.dto.CardDto;
 import com.example.resourceserver.service.CardService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping(value = "/card")
+@RequestMapping(value = "/cards")
 public class CardController {
     private CardService cardService;
 
@@ -17,6 +19,17 @@ public class CardController {
     @PostMapping
     public CardDto saveCard(@RequestBody CardCreateRequest cardCreateRequest) {
         return cardService.saveCard(cardCreateRequest);
+    }
+
+    @GetMapping
+    public List<CardDto> getAllCards() {
+        return cardService.getAllCards();
+    }
+
+    @DeleteMapping
+    public String deleteCard(@RequestParam Long id) {
+        cardService.deleteByCardId(id);
+        return "Successfully deleted";
     }
 
 
