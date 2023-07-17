@@ -136,7 +136,7 @@ public class SecurityConfig {
                         .build()
                 )
                 .tokenSettings(TokenSettings.builder()
-                        .accessTokenTimeToLive(Duration.ofMinutes(10))
+                        .accessTokenTimeToLive(Duration.ofMinutes(120))
                         .build()
                 )
                 .build();
