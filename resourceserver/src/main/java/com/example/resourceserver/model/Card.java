@@ -16,6 +16,9 @@ public class Card extends BaseModel {
     private List<Note> notes;
     @ManyToOne
     private Card masterCard;
+    @OneToMany(mappedBy = "masterCard", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<Card> slaveCards;
     private int index;
 
     public Card() {
