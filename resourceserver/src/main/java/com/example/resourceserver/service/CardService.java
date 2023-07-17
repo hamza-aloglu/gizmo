@@ -9,7 +9,9 @@ import com.example.resourceserver.repository.CardRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CardService {
@@ -22,18 +24,30 @@ public class CardService {
 
     public CardDto saveCard(CardCreateRequest cardCreateRequest) {
         Card card = cardMapper.cardCreateRequestToCard(cardCreateRequest);
-
         Long masterCardId = cardCreateRequest.getMasterCardId();
+
         if (masterCardId != null) {
             if (!cardRepository.existsById(masterCardId)) {
                 throw new NotFoundException("master card not found with id: " + masterCardId);
             }
 
+            populateIndex(card, masterCardId);
             card.setMasterCard(cardRepository.getCardById(masterCardId));
         }
 
         Card savedCard = cardRepository.save(card);
         return cardMapper.cardToCardDto(savedCard);
+    }
+
+    private void populateIndex(Card card, Long masterCardId) {
+        List<Card> slaveCards = cardRepository.getCardByMasterCardId(masterCardId);
+        Optional<Card> highestIndexedSlaveCard = slaveCards.stream()
+                .max(Comparator.comparing(Card::getIndex));
+        int highestSlaveIndex = 0;
+        if (highestIndexedSlaveCard.isPresent()) {
+            highestSlaveIndex = highestIndexedSlaveCard.get().getIndex();
+        }
+        card.setIndex(highestSlaveIndex + 1);
     }
 
     public List<CardDto> getAllCards() {
