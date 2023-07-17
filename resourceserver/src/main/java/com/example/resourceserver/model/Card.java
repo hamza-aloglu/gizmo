@@ -1,5 +1,6 @@
 package com.example.resourceserver.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 
@@ -8,7 +9,7 @@ import java.util.List;
 @Entity
 public class Card extends BaseModel {
     private String title;
-    @OneToMany
+    @OneToMany(mappedBy = "card", cascade = CascadeType.REMOVE)
     private List<Note> notes;
 
     public Card() {
