@@ -22,8 +22,17 @@ public class CardService {
 
     public CardDto saveCard(CardCreateRequest cardCreateRequest) {
         Card card = cardMapper.cardCreateRequestToCard(cardCreateRequest);
-        Card savedCard = cardRepository.save(card);
 
+        Long masterCardId = cardCreateRequest.getMasterCardId();
+        if (masterCardId != null) {
+            if (!cardRepository.existsById(masterCardId)) {
+                throw new NotFoundException("master card not found with id: " + masterCardId);
+            }
+
+            card.setMasterCard(cardRepository.getCardById(masterCardId));
+        }
+
+        Card savedCard = cardRepository.save(card);
         return cardMapper.cardToCardDto(savedCard);
     }
 

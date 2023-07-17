@@ -2,6 +2,7 @@ package com.example.resourceserver.model;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 import java.util.List;
@@ -11,6 +12,8 @@ public class Card extends BaseModel {
     private String title;
     @OneToMany(mappedBy = "card", cascade = CascadeType.REMOVE)
     private List<Note> notes;
+    @ManyToOne
+    private Card masterCard;
 
     public Card() {
 
@@ -30,5 +33,13 @@ public class Card extends BaseModel {
 
     public void setNotes(List<Note> notes) {
         this.notes = notes;
+    }
+
+    public Card getMasterCard() {
+        return masterCard;
+    }
+
+    public void setMasterCard(Card masterCard) {
+        this.masterCard = masterCard;
     }
 }
