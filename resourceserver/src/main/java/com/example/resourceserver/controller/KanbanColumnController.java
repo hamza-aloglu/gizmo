@@ -34,6 +34,12 @@ public class KanbanColumnController {
         return "Successfully Deleted";
     }
 
+    @PutMapping
+    public KanbanColumnDto addRestrictedKanbanColumns(@RequestBody List<Long> restrictedKanbanColumnIds,
+                                                      @Valid @NotNull @RequestParam Long kanbanColumnId) {
+        return kanbanColumnService.addRestrictedKanbanColumns(restrictedKanbanColumnIds, kanbanColumnId);
+    }
+
 
     public KanbanColumnService getKanbanColumnService() {
         return kanbanColumnService;

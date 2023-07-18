@@ -9,6 +9,7 @@ import com.example.resourceserver.repository.KanbanColumnRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,6 +27,25 @@ public class KanbanColumnService {
 
         kanbanColumnRepository.save(kanbanColumn);
         return kanbanColumnMapper.kanbanColumnToKanbanColumnDto(kanbanColumn);
+    }
+
+    public KanbanColumnDto addRestrictedKanbanColumns(List<Long> restrictedKanbanColumnIds, Long kanbanColumnId) {
+        if (!kanbanColumnRepository.existsById(kanbanColumnId)) {
+            throw new NotFoundException("KanbanColumn does not exists with id: " + kanbanColumnId);
+        }
+        KanbanColumn kanbanColumn = kanbanColumnRepository.getKanbanColumnById(kanbanColumnId);
+
+        List<KanbanColumn> restrictedKanbanColumns = new ArrayList<>();
+        restrictedKanbanColumnIds.forEach((id) -> {
+            if (!kanbanColumnRepository.existsById(id)) {
+                throw new NotFoundException("KanbanColumn does not exists with id: " + kanbanColumnId + " in the list");
+            }
+            restrictedKanbanColumns.add(kanbanColumnRepository.getKanbanColumnById(id));
+        });
+
+        kanbanColumn.setRestrictedKanbanColumns(restrictedKanbanColumns);
+        KanbanColumn savedKanbanColumn = kanbanColumnRepository.save(kanbanColumn);
+        return kanbanColumnMapper.kanbanColumnToKanbanColumnDto(savedKanbanColumn);
     }
 
     public List<KanbanColumnDto> getAllKanbanColumns() {
