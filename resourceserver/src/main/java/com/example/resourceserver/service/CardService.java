@@ -16,16 +16,18 @@ import java.util.Optional;
 @Service
 public class CardService {
     private CardRepository cardRepository;
+    private KanbanColumnService kanbanColumnService;
     CardMapper cardMapper = Mappers.getMapper(CardMapper.class);
 
-    public CardService(CardRepository cardRepository) {
+    public CardService(CardRepository cardRepository, KanbanColumnService kanbanColumnService) {
         this.cardRepository = cardRepository;
+        this.kanbanColumnService = kanbanColumnService;
     }
 
     public CardDto saveCard(CardCreateRequest cardCreateRequest) {
         Card card = cardMapper.cardCreateRequestToCard(cardCreateRequest);
-        Long masterCardId = cardCreateRequest.getMasterCardId();
 
+        Long masterCardId = cardCreateRequest.getMasterCardId();
         if (masterCardId != null) {
             if (!cardRepository.existsById(masterCardId)) {
                 throw new NotFoundException("master card not found with id: " + masterCardId);
@@ -34,6 +36,12 @@ public class CardService {
             populateIndex(card, masterCardId);
             card.setMasterCard(cardRepository.getCardById(masterCardId));
         }
+
+        Long kanbanColumnId = cardCreateRequest.getKanbanColumnId();
+        if (!kanbanColumnService.isKanbanColumnExistsById(kanbanColumnId)) {
+            throw new NotFoundException("Kanban column not found with id: " + kanbanColumnId);
+        }
+        card.setKanbanColumn(kanbanColumnService.getKanbanColumnById(kanbanColumnId));
 
         Card savedCard = cardRepository.save(card);
         return cardMapper.cardToCardDto(savedCard);
@@ -77,5 +85,13 @@ public class CardService {
 
     public void setCardRepository(CardRepository cardRepository) {
         this.cardRepository = cardRepository;
+    }
+
+    public KanbanColumnService getKanbanColumnService() {
+        return kanbanColumnService;
+    }
+
+    public void setKanbanColumnService(KanbanColumnService kanbanColumnService) {
+        this.kanbanColumnService = kanbanColumnService;
     }
 }

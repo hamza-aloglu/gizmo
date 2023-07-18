@@ -10,7 +10,7 @@ import java.util.List;
 public class KanbanColumn extends BaseModel {
     private String title;
     @OneToMany(mappedBy = "kanbanColumn", cascade = CascadeType.REMOVE)
-    List<Card> cards;
+    private List<Card> cards;
 
     public KanbanColumn() {
 
@@ -22,5 +22,13 @@ public class KanbanColumn extends BaseModel {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public List<Card> getCards() {
+        return cards;
+    }
+
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
     }
 }

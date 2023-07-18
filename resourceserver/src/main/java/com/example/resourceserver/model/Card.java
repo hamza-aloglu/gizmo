@@ -20,6 +20,7 @@ public class Card extends BaseModel {
     @JsonIgnore
     private List<Card> slaveCards;
     @ManyToOne
+    @JsonIgnore
     private KanbanColumn kanbanColumn;
     private int index;
 

@@ -3,6 +3,7 @@ package com.example.resourceserver.controller;
 import com.example.resourceserver.dto.CardCreateRequest;
 import com.example.resourceserver.dto.CardDto;
 import com.example.resourceserver.service.CardService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class CardController {
     }
 
     @PostMapping
-    public CardDto saveCard(@RequestBody CardCreateRequest cardCreateRequest) {
+    public CardDto saveCard(@Valid @RequestBody CardCreateRequest cardCreateRequest) {
         return cardService.saveCard(cardCreateRequest);
     }
 

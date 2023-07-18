@@ -1,8 +1,12 @@
 package com.example.resourceserver.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 public class CardCreateRequest {
     private String title;
     private Long masterCardId;
+    @NotNull
+    private Long kanbanColumnId;
 
     public CardCreateRequest() {
 
@@ -22,5 +26,13 @@ public class CardCreateRequest {
 
     public void setMasterCardId(Long masterCardId) {
         this.masterCardId = masterCardId;
+    }
+
+    public Long getKanbanColumnId() {
+        return kanbanColumnId;
+    }
+
+    public void setKanbanColumnId(Long kanbanColumnId) {
+        this.kanbanColumnId = kanbanColumnId;
     }
 }

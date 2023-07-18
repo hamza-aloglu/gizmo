@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface KanbanColumnRepository extends ListCrudRepository<KanbanColumn, Long> {
+    KanbanColumn getKanbanColumnById(Long id);
 }
