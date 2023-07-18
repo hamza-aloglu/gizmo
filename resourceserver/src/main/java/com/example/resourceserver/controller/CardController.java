@@ -4,6 +4,7 @@ import com.example.resourceserver.dto.CardCreateRequest;
 import com.example.resourceserver.dto.CardDto;
 import com.example.resourceserver.service.CardService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class CardController {
     }
 
     @DeleteMapping
-    public String deleteCard(@RequestParam Long id) {
+    public String deleteCard(@RequestParam @Valid @NotNull Long id) {
         cardService.deleteByCardId(id);
         return "Successfully deleted";
     }
