@@ -1,13 +1,12 @@
 package com.example.resourceserver.dto;
 
-import com.example.resourceserver.model.Card;
 
 import java.util.List;
 
 public class KanbanColumnDto {
     private Long id;
     private String title;
-    private List<Card> cards;
+    private List<CardDto> cards;
 
     public KanbanColumnDto() {
 
@@ -21,11 +20,11 @@ public class KanbanColumnDto {
         this.title = title;
     }
 
-    public List<Card> getCards() {
+    public List<CardDto> getCards() {
         return cards;
     }
 
-    public void setCards(List<Card> cards) {
+    public void setCards(List<CardDto> cards) {
         this.cards = cards;
     }
 

@@ -1,14 +1,13 @@
 package com.example.resourceserver.dto;
 
 import com.example.resourceserver.model.Card;
-import com.example.resourceserver.model.Note;
 
 import java.util.List;
 
 public class CardDto {
     private Long id;
     private String title;
-    private List<Note> notes;
+    private List<NoteDto> notes;
     private Card masterCard;
     private int index;
 
@@ -32,11 +31,11 @@ public class CardDto {
         this.title = title;
     }
 
-    public List<Note> getNotes() {
+    public List<NoteDto> getNotes() {
         return notes;
     }
 
-    public void setNotes(List<Note> notes) {
+    public void setNotes(List<NoteDto> notes) {
         this.notes = notes;
     }
 

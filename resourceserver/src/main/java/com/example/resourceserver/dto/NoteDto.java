@@ -1,8 +1,8 @@
 package com.example.resourceserver.dto;
 
-import com.example.resourceserver.model.Card;
 
 public class NoteDto {
+    private Long id;
     private String title;
     private String content;
 
@@ -26,4 +26,11 @@ public class NoteDto {
         this.content = content;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
