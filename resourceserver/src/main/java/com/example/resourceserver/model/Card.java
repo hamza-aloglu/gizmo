@@ -19,6 +19,8 @@ public class Card extends BaseModel {
     @OneToMany(mappedBy = "masterCard", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Card> slaveCards;
+    @ManyToOne
+    private KanbanColumn kanbanColumn;
     private int index;
 
     public Card() {
@@ -63,5 +65,13 @@ public class Card extends BaseModel {
 
     public void setSlaveCards(List<Card> slaveCards) {
         this.slaveCards = slaveCards;
+    }
+
+    public KanbanColumn getKanbanColumn() {
+        return kanbanColumn;
+    }
+
+    public void setKanbanColumn(KanbanColumn kanbanColumn) {
+        this.kanbanColumn = kanbanColumn;
     }
 }
