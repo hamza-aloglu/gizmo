@@ -10,7 +10,6 @@ public class KanbanColumn extends BaseModel {
     @OneToMany(mappedBy = "kanbanColumn", cascade = CascadeType.REMOVE)
     private List<Card> cards;
 
-    //THİS İS MANY TO MANY
     @ManyToMany
     @JoinTable(name = "restrictedAndRestrictedByKanbanColumns", inverseJoinColumns = @JoinColumn(name = "restrictedId"),
             joinColumns = @JoinColumn(name = "restrictedById"))
@@ -19,6 +18,9 @@ public class KanbanColumn extends BaseModel {
     @JoinTable(name = "restrictedAndRestrictedByKanbanColumns", inverseJoinColumns = @JoinColumn(name = "restrictedById"),
             joinColumns = @JoinColumn(name = "restrictedId"))
     private List<KanbanColumn> restrictedByKanbanColumns;
+
+    @ManyToOne
+    private Board board;
 
     public KanbanColumn() {
 
@@ -54,5 +56,13 @@ public class KanbanColumn extends BaseModel {
 
     public void setRestrictedByKanbanColumns(List<KanbanColumn> restrictedByKanbanColumns) {
         this.restrictedByKanbanColumns = restrictedByKanbanColumns;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 }
