@@ -1,5 +1,6 @@
 package com.example.resourceserver.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class KanbanColumn extends BaseModel {
     private List<KanbanColumn> restrictedByKanbanColumns;
 
     @ManyToOne
+    @JsonIgnore
     private Board board;
 
     public KanbanColumn() {

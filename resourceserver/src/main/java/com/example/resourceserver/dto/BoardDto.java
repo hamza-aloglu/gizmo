@@ -6,7 +6,7 @@ import java.util.List;
 
 public class BoardDto {
     private String title;
-    private List<KanbanColumn> kanbanColumns;
+    private List<KanbanColumnDto> kanbanColumns;
 
     public BoardDto() {
 
@@ -20,11 +20,11 @@ public class BoardDto {
         this.title = title;
     }
 
-    public List<KanbanColumn> getKanbanColumns() {
+    public List<KanbanColumnDto> getKanbanColumns() {
         return kanbanColumns;
     }
 
-    public void setKanbanColumns(List<KanbanColumn> kanbanColumns) {
+    public void setKanbanColumns(List<KanbanColumnDto> kanbanColumns) {
         this.kanbanColumns = kanbanColumns;
     }
 }

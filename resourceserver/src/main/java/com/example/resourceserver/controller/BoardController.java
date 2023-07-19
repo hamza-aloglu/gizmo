@@ -4,10 +4,10 @@ import com.example.resourceserver.dto.BoardCreateRequest;
 import com.example.resourceserver.dto.BoardDto;
 import com.example.resourceserver.service.BoardService;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/board")
@@ -23,6 +23,16 @@ public class BoardController {
         return boardService.saveBoard(boardCreateRequest);
     }
 
+    @GetMapping
+    public List<BoardDto> findAllBoardsByUser() {
+        return boardService.getAllBoardsByUser();
+    }
+
+    @DeleteMapping
+    public String deleteBoard(@Valid @NotNull @RequestParam Long boardId) {
+        boardService.deleteByBoardId(boardId);
+        return "Successfully deleted";
+    }
 
     public BoardService getBoardService() {
         return boardService;
