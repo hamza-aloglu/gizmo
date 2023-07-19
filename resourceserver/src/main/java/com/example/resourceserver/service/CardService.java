@@ -58,8 +58,12 @@ public class CardService {
         card.setIndex(highestSlaveIndex + 1);
     }
 
-    public List<CardDto> getAllCards() {
-        return cardMapper.listCardToListCardDto(cardRepository.findAll());
+    public List<CardDto> getAllCards(Long kanbanColumnId) {
+        if (!kanbanColumnService.isKanbanColumnExistsById(kanbanColumnId)) {
+            throw new NotFoundException("Kanban Column not found with id: " + kanbanColumnId);
+        }
+
+        return cardMapper.listCardToListCardDto(cardRepository.findAllByKanbanColumn_Id(kanbanColumnId));
     }
 
     public void deleteByCardId(Long cardId) {

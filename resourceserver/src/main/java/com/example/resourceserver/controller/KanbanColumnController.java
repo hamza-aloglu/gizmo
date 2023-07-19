@@ -24,8 +24,8 @@ public class KanbanColumnController {
     }
 
     @GetMapping
-    public List<KanbanColumnDto> getAllKanbanColumns() {
-        return kanbanColumnService.getAllKanbanColumns();
+    public List<KanbanColumnDto> getAllKanbanColumns(@Valid @NotNull @RequestParam Long boardId) {
+        return kanbanColumnService.getAllKanbanColumns(boardId);
     }
 
     @DeleteMapping

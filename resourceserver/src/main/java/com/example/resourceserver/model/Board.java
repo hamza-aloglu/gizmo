@@ -4,6 +4,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 @Entity
 public class Board extends BaseModel {
     private String title;
+    @NotNull
     private String username;
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<KanbanColumn> kanbanColumns;

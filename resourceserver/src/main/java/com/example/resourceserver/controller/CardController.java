@@ -24,8 +24,8 @@ public class CardController {
     }
 
     @GetMapping
-    public List<CardDto> getAllCards() {
-        return cardService.getAllCards();
+    public List<CardDto> getAllCards(@Valid @NotNull @RequestParam Long kanbanColumnId) {
+        return cardService.getAllCards(kanbanColumnId);
     }
 
     @DeleteMapping

@@ -26,6 +26,10 @@ public class BoardService {
         return boardMapper.boardToBoardDto(savedBoard);
     }
 
+    protected boolean isBoardExists(Long boardId) {
+        return boardRepository.existsById(boardId);
+    }
+
 
     public BoardRepository getBoardRepository() {
         return boardRepository;
@@ -33,5 +37,9 @@ public class BoardService {
 
     public void setBoardRepository(BoardRepository boardRepository) {
         this.boardRepository = boardRepository;
+    }
+
+    public Board getBoard(Long boardId) {
+        return boardRepository.getBoardById(boardId);
     }
 }

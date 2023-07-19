@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BoardRepository extends ListCrudRepository<Board, Long> {
+    Board getBoardById(Long boardId);
 }
