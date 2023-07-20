@@ -2,9 +2,9 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import  Home  from './components/Home';
 import Welcome from './components/Welcome';
-import  Redirect  from './components/Redirect';
-import Logout from './components/Logout';
-import Register from './components/Register';
+import  Redirect  from './components/authorization/Redirect';
+import Logout from './components/authorization/Logout';
+import Register from './components/authorization/Register';
 import PrivateRoute from './authorization/PrivateRoute';
 
 

@@ -1,9 +1,9 @@
 import { useState } from "react";
-import AuthService from "../services/AuthService";
+import AuthService from "../../services/AuthService";
 import { useNavigate } from "react-router";
-import './css/register.css';
-import './css/style.css';
-import authorizationServerUrl from "../authorization/links/authorizationServerUrl";
+import '../../css/register.css';
+import '../../css/style.css';
+import authorizationServerUrl from "../../authorization/links/authorizationServerUrl";
 import { Link } from 'react-router-dom';
 
 const Register = () => {

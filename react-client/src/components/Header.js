@@ -1,6 +1,6 @@
 import AuthService from "../services/AuthService"
-import './css/header.css'
-import './css/style.css'
+import '../css/header.css'
+import '../css/style.css'
 import { Link } from 'react-router-dom';
 
 

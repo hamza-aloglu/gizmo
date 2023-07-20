@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import authorize from '../authorization/links/authorize';
+import authorize from '../../authorization/links/authorize';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import AuthService from '../services/AuthService';
-import {generateCodeVerifier, generateCodeChall} from '../authorization/pkce';
-import './css/spinner.css';
+import AuthService from '../../services/AuthService';
+import {generateCodeVerifier, generateCodeChall} from '../../authorization/pkce';
+import '../../css/spinner.css';
 
 /*
     * User clicks login button and is redirected to this component.
