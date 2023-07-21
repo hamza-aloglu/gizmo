@@ -28,6 +28,10 @@ public class BoardController {
         return boardService.getAllBoardsByUser();
     }
 
+    @GetMapping("/{boardId}")
+    public BoardDto getBoard(@Valid @NotNull @PathVariable Long boardId) {
+        return boardService.getBoardDto(boardId);
+    }
     @DeleteMapping
     public String deleteBoard(@Valid @NotNull @RequestParam Long boardId) {
         boardService.deleteByBoardId(boardId);

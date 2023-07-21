@@ -6,6 +6,8 @@ import  Redirect  from './components/authorization/Redirect';
 import Logout from './components/authorization/Logout';
 import Register from './components/authorization/Register';
 import PrivateRoute from './authorization/PrivateRoute';
+import Board from './components/kanban/Board';
+import BoardPage from './components/kanban/BoardPage';
 
 
 
@@ -26,6 +28,10 @@ function App() {
 
           <Route path='/logout' element={<Logout />} />
           <Route path='/register' element={<Register />} />
+
+          <Route path='/board/:boardId' element={<PrivateRoute/>}>
+            <Route path='/board/:boardId' element={<BoardPage/>}/>
+          </Route>
         </Routes>
       </BrowserRouter>
 

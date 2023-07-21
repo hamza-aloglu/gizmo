@@ -5,6 +5,7 @@ import com.example.resourceserver.model.KanbanColumn;
 import java.util.List;
 
 public class BoardDto {
+    private Long id;
     private String title;
     private List<KanbanColumnDto> kanbanColumns;
 
@@ -26,5 +27,13 @@ public class BoardDto {
 
     public void setKanbanColumns(List<KanbanColumnDto> kanbanColumns) {
         this.kanbanColumns = kanbanColumns;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

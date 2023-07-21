@@ -7,10 +7,12 @@ import com.example.resourceserver.mapper.BoardMapper;
 import com.example.resourceserver.model.Board;
 import com.example.resourceserver.repository.BoardRepository;
 import org.mapstruct.factory.Mappers;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class BoardService {
@@ -39,6 +41,31 @@ public class BoardService {
         return boardRepository.existsById(boardId);
     }
 
+    protected Board getBoard(Long boardId) {
+        if (!this.isBoardExists(boardId)){
+            throw new NotFoundException("Board not found with id: " + boardId);
+        }
+
+        return boardRepository.getBoardById(boardId);
+    }
+    public void deleteByBoardId(Long boardId) {
+        if (!boardRepository.existsById(boardId)) {
+            throw new NotFoundException("Board not found with id: " + boardId);
+        }
+
+        boardRepository.deleteById(boardId);
+    }
+
+    public BoardDto getBoardDto(Long boardId) {
+        Board board = this.getBoard(boardId);
+
+        String authenticatedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!Objects.equals(board.getUsername(), authenticatedUsername)){
+            throw new AccessDeniedException("You are not allowed to access this board");
+        }
+
+        return boardMapper.boardToBoardDto(board);
+    }
 
     public BoardRepository getBoardRepository() {
         return boardRepository;
@@ -48,15 +75,5 @@ public class BoardService {
         this.boardRepository = boardRepository;
     }
 
-    public Board getBoard(Long boardId) {
-        return boardRepository.getBoardById(boardId);
-    }
 
-    public void deleteByBoardId(Long boardId) {
-        if (!boardRepository.existsById(boardId)) {
-            throw new NotFoundException("Board not found with id: " + boardId);
-        }
-
-        boardRepository.deleteById(boardId);
-    }
 }
