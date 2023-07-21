@@ -1,7 +1,7 @@
 const Note = ({title, content}) => {
     return(
-        <div>
-            <h5> {title} </h5>
+        <div style={{border: "solid", display: "inline-block", padding: "0"}}>
+            <h5 style={{padding: "0", margin: "0"}}> {title} </h5>
             <p> {content} </p>
         </div>
     )

@@ -2,6 +2,7 @@ import { useLocation } from "react-router"
 import Board from "./Board";
 import { useEffect, useState } from "react";
 import KanbanService from "../../services/KanbanService";
+import Header from "../Header";
 
 const BoardPage = () => {
     const {state} = useLocation();
@@ -20,8 +21,8 @@ const BoardPage = () => {
 
     return (
         <div>
-            hi
-            {board && <Board title={board.title} kanbanColumnsResponse={board.kanbanColumns} /> }
+            <Header />
+            {board && <Board title={board.title} kanbanColumnsResponse={board.kanbanColumns} boardId={board.id} /> }
         </div>
     )
 }
