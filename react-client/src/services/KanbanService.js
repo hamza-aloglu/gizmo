@@ -1,13 +1,13 @@
 import resourceUrl from "../authorization/links/resourceUrl";
 
-const KanbanService = {
-    fetchBoards: async() => {
-        const token = sessionStorage.getItem(process.env.REACT_APP_TOKEN);
-        const headers = new Headers();
-        headers.set("Content-Type", "application/json");
-        headers.set("Accept", "application/json");
-        headers.set("Authorization", "Bearer " + token);
+const token = sessionStorage.getItem(process.env.REACT_APP_TOKEN);
+const headers = new Headers();
+headers.set("Content-Type", "application/json");
+headers.set("Accept", "application/json");
+headers.set("Authorization", "Bearer " + token);
 
+const KanbanService = {
+    fetchBoards: async () => {
         const url = resourceUrl() + "/board";
         return fetch(url, {
             method: 'GET',
@@ -16,14 +16,7 @@ const KanbanService = {
         });
     },
 
-    createBoard: async(title) => {
-        const token = sessionStorage.getItem(process.env.REACT_APP_TOKEN);
-        const headers = new Headers();
-        
-        headers.set("Content-Type", "application/json");
-        headers.set("Accept", "application/json");
-        headers.set("Authorization", "Bearer " + token);
-
+    createBoard: async (title) => {
         const body = {
             "title": title
         }
@@ -37,14 +30,7 @@ const KanbanService = {
         });
     },
 
-    getBoard: async(boardId) => {
-        const token = sessionStorage.getItem(process.env.REACT_APP_TOKEN);
-        const headers = new Headers();
-        
-        headers.set("Content-Type", "application/json");
-        headers.set("Accept", "application/json");
-        headers.set("Authorization", "Bearer " + token);
-
+    getBoard: async (boardId) => {
         const url = resourceUrl() + "/board" + `/${boardId}`;
         return fetch(url, {
             method: 'GET',
@@ -53,14 +39,7 @@ const KanbanService = {
         });
     },
 
-    createColumn: async(title, boardId) => {
-        const token = sessionStorage.getItem(process.env.REACT_APP_TOKEN);
-        const headers = new Headers();
-        
-        headers.set("Content-Type", "application/json");
-        headers.set("Accept", "application/json");
-        headers.set("Authorization", "Bearer " + token);
-
+    createColumn: async (title, boardId) => {
         const body = {
             "title": title,
             "boardId": boardId,
@@ -75,14 +54,7 @@ const KanbanService = {
         });
     },
 
-    createCard: async(title, columnId) => {
-        const token = sessionStorage.getItem(process.env.REACT_APP_TOKEN);
-        const headers = new Headers();
-        
-        headers.set("Content-Type", "application/json");
-        headers.set("Accept", "application/json");
-        headers.set("Authorization", "Bearer " + token);
-
+    createCard: async (title, columnId) => {
         const body = {
             "title": title,
             "kanbanColumnId": columnId,
@@ -97,14 +69,7 @@ const KanbanService = {
         });
     },
 
-    createNote: async(title, cardId) => {
-        const token = sessionStorage.getItem(process.env.REACT_APP_TOKEN);
-        const headers = new Headers();
-        
-        headers.set("Content-Type", "application/json");
-        headers.set("Accept", "application/json");
-        headers.set("Authorization", "Bearer " + token);
-
+    createNote: async (title, cardId) => {
         const body = {
             "title": title,
             "cardId": cardId,
