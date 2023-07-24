@@ -7,6 +7,7 @@ const Card = ({ title, notesResponse, index, cardId }) => {
     const [notes, setNotes] = useState(notesResponse);
     const [isFormActive, setIsFormActive] = useState(false);
     const [newNoteTitle, setNewNoteTitle] = useState("");
+    const [isContentVisible, setIsContentVisible] = useState(false);
 
     function handleCreateNote(e) {
         e.preventDefault();
@@ -24,20 +25,31 @@ const Card = ({ title, notesResponse, index, cardId }) => {
         setIsFormActive(false);
     }
 
+    function toggleContent(e) {
+        setIsContentVisible(!isContentVisible);
+    }
+
     return (
-        <div className="card-wrapper">
-            <h4 className="card-title"> {title} </h4>
-            <div className="notes-wrapper">
-                {notes && notes.map(note => (
-                    <loop key={note.title}>
-                        <Note title={note.title} content={note.content} />
-                    </loop>
-                ))}
+        <div className={`card-wrapper`} onClick={toggleContent}>
+            <div className="card-title-container">
+                <span className="symbol">↓</span>
+                <h4 className="card-title"> {title}  </h4>
             </div>
-            {!isFormActive && <button className="note-create-button" onClick={() => setIsFormActive(true)}> Create Note </button>}
-            {isFormActive && <form style={{ display: "inline-block" }} onSubmit={handleCreateNote}>
+            {isContentVisible &&
+                <div className="notes-wrapper">
+                    <hr />
+                    {notes && notes.map(note => (
+                        <loop key={note.title}>
+                            <Note title={note.title} content={note.content} />
+                        </loop>
+                    ))}
+                </div>
+            }
+            {!isFormActive && isContentVisible && <button className="note-create-button" onClick={() => setIsFormActive(true)}> Create Note </button>}
+            {isFormActive && isContentVisible && <form style={{ display: "inline-block" }} onSubmit={handleCreateNote}>
                 <input className="note-create-input" type="text" onChange={(e) => setNewNoteTitle(e.target.value)} />
             </form>}
+
         </div>
     )
 }

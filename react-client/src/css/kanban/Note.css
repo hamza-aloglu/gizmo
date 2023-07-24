@@ -11,10 +11,13 @@
 .notes-wrapper {
     white-space: normal;
     padding: 10px;
+    margin-top: 10;
+
 }
 
 .note-title {
     padding: 3px;
+    font-weight: 800;
 }
 
 .note-create-button {
