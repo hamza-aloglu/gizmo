@@ -1,0 +1,45 @@
+.column-wrapper {
+    width: 100%;
+    min-height: 200px;
+    max-height: 500px;
+    /* Set a minimum height for demonstration purposes */
+    margin-right: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+
+    /* overflow: visible; */
+    overflow-y: scroll;
+}
+
+.column-container {
+    width: 200px;
+    flex-shrink: 0; /* Prevent the container from shrinking */
+    flex-grow: 0; /* Prevent the container from growing */
+  }
+
+#columns-wrapper {
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    /* Enable horizontal scrolling */
+    white-space: nowrap;
+    /* Prevent new line wrapping */
+    display: flex;
+    padding: 10px;
+}
+
+.column-wrapper::-webkit-scrollbar {
+    width: 8px;
+}
+
+.column-wrapper::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+#create-column-button {
+    width: 100%;
+}

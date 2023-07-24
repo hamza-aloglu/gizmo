@@ -1,3 +1,5 @@
+import '../../css/kanban/Note.css';
+
 const Note = ({title, content}) => {
     return(
         <div style={{border: "solid", display: "inline-block", padding: "0"}}>

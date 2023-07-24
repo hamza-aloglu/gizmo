@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Card from "./Card";
 import KanbanService from "../../services/KanbanService";
+import '../../css/kanban/Column.css';
 
 const Column = ({ title, cardsResponse, columnId }) => {
     const [cards, setCards] = useState(cardsResponse);
@@ -12,10 +13,11 @@ const Column = ({ title, cardsResponse, columnId }) => {
         KanbanService.createCard(newCardTitle, columnId).then(async (response) => {
             const card = await response.json();
             if(response.ok) {
-                const newCards = [card];
+                const newCards = []
                 if(cards != null) {
                     newCards.push(...cards);
                 }
+                newCards.push(card);
                 setCards(newCards);
             }
         });
@@ -23,7 +25,7 @@ const Column = ({ title, cardsResponse, columnId }) => {
     }
 
     return (
-        <div>
+        <div className="column-wrapper">
             <h3> {title} </h3>
             <hr />
             {cards && cards.map(card => (
