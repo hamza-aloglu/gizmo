@@ -1,33 +1,32 @@
 .column-wrapper {
     width: 100%;
-    min-height: 200px;
-    max-height: 500px;
-    /* Set a minimum height for demonstration purposes */
-    margin-right: 10px;
-    background-color: #f0f0f0;
-    border-radius: 5px;
+    min-height: 420px;
+    max-height: 675px;
+    background-color: #F6F4EB;
+    border-radius: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
+    padding: 4px;
 
     /* overflow: visible; */
     overflow-y: scroll;
 }
 
 .column-container {
-    width: 200px;
+    width: 250px;
     flex-shrink: 0; /* Prevent the container from shrinking */
     flex-grow: 0; /* Prevent the container from growing */
+    margin-right: 10px;
   }
 
 #columns-wrapper {
-    margin: 0;
-    padding: 0;
-    overflow-x: auto;
     /* Enable horizontal scrolling */
-    white-space: nowrap;
+    overflow-x: auto;
     /* Prevent new line wrapping */
+    white-space: nowrap;
     display: flex;
+    margin-left: 25px;
     padding: 10px;
 }
 
@@ -42,4 +41,13 @@
 
 #create-column-button {
     width: 100%;
+}
+
+hr {
+    margin-top: 7px;
+}
+
+.column-title {
+    margin: 4px;
+    text-align: center;
 }

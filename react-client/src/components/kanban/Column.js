@@ -12,9 +12,9 @@ const Column = ({ title, cardsResponse, columnId }) => {
         e.preventDefault();
         KanbanService.createCard(newCardTitle, columnId).then(async (response) => {
             const card = await response.json();
-            if(response.ok) {
+            if (response.ok) {
                 const newCards = []
-                if(cards != null) {
+                if (cards != null) {
                     newCards.push(...cards);
                 }
                 newCards.push(card);
@@ -26,17 +26,19 @@ const Column = ({ title, cardsResponse, columnId }) => {
 
     return (
         <div className="column-wrapper">
-            <h3> {title} </h3>
+            <h4 className="column-title"> {title} </h4>
             <hr />
             {cards && cards.map(card => (
                 <div key={card.title}>
                     <Card title={card.title} notesResponse={card.notes} index={card.index} cardId={card.id} />
                 </div>
             ))}
-            {!isFormActive && <button onClick={() => setIsFormActive(true)}> Create Card </button>}
-            {isFormActive && <form style={{display: "inline-block"}} onSubmit={handleCreateCard}>
-                <input type="text" onChange={(e) => setNewCardTitle(e.target.value)} />
-            </form> }
+            <div className="create-card-container">
+                {!isFormActive && <button className="long-button" onClick={() => setIsFormActive(true)}> Create Card </button>}
+                {isFormActive && <form onSubmit={handleCreateCard}>
+                    <input className="long-input" type="text" onChange={(e) => setNewCardTitle(e.target.value)} />
+                </form>}
+            </div>
         </div>
     )
 }

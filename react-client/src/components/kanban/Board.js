@@ -27,7 +27,9 @@ const Board = ({ title, kanbanColumnsResponse, boardId }) => {
 
     return (
         <div className="board-wrapper">
-            <h2 id="board-title"> {title} </h2>
+            <div id="board-title-wrapper">
+                <h3 id="board-title"> {title} </h3>
+            </div>
             <div id="columns-wrapper">
                 {kanbanColumns && kanbanColumns.map(kanbanColumn => (
                     <div className="column-container">
@@ -37,12 +39,12 @@ const Board = ({ title, kanbanColumnsResponse, boardId }) => {
                     </div>
                 ))}
                 <div className="column-container">
-                        {!isFormActive && 
-                        <button id="create-column-button" onClick={() => setIsFormActive(true)}> Create Column </button>}
+                    {!isFormActive &&
+                        <button className="long-button" onClick={() => setIsFormActive(true)}> Create Column </button>}
 
-                        {isFormActive &&
-                        <form style={{ display: "inline-block" }} onSubmit={handleCreateColumn}>
-                            <input type="text" onChange={(e) => setNewColumnTitle(e.target.value)} />
+                    {isFormActive &&
+                        <form onSubmit={handleCreateColumn}>
+                            <input className="long-input" type="text" onChange={(e) => setNewColumnTitle(e.target.value)} />
                         </form>}
                 </div>
             </div>

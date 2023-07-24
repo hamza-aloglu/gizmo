@@ -26,18 +26,17 @@ const Card = ({ title, notesResponse, index, cardId }) => {
 
     return (
         <div className="card-wrapper">
-            <h4 style={{ textAlign: "center" }}> {title} </h4>
-            <p style={{ fontSize: "12px" }}> index: {index} </p>
+            <h4 className="card-title"> {title} </h4>
             <div className="notes-wrapper">
                 {notes && notes.map(note => (
-                    <div className="note-wrapper" key={note.title}>
+                    <loop key={note.title}>
                         <Note title={note.title} content={note.content} />
-                    </div>
+                    </loop>
                 ))}
             </div>
-            {!isFormActive && <button onClick={() => setIsFormActive(true)}> Create Note </button>}
+            {!isFormActive && <button className="note-create-button" onClick={() => setIsFormActive(true)}> Create Note </button>}
             {isFormActive && <form style={{ display: "inline-block" }} onSubmit={handleCreateNote}>
-                <input type="text" onChange={(e) => setNewNoteTitle(e.target.value)} />
+                <input className="note-create-input" type="text" onChange={(e) => setNewNoteTitle(e.target.value)} />
             </form>}
         </div>
     )

@@ -9,7 +9,6 @@ const Header = () => {
 
     return (
         <div className="header-container">
-            <h1 className="header-title">My App</h1>
             {isLoggedIn ? (
                 <button className="header-button">
                     <Link className="link-text" to={"/logout"}> Logout </Link>
