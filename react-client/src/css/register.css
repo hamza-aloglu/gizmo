@@ -3,6 +3,7 @@
     width: 700px;
     padding: 8% 0 0;
     margin: auto;
+    box-sizing: content-box;
 }
 .form {
     position: relative;
@@ -58,10 +59,4 @@
 .form .message a {
     color: #4169E1;
     text-decoration: none;
-}
-body {
-    background: #F5F5DC;
-    font-family: "Roboto", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
