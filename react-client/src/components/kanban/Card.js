@@ -9,6 +9,8 @@ const Card = ({ title, notesResponse, index, cardId }) => {
     const [newNoteTitle, setNewNoteTitle] = useState("");
     const [isContentVisible, setIsContentVisible] = useState(false);
 
+    console.log(notes);
+
     function handleCreateNote(e) {
         e.preventDefault();
         KanbanService.createNote(newNoteTitle, cardId).then(async (response) => {
@@ -32,7 +34,7 @@ const Card = ({ title, notesResponse, index, cardId }) => {
     return (
         <div className={`card-wrapper`} onClick={toggleContent}>
             <div className="card-title-container">
-                <span className="symbol">↓</span>
+                {notes && notes.length != 0 && <span className="symbol">↓</span>} 
                 <h4 className="card-title"> {title}  </h4>
             </div>
             {isContentVisible &&
