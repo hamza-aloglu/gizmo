@@ -32,8 +32,8 @@ const Card = ({ title, notesResponse, index, cardId }) => {
     }
 
     return (
-        <div className={`card-wrapper`} onClick={toggleContent}>
-            <div className="card-title-container">
+        <div className={`card-wrapper`} >
+            <div className="card-title-container" onClick={toggleContent}>
                 {notes && notes.length != 0 && <span className="symbol">↓</span>} 
                 <h4 className="card-title"> {title}  </h4>
             </div>
