@@ -44,6 +44,7 @@ public class CardService {
         card.setKanbanColumn(kanbanColumnService.getKanbanColumnById(kanbanColumnId));
 
         Card savedCard = cardRepository.save(card);
+
         return cardMapper.cardToCardDto(savedCard);
     }
 
@@ -97,5 +98,10 @@ public class CardService {
 
     public void setKanbanColumnService(KanbanColumnService kanbanColumnService) {
         this.kanbanColumnService = kanbanColumnService;
+    }
+
+    public List<CardDto> getAllCardsByBoardId(Long boardId) {
+        List<Card> cards = cardRepository.findAllCardsByBoard(boardId);
+        return cardMapper.listCardToListCardDto(cards);
     }
 }

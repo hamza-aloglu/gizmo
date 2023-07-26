@@ -5,7 +5,6 @@ import java.util.List;
 public class KanbanColumnDto {
     private Long id;
     private String title;
-    private List<CardDto> cards;
     private List<KanbanColumnDto> restrictedKanbanColumns;
 
     public KanbanColumnDto() {
@@ -18,14 +17,6 @@ public class KanbanColumnDto {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public List<CardDto> getCards() {
-        return cards;
-    }
-
-    public void setCards(List<CardDto> cards) {
-        this.cards = cards;
     }
 
     public Long getId() {

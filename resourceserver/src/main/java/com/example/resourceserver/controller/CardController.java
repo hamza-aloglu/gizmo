@@ -28,6 +28,11 @@ public class CardController {
         return cardService.getAllCards(kanbanColumnId);
     }
 
+    @GetMapping("/{boardId}")
+    public List<CardDto> getAllCardsByBoard(@Valid @NotNull @PathVariable Long boardId) {
+        return cardService.getAllCardsByBoardId(boardId);
+    }
+
     @DeleteMapping
     public String deleteCard(@RequestParam @Valid @NotNull Long id) {
         cardService.deleteByCardId(id);

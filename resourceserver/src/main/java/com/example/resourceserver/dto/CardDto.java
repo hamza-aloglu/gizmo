@@ -1,7 +1,5 @@
 package com.example.resourceserver.dto;
 
-import com.example.resourceserver.model.Card;
-
 import java.util.List;
 
 public class CardDto {
@@ -10,6 +8,8 @@ public class CardDto {
     private List<NoteDto> notes;
     private CardDto masterCard;
     private int index;
+
+    private KanbanColumnDto kanbanColumn;
 
     public CardDto() {
 
@@ -53,5 +53,13 @@ public class CardDto {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public KanbanColumnDto getKanbanColumn() {
+        return kanbanColumn;
+    }
+
+    public void setKanbanColumn(KanbanColumnDto kanbanColumn) {
+        this.kanbanColumn = kanbanColumn;
     }
 }

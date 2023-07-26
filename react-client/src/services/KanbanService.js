@@ -82,7 +82,25 @@ const KanbanService = {
             headers,
             body: JSON.stringify(body),
         });
-    }
+    },
+
+    getColumns: async (boardId) => {
+        const url = resourceUrl() + `/column?boardId=${boardId}`;
+        return fetch(url, {
+            method: 'GET',
+            mode: 'cors',
+            headers,
+        });
+    },
+
+    getCardsByBoard: async (boardId) => {
+        const url = resourceUrl() + `/cards/${boardId}`;
+        return fetch(url, {
+            method: 'GET',
+            mode: 'cors',
+            headers,
+        })
+    },
 }
 
 export default KanbanService;
