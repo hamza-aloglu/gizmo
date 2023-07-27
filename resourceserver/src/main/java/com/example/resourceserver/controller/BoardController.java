@@ -39,7 +39,7 @@ public class BoardController {
         return "Successfully deleted";
     }
 
-    @PutMapping
+    @PutMapping("/title")
     public String updateBoardTitle(@Valid @NotNull @RequestParam String title, @Valid @NotNull @RequestParam Long boardId) {
         boardService.updateBoardTitle(title, boardId);
         return "heoheoheoheoe";
