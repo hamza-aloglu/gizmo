@@ -119,6 +119,15 @@ const KanbanService = {
             headers,
         });
     },
+
+    updateCardTitle: async (cardTitle, cardId) => { 
+        const url = resourceUrl() + `/cards/title?title=${cardTitle}&cardId=${cardId}`;
+        return fetch(url, {
+            method: 'PUT',
+            mode: 'cors',
+            headers,
+        });
+    },
 }
 
 export default KanbanService;

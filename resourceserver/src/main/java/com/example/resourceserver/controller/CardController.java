@@ -39,6 +39,13 @@ public class CardController {
         return "Successfully deleted";
     }
 
+    @PutMapping("/title")
+    public String updateCardTitle(@Valid @NotNull @RequestParam String title,
+                                  @Valid @NotNull @RequestParam Long cardId) {
+        cardService.updateCardTitle(title, cardId);
+        return "Successfully updated card title";
+    }
+
 
     public CardService getCardService() {
         return cardService;

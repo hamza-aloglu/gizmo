@@ -76,6 +76,10 @@ public class CardService {
     }
 
     protected Card getCardById(Long cardId) {
+        if (!cardRepository.existsById(cardId)) {
+            throw new NotFoundException("Card not found with id:" + cardId);
+        }
+
         return cardRepository.getCardById(cardId);
     }
 
@@ -103,5 +107,11 @@ public class CardService {
     public List<CardDto> getAllCardsByBoardId(Long boardId) {
         List<Card> cards = cardRepository.findAllCardsByBoard(boardId);
         return cardMapper.listCardToListCardDto(cards);
+    }
+
+    public void updateCardTitle(String title, Long cardId) {
+        Card card = this.getCardById(cardId);
+        card.setTitle(title);
+        cardRepository.save(card);
     }
 }
