@@ -6,18 +6,20 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 const Board = ({ title, boardId }) => {
+    const [boardTitle, setBoardTitle] = useState(title);
     const [kanbanColumns, setKanbanColumns] = useState([]);
     const [cards, setCards] = useState([]);
     const [isFormActive, setIsFormActive] = useState(false);
     const [newColumnTitle, setNewColumnTitle] = useState("");
+    const [isEditingTitle, setIsEditingTitle] = useState(false);
 
-    useEffect( () => {
+    useEffect(() => {
         KanbanService.getColumns(boardId).then(async (response) => {
             const columns = await response.json();
             setKanbanColumns(columns);
         });
 
-        KanbanService.getCardsByBoard(boardId).then(async(response) => {
+        KanbanService.getCardsByBoard(boardId).then(async (response) => {
             const allCards = await response.json();
             setCards(allCards);
         });
@@ -44,17 +46,31 @@ const Board = ({ title, boardId }) => {
         return cards.filter(c => c.kanbanColumn.id == columnId);
     }
 
+    function updateBoardTitle(e) {
+        // send update request
+        KanbanService.updateBoardTitle(boardTitle, boardId).then(async (response) => {
+            const result = await response.json
+            console.log(result);
+            if(response.ok) {
+                // create pop-up
+                console.log("successfully updated board title");
+            }
+        });
+        setIsEditingTitle(false);
+    }
+
     return (
         <DndProvider backend={HTML5Backend}>
             <div className="board-wrapper">
                 <div id="board-title-wrapper">
-                    <h3 id="board-title"> {title} </h3>
+                    {isEditingTitle ? <input type="text" value={boardTitle} onChange={(e) => setBoardTitle(e.target.value)} autoFocus onBlur={updateBoardTitle} />
+                        : <h3 id="board-title" onDoubleClick={() => setIsEditingTitle(true)}> {boardTitle} </h3>}
                 </div>
                 <div id="columns-wrapper">
                     {kanbanColumns && kanbanColumns.map(kanbanColumn => (
                         <div className="column-container" key={kanbanColumn.id}>
                             <Column title={kanbanColumn.title} cards={getCardsByColumn(kanbanColumn.id)}
-                             setAllCards={setCards} columnId={kanbanColumn.id} restrictedKanbanColumns={kanbanColumn.restrictedKanbanColumns} />
+                                setAllCards={setCards} columnId={kanbanColumn.id} restrictedKanbanColumns={kanbanColumn.restrictedKanbanColumns} />
                         </div>
                     ))}
                     <div className="column-container">

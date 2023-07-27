@@ -8,7 +8,7 @@ headers.set("Authorization", "Bearer " + token);
 
 const KanbanService = {
     fetchBoards: async () => {
-        const url = resourceUrl() + "/board";
+        const url = resourceUrl() + "/boards";
         return fetch(url, {
             method: 'GET',
             mode: 'cors',
@@ -21,7 +21,7 @@ const KanbanService = {
             "title": title
         }
 
-        const url = resourceUrl() + "/board"
+        const url = resourceUrl() + "/boards"
         return fetch(url, {
             method: 'POST',
             mode: 'cors',
@@ -31,7 +31,7 @@ const KanbanService = {
     },
 
     getBoard: async (boardId) => {
-        const url = resourceUrl() + "/board" + `/${boardId}`;
+        const url = resourceUrl() + "/boards" + `/${boardId}`;
         return fetch(url, {
             method: 'GET',
             mode: 'cors',
@@ -45,7 +45,7 @@ const KanbanService = {
             "boardId": boardId,
         }
 
-        const url = resourceUrl() + "/column";
+        const url = resourceUrl() + "/columns";
         return fetch(url, {
             method: 'POST',
             mode: 'cors',
@@ -75,7 +75,7 @@ const KanbanService = {
             "cardId": cardId,
         }
 
-        const url = resourceUrl() + "/note";
+        const url = resourceUrl() + "/notes";
         return fetch(url, {
             method: 'POST',
             mode: 'cors',
@@ -85,7 +85,7 @@ const KanbanService = {
     },
 
     getColumns: async (boardId) => {
-        const url = resourceUrl() + `/column?boardId=${boardId}`;
+        const url = resourceUrl() + `/columns?boardId=${boardId}`;
         return fetch(url, {
             method: 'GET',
             mode: 'cors',
@@ -100,6 +100,15 @@ const KanbanService = {
             mode: 'cors',
             headers,
         })
+    },
+
+    updateBoardTitle: async (boardTitle, boardId) => { 
+        const url = resourceUrl() + `/boards?title=${boardTitle}&boardId=${boardId}`;
+        return fetch(url, {
+            method: 'PUT',
+            mode: 'cors',
+            headers,
+        });
     },
 }
 

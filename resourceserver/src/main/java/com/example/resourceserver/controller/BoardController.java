@@ -32,10 +32,17 @@ public class BoardController {
     public BoardDto getBoard(@Valid @NotNull @PathVariable Long boardId) {
         return boardService.getBoardDto(boardId);
     }
+
     @DeleteMapping
     public String deleteBoard(@Valid @NotNull @RequestParam Long boardId) {
         boardService.deleteByBoardId(boardId);
         return "Successfully deleted";
+    }
+
+    @PutMapping
+    public String updateBoardTitle(@Valid @NotNull @RequestParam String title, @Valid @NotNull @RequestParam Long boardId) {
+        boardService.updateBoardTitle(title, boardId);
+        return "heoheoheoheoe";
     }
 
     public BoardService getBoardService() {

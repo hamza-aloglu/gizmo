@@ -76,4 +76,9 @@ public class BoardService {
     }
 
 
+    public void updateBoardTitle(String title, Long boardId) {
+        Board board = this.getBoard(boardId);
+        board.setTitle(title);
+        boardRepository.save(board);
+    }
 }
