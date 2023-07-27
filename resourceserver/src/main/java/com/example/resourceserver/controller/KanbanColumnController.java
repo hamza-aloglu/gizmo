@@ -40,6 +40,13 @@ public class KanbanColumnController {
         return kanbanColumnService.addRestrictedKanbanColumns(restrictedKanbanColumnIds, kanbanColumnId);
     }
 
+    @PutMapping("/title")
+    public String updateKanbanColumnTitle(@Valid @NotNull @RequestParam String title,
+                                          @Valid @NotNull @RequestParam Long id) {
+        kanbanColumnService.updateKanbanColumnTitle(title, id);
+        return "successfully updated title";
+    }
+
 
     public KanbanColumnService getKanbanColumnService() {
         return kanbanColumnService;

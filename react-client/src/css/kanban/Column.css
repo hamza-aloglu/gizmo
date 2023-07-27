@@ -50,4 +50,5 @@ hr {
 .column-title {
     margin: 4px;
     text-align: center;
+    white-space: normal;
 }

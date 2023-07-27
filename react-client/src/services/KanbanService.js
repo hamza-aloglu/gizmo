@@ -103,7 +103,16 @@ const KanbanService = {
     },
 
     updateBoardTitle: async (boardTitle, boardId) => { 
-        const url = resourceUrl() + `/boards?title=${boardTitle}&boardId=${boardId}`;
+        const url = resourceUrl() + `/boards/title?title=${boardTitle}&boardId=${boardId}`;
+        return fetch(url, {
+            method: 'PUT',
+            mode: 'cors',
+            headers,
+        });
+    },
+
+    updateColumnTitle: async (columnTitle, columnId) => { 
+        const url = resourceUrl() + `/columns/title?title=${columnTitle}&id=${columnId}`;
         return fetch(url, {
             method: 'PUT',
             mode: 'cors',

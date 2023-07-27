@@ -81,6 +81,10 @@ public class KanbanColumnService {
     }
 
     protected KanbanColumn getKanbanColumnById(Long id) {
+        if (!kanbanColumnRepository.existsById(id)) {
+            throw new NotFoundException("KanbanColumn not found with id: " + id);
+        }
+
         return kanbanColumnRepository.getKanbanColumnById(id);
     }
 
@@ -99,5 +103,11 @@ public class KanbanColumnService {
 
     public void setBoardService(BoardService boardService) {
         this.boardService = boardService;
+    }
+
+    public void updateKanbanColumnTitle(String title, Long id) {
+        KanbanColumn kanbanColumn = getKanbanColumnById(id);
+        kanbanColumn.setTitle(title);
+        kanbanColumnRepository.save(kanbanColumn);
     }
 }
