@@ -134,8 +134,6 @@ const KanbanService = {
             "id": noteId,
             "content": noteContent,
         };
-
-        console.log(body);
         
         const url = resourceUrl() + `/notes/content`;
         return fetch(url, {
@@ -146,7 +144,23 @@ const KanbanService = {
         });
     },
 
-    
+    updateColumnOfCard: async(sourceColumnId, targetColumnId, cardId) => {
+        const body = {
+            "sourceColumnId": sourceColumnId,
+            "targetColumnId": targetColumnId,
+            "cardId": cardId,
+        }
+
+        console.log(body);
+
+        const url = resourceUrl() + `/cards/column`;
+        return fetch(url, {
+            method: 'PUT',
+            mode: 'cors',
+            headers,
+            body: JSON.stringify(body),
+        });
+    }
 }
 
 export default KanbanService;

@@ -60,7 +60,7 @@ const Card = ({ title, notesResponse, index, id }) => {
                     <hr />
                     {notes && notes.map(note => (
                         <div key={note.id}>
-                            <Note title={note.title} content={note.content} />
+                            <Note noteId={note.id} title={note.title} content={note.content} />
                         </div>
                     ))}
                 </div>

@@ -1,5 +1,6 @@
 package com.example.resourceserver.controller;
 
+import com.example.resourceserver.dto.CardColumnUpdateRequest;
 import com.example.resourceserver.dto.CardCreateRequest;
 import com.example.resourceserver.dto.CardDto;
 import com.example.resourceserver.service.CardService;
@@ -44,6 +45,12 @@ public class CardController {
                                   @Valid @NotNull @RequestParam Long cardId) {
         cardService.updateCardTitle(title, cardId);
         return "Successfully updated card title";
+    }
+
+    @PutMapping("/column")
+    public String updateColumnOfCard(@RequestBody @Valid CardColumnUpdateRequest cardColumnUpdateRequest){
+        cardService.updateColumnOfCard(cardColumnUpdateRequest);
+        return "Successfully updated column of the card";
     }
 
 

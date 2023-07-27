@@ -1,10 +1,12 @@
 package com.example.resourceserver.service;
 
+import com.example.resourceserver.dto.CardColumnUpdateRequest;
 import com.example.resourceserver.dto.CardCreateRequest;
 import com.example.resourceserver.dto.CardDto;
 import com.example.resourceserver.exception.NotFoundException;
 import com.example.resourceserver.mapper.CardMapper;
 import com.example.resourceserver.model.Card;
+import com.example.resourceserver.model.KanbanColumn;
 import com.example.resourceserver.repository.CardRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
@@ -112,6 +114,17 @@ public class CardService {
     public void updateCardTitle(String title, Long cardId) {
         Card card = this.getCardById(cardId);
         card.setTitle(title);
+        cardRepository.save(card);
+    }
+
+    public void updateColumnOfCard(CardColumnUpdateRequest cardColumnUpdateRequest) {
+        if (!kanbanColumnService.isKanbanColumnExistsById(cardColumnUpdateRequest.getSourceColumnId())) {
+            throw new NotFoundException("source column not found with id: " + cardColumnUpdateRequest.getSourceColumnId());
+        }
+        Card card = this.getCardById(cardColumnUpdateRequest.getCardId());
+        KanbanColumn targetColumn = kanbanColumnService.getKanbanColumnById(cardColumnUpdateRequest.getTargetColumnId());
+
+        card.setKanbanColumn(targetColumn);
         cardRepository.save(card);
     }
 }

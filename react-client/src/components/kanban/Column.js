@@ -24,11 +24,11 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns }
     );
 
     function moveCard(draggedCardReference) {
-        let sourceColumn;
+        let sourceColumnId;
         setAllCards((prevCards) => {
             const newCards = prevCards.map(c => {
                 if (c.id == draggedCardReference.id) {
-                    sourceColumn = c.kanbanColumn;
+                    sourceColumnId = c.kanbanColumn.id;
                     c.kanbanColumn = columnObject;
                 }
                 return c;
@@ -36,8 +36,12 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns }
 
             return newCards;
         });
-        console.log(sourceColumn);
         // send put request. Change column of card. sourceColumnId, targetColumnId, cardId.
+        KanbanService.updateColumnOfCard(sourceColumnId, columnId, draggedCardReference.id).then(async (response) => {
+            if(response.ok) {
+                console.log("updated column of card");
+            }
+        });
     }
 
     function handleCreateCard(e) {
