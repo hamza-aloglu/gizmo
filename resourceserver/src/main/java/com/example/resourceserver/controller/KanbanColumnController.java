@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/column")
+@RequestMapping("/columns")
 public class KanbanColumnController {
     private KanbanColumnService kanbanColumnService;
 
