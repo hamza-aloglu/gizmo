@@ -1,13 +1,11 @@
 package com.example.resourceserver.controller;
 
+import com.example.resourceserver.dto.NoteContentUpdateRequest;
 import com.example.resourceserver.dto.NoteCreateRequest;
 import com.example.resourceserver.dto.NoteDto;
 import com.example.resourceserver.service.NoteService;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/notes")
@@ -21,6 +19,12 @@ public class NoteController {
     @PostMapping
     public NoteDto saveNote(@Valid @RequestBody NoteCreateRequest noteCreateRequest) {
         return noteService.saveNote(noteCreateRequest);
+    }
+
+    @PutMapping("/content")
+    public String updateNoteContent(@Valid @RequestBody NoteContentUpdateRequest noteContentUpdateRequest) {
+        noteService.updateNoteContent(noteContentUpdateRequest);
+        return "Successfully updated note";
     }
 
     public NoteService getNoteService() {

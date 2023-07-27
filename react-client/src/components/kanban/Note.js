@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import '../../css/kanban/Note.css';
 import ReactModal from 'react-modal';
+import KanbanService from '../../services/KanbanService';
 
-const Note = ({ title, content }) => {
+const Note = ({ noteId, title, content }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [text, setText] = useState("");
+    const [text, setText] = useState(content);
 
     useEffect(() => {
         setText(content)
@@ -27,7 +28,12 @@ const Note = ({ title, content }) => {
         // ctrl + s
         if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)  && e.keyCode === 83) {
             e.preventDefault();
-            // Send put request to note endpoint with body text.
+            KanbanService.updateNoteContent(text, noteId).then(async (response) => {
+                if(response.ok){
+                    // popup
+                    console.log("note content updated");
+                }
+            });
         }
     }
 

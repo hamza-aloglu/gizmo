@@ -1,5 +1,6 @@
 package com.example.resourceserver.service;
 
+import com.example.resourceserver.dto.NoteContentUpdateRequest;
 import com.example.resourceserver.dto.NoteCreateRequest;
 import com.example.resourceserver.dto.NoteDto;
 import com.example.resourceserver.exception.NotFoundException;
@@ -33,6 +34,20 @@ public class NoteService {
         return noteMapper.noteToNoteDto(savedNote);
     }
 
+    protected Note getNote(Long id) {
+        if (!noteRepository.existsById(id)) {
+            throw new NotFoundException("Note not found with id: " + id);
+        }
+
+        return noteRepository.getById(id);
+    }
+
+    public void updateNoteContent(NoteContentUpdateRequest noteContentUpdateRequest) {
+        Note note = getNote(noteContentUpdateRequest.getId());
+        note.setContent(noteContentUpdateRequest.getContent());
+        noteRepository.save(note);
+    }
+
     public NoteRepository getNoteRepository() {
         return noteRepository;
     }
@@ -48,4 +63,5 @@ public class NoteService {
     public void setCardService(CardService cardService) {
         this.cardService = cardService;
     }
+
 }

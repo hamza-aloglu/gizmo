@@ -128,6 +128,25 @@ const KanbanService = {
             headers,
         });
     },
+
+    updateNoteContent: async(noteContent, noteId) => {
+        const body = {
+            "id": noteId,
+            "content": noteContent,
+        };
+
+        console.log(body);
+        
+        const url = resourceUrl() + `/notes/content`;
+        return fetch(url, {
+            method: 'PUT',
+            mode: 'cors',
+            headers,
+            body: JSON.stringify(body),
+        });
+    },
+
+    
 }
 
 export default KanbanService;
