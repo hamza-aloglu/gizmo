@@ -9,6 +9,7 @@ const Note = ({ noteId, title, content }) => {
 
     useEffect(() => {
         setText(content)
+        ReactModal.setAppElement('body')
     }, [])
 
     function openModal() {
