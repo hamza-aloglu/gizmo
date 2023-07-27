@@ -66,10 +66,10 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns }
 
     return (
         <div className="column-wrapper" ref={drop}>
-            <h4 className="column-title">
+            <div className="column-title">
                 {isEditingTitle ? <input type="text" value={columnTitle} onChange={(e) => setColumnTitle(e.target.value)} autoFocus onBlur={updateColumnTitle} />
-                    : <h3 id="board-title" onDoubleClick={() => setIsEditingTitle(true)}> {columnTitle} </h3>}
-            </h4>
+                    : <h5 id="board-title" onDoubleClick={() => setIsEditingTitle(true)}> {columnTitle} </h5>}
+            </div>
             <hr />
             {cards && cards.map(card => (
                 <div key={card.id}>
