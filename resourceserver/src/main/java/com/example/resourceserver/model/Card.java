@@ -19,10 +19,10 @@ public class Card extends BaseModel {
     @OneToMany(mappedBy = "masterCard", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Card> slaveCards;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore
     private KanbanColumn kanbanColumn;
-    private int index;
+    private int index=0;
 
     public Card() {
 

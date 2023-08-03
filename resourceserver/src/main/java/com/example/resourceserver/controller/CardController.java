@@ -3,6 +3,7 @@ package com.example.resourceserver.controller;
 import com.example.resourceserver.dto.CardColumnUpdateRequest;
 import com.example.resourceserver.dto.CardCreateRequest;
 import com.example.resourceserver.dto.CardDto;
+import com.example.resourceserver.dto.CardIndexUpdateRequestList;
 import com.example.resourceserver.service.CardService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -31,13 +32,19 @@ public class CardController {
 
     @GetMapping("/{boardId}")
     public List<CardDto> getAllCardsByBoard(@Valid @NotNull @PathVariable Long boardId) {
-        return cardService.getAllCardsByBoardId(boardId);
+        return cardService.getAllCardsByBoardIdSortedByIndex(boardId);
     }
 
     @DeleteMapping
     public String deleteCard(@RequestParam @Valid @NotNull Long id) {
         cardService.deleteByCardId(id);
         return "Successfully deleted";
+    }
+
+    @PutMapping
+    public String updateCards(@RequestBody CardIndexUpdateRequestList cardIndexUpdateRequestList) {
+        cardService.updateCards(cardIndexUpdateRequestList.getCardIndexUpdateRequestList());
+        return "hhh";
     }
 
     @PutMapping("/title")

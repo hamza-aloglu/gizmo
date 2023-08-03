@@ -12,4 +12,6 @@ public interface CardMapper {
     CardDto cardToCardDto(Card card);
     Card cardCreateRequestToCard(CardCreateRequest cardCreateRequest);
     List<CardDto> listCardToListCardDto(List<Card> cards);
+
+    List<Card> listCardDtoToListCard(List<CardDto> cardDtos);
 }

@@ -1,48 +1,14 @@
 import { useCallback, useState } from "react";
 import KanbanService from "../../services/KanbanService";
 import '../../css/kanban/Column.css';
-import { useDrop } from "react-dnd";
-import { ItemTypes } from "../../ItemTypes";
 import Card from "./Card";
 
-const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, moveCard }) => {
+const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, moveCard, updateCardIndexes }) => {
     const [columnTitle, setColumnTitle] = useState(title);
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [isFormActive, setIsFormActive] = useState(false);
     const [newCardTitle, setNewCardTitle] = useState("");
     const columnObject = { id: columnId, title: title, restrictedKanbanColumns: restrictedKanbanColumns };
-    // const [{ isOver, canDrop, draggedCardReference }, drop] = useDrop(
-    //     () => ({
-    //         accept: ItemTypes.CARD,
-    //         drop: (draggedCardReference) => moveCard(draggedCardReference),
-    //         collect: (monitor) => ({
-    //             isOver: !!monitor.isOver(),
-    //             canDrop: !!monitor.canDrop(),
-    //             draggedCardReference: monitor.getItem(),
-    //         })
-    //     })
-    // );
-
-    // function moveCard(draggedCardReference) {
-    //     let sourceColumnId;
-    //     setAllCards((prevCards) => {
-    //         const newCards = prevCards.map(c => {
-    //             if (c.id == draggedCardReference.id) {
-    //                 sourceColumnId = c.kanbanColumn.id;
-    //                 c.kanbanColumn = columnObject;
-    //             }
-    //             return c;
-    //         });
-
-    //         return newCards;
-    //     });
-    //     // send put request. Change column of card. sourceColumnId, targetColumnId, cardId.
-    //     KanbanService.updateColumnOfCard(sourceColumnId, columnId, draggedCardReference.id).then(async (response) => {
-    //         if(response.ok) {
-    //             console.log("updated column of card");
-    //         }
-    //     });
-    // }
 
     function handleCreateCard(e) {
         e.preventDefault();
@@ -71,6 +37,7 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
                 id={card.id}
                 title={card.title}
                 moveCard={moveCard}
+                updateCardIndexes={updateCardIndexes}
             />
         );
     }, []);

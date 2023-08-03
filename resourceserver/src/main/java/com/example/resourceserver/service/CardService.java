@@ -3,6 +3,7 @@ package com.example.resourceserver.service;
 import com.example.resourceserver.dto.CardColumnUpdateRequest;
 import com.example.resourceserver.dto.CardCreateRequest;
 import com.example.resourceserver.dto.CardDto;
+import com.example.resourceserver.dto.CardIndexUpdateRequest;
 import com.example.resourceserver.exception.NotFoundException;
 import com.example.resourceserver.mapper.CardMapper;
 import com.example.resourceserver.model.Card;
@@ -14,16 +15,19 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 @Service
 public class CardService {
     private CardRepository cardRepository;
     private KanbanColumnService kanbanColumnService;
+    private BoardService boardService;
     CardMapper cardMapper = Mappers.getMapper(CardMapper.class);
 
-    public CardService(CardRepository cardRepository, KanbanColumnService kanbanColumnService) {
+    public CardService(CardRepository cardRepository, KanbanColumnService kanbanColumnService, BoardService boardService) {
         this.cardRepository = cardRepository;
         this.kanbanColumnService = kanbanColumnService;
+        this.boardService = boardService;
     }
 
     public CardDto saveCard(CardCreateRequest cardCreateRequest) {
@@ -43,10 +47,18 @@ public class CardService {
         if (!kanbanColumnService.isKanbanColumnExistsById(kanbanColumnId)) {
             throw new NotFoundException("Kanban column not found with id: " + kanbanColumnId);
         }
-        card.setKanbanColumn(kanbanColumnService.getKanbanColumnById(kanbanColumnId));
+        KanbanColumn kanbanColumn = kanbanColumnService.getKanbanColumnById(kanbanColumnId);
+        card.setKanbanColumn(kanbanColumn);
+
+        List<Card> allCardsByBoard = cardRepository.findAllCardsByBoardId(kanbanColumn.getBoard().getId());
+        OptionalInt maxIndex = allCardsByBoard.stream()
+                .mapToInt(Card::getIndex)
+                .max();
+        if (maxIndex.isPresent()) {
+            card.setIndex(maxIndex.getAsInt() + 1);
+        }
 
         Card savedCard = cardRepository.save(card);
-
         return cardMapper.cardToCardDto(savedCard);
     }
 
@@ -89,25 +101,12 @@ public class CardService {
         return cardRepository.existsById(cardId);
     }
 
+    public List<CardDto> getAllCardsByBoardIdSortedByIndex(Long boardId) {
+        if (!boardService.isBoardExists(boardId)) {
+            throw new NotFoundException("Board not found with id: " + boardId);
+        }
 
-    public CardRepository getCardRepository() {
-        return cardRepository;
-    }
-
-    public void setCardRepository(CardRepository cardRepository) {
-        this.cardRepository = cardRepository;
-    }
-
-    public KanbanColumnService getKanbanColumnService() {
-        return kanbanColumnService;
-    }
-
-    public void setKanbanColumnService(KanbanColumnService kanbanColumnService) {
-        this.kanbanColumnService = kanbanColumnService;
-    }
-
-    public List<CardDto> getAllCardsByBoardId(Long boardId) {
-        List<Card> cards = cardRepository.findAllCardsByBoard(boardId);
+        List<Card> cards = cardRepository.findAllCardsByBoardIdAndOrderOrderByIndex(boardId);
         return cardMapper.listCardToListCardDto(cards);
     }
 
@@ -127,4 +126,41 @@ public class CardService {
         card.setKanbanColumn(targetColumn);
         cardRepository.save(card);
     }
+
+    public void updateCards(List<CardIndexUpdateRequest> cardRequests) {
+        List<Card> cards = cardRequests.stream()
+                .map(request -> {
+                    Optional<Card> cardOptional = cardRepository.findById(request.getCardId());
+                    if (cardOptional.isPresent()) {
+                        Card card = cardOptional.get();
+                        card.setIndex(request.getIndex());
+                        return Optional.of(card);
+                    } else {
+                        return Optional.<Card>empty();
+                    }
+                })
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList();
+
+        //save that list.
+        cardRepository.saveAll(cards);
+    }
+
+    public CardRepository getCardRepository() {
+        return cardRepository;
+    }
+
+    public void setCardRepository(CardRepository cardRepository) {
+        this.cardRepository = cardRepository;
+    }
+
+    public KanbanColumnService getKanbanColumnService() {
+        return kanbanColumnService;
+    }
+
+    public void setKanbanColumnService(KanbanColumnService kanbanColumnService) {
+        this.kanbanColumnService = kanbanColumnService;
+    }
+
 }

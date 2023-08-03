@@ -151,8 +151,6 @@ const KanbanService = {
             "cardId": cardId,
         }
 
-        console.log(body);
-
         const url = resourceUrl() + `/cards/column`;
         return fetch(url, {
             method: 'PUT',
@@ -160,6 +158,25 @@ const KanbanService = {
             headers,
             body: JSON.stringify(body),
         });
+    },
+
+    updateCardIndexes: async(cards) => {
+        const cardIndexUpdateRequestList = [];
+        cards.forEach((card, i) => cardIndexUpdateRequestList.push({"cardId": card.id, "index": i}));
+
+        const body = {
+            cardIndexUpdateRequestList,
+        }
+
+        console.log(body);
+
+        const url = resourceUrl() + `/cards`;
+        return fetch(url, {
+            method: 'PUT',
+            mode: 'cors',
+            headers,
+            body: JSON.stringify(body),
+        })
     }
 }
 

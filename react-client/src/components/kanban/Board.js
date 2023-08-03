@@ -31,20 +31,10 @@ const Board = ({ title, boardId }) => {
         KanbanService.createColumn(newColumnTitle, boardId).then(async (response) => {
             const column = await response.json();
             if (response.ok) {
-                const newKanbanColumns = [];
-                if (kanbanColumns != null) {
-                    newKanbanColumns.push(...kanbanColumns);
-                }
-                newKanbanColumns.push(column);
-
-                setKanbanColumns(newKanbanColumns);
+                setKanbanColumns(prevCols => [...prevCols, column]);
             }
         });
         setIsFormActive(false);
-    }
-
-    function getCardsByColumn(columnId) {
-        return cards.filter(c => c.kanbanColumn.id == columnId);
     }
 
     function updateBoardTitle(e) {
@@ -60,16 +50,49 @@ const Board = ({ title, boardId }) => {
         setIsEditingTitle(false);
     }
 
+    function updateCardIndexes() {
+        setCards((prevCards) => {
+            KanbanService.updateCardIndexes(prevCards).then(async (response) => {
+                if (response.ok) {
+                    console.log("card indexes got updated")
+                }
+            })
+
+            return prevCards;
+        });
+    }
+
     const moveCard = useCallback((dragIndex, hoverIndex) => {
         setCards((prevCards) =>
             update(prevCards, {
                 $splice: [
                     [dragIndex, 1],
-                    [hoverIndex, 0, prevCards[dragIndex]]
-                ]
-            })
-        );
-    }, []);
+                    [hoverIndex, 0, prevCards[dragIndex]],
+                ],
+            }),
+        )
+    }, [])
+
+    function getCardsByColumn(columnId) {
+        return cards.filter(c => c.kanbanColumn.id == columnId);
+    }
+
+    const renderColumn = useCallback((column) => {
+        return (
+            <div key={column.id} className="column-container">
+                <Column
+                    columnId={column.id}
+                    title={column.title}
+                    restrictedKanbanColumns={column.restrictedKanbanColumns}
+
+                    cards={getCardsByColumn(column.id)}
+                    setAllCards={setCards}
+                    moveCard={moveCard}
+                    updateCardIndexes={updateCardIndexes}
+                />
+            </div>
+        )
+    })
 
     return (
         <DndProvider backend={HTML5Backend}>
@@ -80,13 +103,8 @@ const Board = ({ title, boardId }) => {
                         : <h3 id="board-title" onDoubleClick={() => setIsEditingTitle(true)}> {boardTitle} </h3>}
                 </div>
                 <div id="columns-wrapper">
-                    {kanbanColumns && kanbanColumns.map(kanbanColumn => (
-                        <div className="column-container" key={kanbanColumn.id}>
-                            <Column title={kanbanColumn.title} cards={getCardsByColumn(kanbanColumn.id)}
-                                setAllCards={setCards} columnId={kanbanColumn.id} restrictedKanbanColumns={kanbanColumn.restrictedKanbanColumns}
-                                moveCard={moveCard} />
-                        </div>
-                    ))}
+                    {kanbanColumns && kanbanColumns.map(kanbanColumn => renderColumn(kanbanColumn))}
+
                     <div className="column-container">
                         {!isFormActive &&
                             <button className="long-button" onClick={() => setIsFormActive(true)}> Create Column </button>}
