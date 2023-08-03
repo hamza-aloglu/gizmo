@@ -30,16 +30,18 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
     }
 
     const renderCard = useCallback((card, index) => {
-        return (
-            <Card
-                key={card.id}
-                index={index}
-                id={card.id}
-                title={card.title}
-                moveCard={moveCard}
-                updateCardIndexes={updateCardIndexes}
-            />
-        );
+        if (card.kanbanColumn.id == columnId) {
+            return (
+                <Card
+                    key={card.id}
+                    index={index}
+                    id={card.id}
+                    title={card.title}
+                    moveCard={moveCard}
+                    updateCardIndexes={updateCardIndexes}
+                />
+            );
+        }
     }, []);
 
     return (

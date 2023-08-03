@@ -38,7 +38,6 @@ const Board = ({ title, boardId }) => {
     }
 
     function updateBoardTitle(e) {
-        // send update request
         KanbanService.updateBoardTitle(boardTitle, boardId).then(async (response) => {
             const result = await response.json
             console.log(result);
@@ -73,9 +72,6 @@ const Board = ({ title, boardId }) => {
         )
     }, [])
 
-    function getCardsByColumn(columnId) {
-        return cards.filter(c => c.kanbanColumn.id == columnId);
-    }
 
     const renderColumn = useCallback((column) => {
         return (
@@ -85,7 +81,7 @@ const Board = ({ title, boardId }) => {
                     title={column.title}
                     restrictedKanbanColumns={column.restrictedKanbanColumns}
 
-                    cards={getCardsByColumn(column.id)}
+                    cards={cards}
                     setAllCards={setCards}
                     moveCard={moveCard}
                     updateCardIndexes={updateCardIndexes}

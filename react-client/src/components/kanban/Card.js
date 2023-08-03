@@ -49,7 +49,7 @@ const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes }) 
         },
         drop(item) {
             const dropIndex = index;
-            if(item.initialDragIndex == dropIndex) {
+            if (item.initialDragIndex == dropIndex) {
                 return;
             }
 
@@ -60,12 +60,12 @@ const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes }) 
     const [{ isDragging }, drag] = useDrag({
         type: ItemTypes.CARD,
         item: () => {
-          return { id, index, initialDragIndex: index }
+            return { id, index, initialDragIndex: index }
         },
         collect: (monitor) => ({
-          isDragging: monitor.isDragging(),
+            isDragging: monitor.isDragging(),
         }),
-      })
+    })
 
     function handleCreateNote(e) {
         e.preventDefault();
