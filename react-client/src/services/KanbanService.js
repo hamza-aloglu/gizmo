@@ -102,7 +102,7 @@ const KanbanService = {
         })
     },
 
-    updateBoardTitle: async (boardTitle, boardId) => { 
+    updateBoardTitle: async (boardTitle, boardId) => {
         const url = resourceUrl() + `/boards/title?title=${boardTitle}&boardId=${boardId}`;
         return fetch(url, {
             method: 'PUT',
@@ -111,7 +111,7 @@ const KanbanService = {
         });
     },
 
-    updateColumnTitle: async (columnTitle, columnId) => { 
+    updateColumnTitle: async (columnTitle, columnId) => {
         const url = resourceUrl() + `/columns/title?title=${columnTitle}&id=${columnId}`;
         return fetch(url, {
             method: 'PUT',
@@ -120,7 +120,7 @@ const KanbanService = {
         });
     },
 
-    updateCardTitle: async (cardTitle, cardId) => { 
+    updateCardTitle: async (cardTitle, cardId) => {
         const url = resourceUrl() + `/cards/title?title=${cardTitle}&cardId=${cardId}`;
         return fetch(url, {
             method: 'PUT',
@@ -129,12 +129,12 @@ const KanbanService = {
         });
     },
 
-    updateNoteContent: async(noteContent, noteId) => {
+    updateNoteContent: async (noteContent, noteId) => {
         const body = {
             "id": noteId,
             "content": noteContent,
         };
-        
+
         const url = resourceUrl() + `/notes/content`;
         return fetch(url, {
             method: 'PUT',
@@ -144,7 +144,7 @@ const KanbanService = {
         });
     },
 
-    updateColumnOfCard: async(sourceColumnId, targetColumnId, cardId) => {
+    updateColumnOfCard: async (sourceColumnId, targetColumnId, cardId) => {
         const body = {
             "sourceColumnId": sourceColumnId,
             "targetColumnId": targetColumnId,
@@ -160,15 +160,14 @@ const KanbanService = {
         });
     },
 
-    updateCardIndexes: async(cards) => {
+    updateCardIndexes: async (cards) => {
         const cardIndexUpdateRequestList = [];
-        cards.forEach((card, i) => cardIndexUpdateRequestList.push({"cardId": card.id, "index": i}));
+        console.log(cards);
+        cards.forEach((card, i) => cardIndexUpdateRequestList.push({ "cardId": card.id, "index": i }));
 
         const body = {
             cardIndexUpdateRequestList,
         }
-
-        console.log(body);
 
         const url = resourceUrl() + `/cards`;
         return fetch(url, {
@@ -177,7 +176,22 @@ const KanbanService = {
             headers,
             body: JSON.stringify(body),
         })
-    }
+    },
+
+    updateColumnOfCard: async (cardId, columnId) => {
+        const body = {
+            "targetColumnId": columnId,
+            "cardId": cardId,
+        }
+
+        const url = resourceUrl() + `/cards/column`;
+        return fetch(url, {
+            method: 'PUT',
+            mode: 'cors',
+            headers,
+            body: JSON.stringify(body),
+        });
+    },
 }
 
 export default KanbanService;

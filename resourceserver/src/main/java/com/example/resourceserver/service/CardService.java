@@ -117,12 +117,13 @@ public class CardService {
     }
 
     public void updateColumnOfCard(CardColumnUpdateRequest cardColumnUpdateRequest) {
-        if (!kanbanColumnService.isKanbanColumnExistsById(cardColumnUpdateRequest.getSourceColumnId())) {
-            throw new NotFoundException("source column not found with id: " + cardColumnUpdateRequest.getSourceColumnId());
-        }
         Card card = this.getCardById(cardColumnUpdateRequest.getCardId());
-        KanbanColumn targetColumn = kanbanColumnService.getKanbanColumnById(cardColumnUpdateRequest.getTargetColumnId());
+        Long sourceColumnId = card.getKanbanColumn().getId();
+        if (!kanbanColumnService.isKanbanColumnExistsById(sourceColumnId)) {
+            throw new NotFoundException("source column not found with id: " + sourceColumnId);
+        }
 
+        KanbanColumn targetColumn = kanbanColumnService.getKanbanColumnById(cardColumnUpdateRequest.getTargetColumnId());
         card.setKanbanColumn(targetColumn);
         cardRepository.save(card);
     }

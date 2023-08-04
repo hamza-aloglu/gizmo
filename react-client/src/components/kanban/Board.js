@@ -49,11 +49,17 @@ const Board = ({ title, boardId }) => {
         setIsEditingTitle(false);
     }
 
-    function updateCardIndexes() {
+    async function updateCardIndexes(updateColumnOfCard) {
         setCards((prevCards) => {
             KanbanService.updateCardIndexes(prevCards).then(async (response) => {
                 if (response.ok) {
-                    console.log("card indexes got updated")
+                    console.log("card indexes got updated");
+
+                    // We need to update column of card after indexes got updated because of async fetch calls.
+                    // Index of card which its column is updated, remains the same if we don't do like this.
+                    if (typeof updateColumnOfCard == "function") {
+                        updateColumnOfCard();
+                    }
                 }
             })
 
@@ -62,14 +68,22 @@ const Board = ({ title, boardId }) => {
     }
 
     const moveCard = useCallback((dragIndex, hoverIndex) => {
-        setCards((prevCards) =>
-            update(prevCards, {
+        setCards((prevCards) => {
+
+            const draggedCardColumn = prevCards[dragIndex].kanbanColumn;
+            const hoveredCardColumn = prevCards[dragIndex].kanbanColumn;
+            if (draggedCardColumn.id != hoveredCardColumn.id) {
+                prevCards[dragIndex].kanbanColumn = hoveredCardColumn;
+            }
+
+            return update(prevCards, {
                 $splice: [
                     [dragIndex, 1],
                     [hoverIndex, 0, prevCards[dragIndex]],
                 ],
-            }),
-        )
+            });
+
+        })
     }, [])
 
 
