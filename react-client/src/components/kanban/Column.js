@@ -2,6 +2,8 @@ import { useCallback, useState } from "react";
 import KanbanService from "../../services/KanbanService";
 import '../../css/kanban/Column.css';
 import Card from "./Card";
+import { useDrop } from "react-dnd";
+import { ItemTypes } from "../../ItemTypes";
 
 const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, moveCard, updateCardIndexes }) => {
     const [columnTitle, setColumnTitle] = useState(title);
@@ -9,7 +11,7 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
     const [isFormActive, setIsFormActive] = useState(false);
     const [newCardTitle, setNewCardTitle] = useState("");
     const columnObject = { id: columnId, title: title, restrictedKanbanColumns: restrictedKanbanColumns };
-
+    
     function handleCreateCard(e) {
         e.preventDefault();
         KanbanService.createCard(newCardTitle, columnId).then(async (response) => {
@@ -39,6 +41,7 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
                     title={card.title}
                     moveCard={moveCard}
                     updateCardIndexes={updateCardIndexes}
+                    columnId={columnId}
                 />
             );
         }

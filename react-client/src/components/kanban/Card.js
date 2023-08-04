@@ -5,7 +5,7 @@ import '../../css/kanban/Card.css';
 import { useDrag, useDrop } from "react-dnd";
 import { ItemTypes } from "../../ItemTypes";
 
-const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes }) => {
+const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes, columnId }) => {
     const [cardTitle, setCardTitle] = useState(title);
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [notes, setNotes] = useState(notesResponse);
@@ -31,6 +31,10 @@ const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes }) 
                 return
             }
 
+            if(item.columnId != columnId) {
+                return;
+            }
+
             const hoverBoundingRect = ref.current?.getBoundingClientRect()
             const hoverMiddleY =
                 (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
@@ -43,6 +47,7 @@ const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes }) 
                 return
             }
 
+            console.log("updating card...");
             // Time to actually perform the action
             moveCard(dragIndex, hoverIndex);
             item.index = hoverIndex;
@@ -52,7 +57,9 @@ const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes }) 
             if (item.initialDragIndex == dropIndex) {
                 return;
             }
-
+            if(item.columnId != columnId) {
+                return;
+            }
             updateCardIndexes();
             item.initialDragIndex = dropIndex;
         },
@@ -60,7 +67,7 @@ const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes }) 
     const [{ isDragging }, drag] = useDrag({
         type: ItemTypes.CARD,
         item: () => {
-            return { id, index, initialDragIndex: index }
+            return { id, index, initialDragIndex: index, columnId }
         },
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
