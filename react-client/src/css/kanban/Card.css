@@ -25,3 +25,19 @@
 .create-card-container {
     margin: 15px 0;
 }
+
+.delete-card-container {
+    padding-top: 20px;
+    text-align: center;
+}
+
+.delete-card {
+    border: none;
+    padding: 5px;
+    font-size: medium;
+}
+
+.delete-card:hover {
+    cursor: pointer;
+    background-color: crimson;
+}

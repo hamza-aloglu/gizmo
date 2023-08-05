@@ -200,6 +200,15 @@ const KanbanService = {
             mode: 'cors',
             headers,
         })
+    },
+
+    deleteCard: async (cardId) => {
+        const url = resourceUrl() + `/cards?id=${cardId}`;
+        return fetch(url, {
+            method: 'DELETE',
+            mode: 'cors',
+            headers,
+        })
     }
 }
 

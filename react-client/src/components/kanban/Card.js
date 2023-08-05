@@ -5,7 +5,7 @@ import '../../css/kanban/Card.css';
 import { useDrag, useDrop } from "react-dnd";
 import { ItemTypes } from "../../ItemTypes";
 
-const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes, columnId }) => {
+const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes, columnId, handleDeleteCard }) => {
     const [cardTitle, setCardTitle] = useState(title);
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [notes, setNotes] = useState(notesResponse);
@@ -31,7 +31,7 @@ const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes, co
                 return
             }
 
-            if(item.columnId != columnId) {
+            if (item.columnId != columnId) {
                 return;
             }
 
@@ -57,7 +57,7 @@ const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes, co
             if (item.initialDragIndex == dropIndex) {
                 return;
             }
-            if(item.columnId != columnId) {
+            if (item.columnId != columnId) {
                 return;
             }
             updateCardIndexes();
@@ -113,19 +113,26 @@ const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes, co
                     <h4 className="card-title" onDoubleClick={() => setIsEditingTitle(true)}> {cardTitle}  </h4>}
             </div>
             {isContentVisible &&
-                <div className="notes-wrapper">
-                    <hr />
-                    {notes && notes.map(note => (
-                        <div key={note.id}>
-                            <Note noteId={note.id} title={note.title} content={note.content} />
-                        </div>
-                    ))}
+                <div className="content-wrapper">
+                    <div className="notes-wrapper">
+                        <hr />
+                        {notes && notes.map(note => (
+                            <div key={note.id}>
+                                <Note noteId={note.id} title={note.title} content={note.content} />
+                            </div>
+                        ))}
+                    </div>
+
+                    {!isFormActive && <button className="note-create-button" onClick={() => setIsFormActive(true)}> Create Note </button>}
+                    {isFormActive && <form style={{ display: "inline-block" }} onSubmit={handleCreateNote}>
+                        <input className="note-create-input" type="text" onChange={(e) => setNewNoteTitle(e.target.value)} />
+                    </form>}
+
+                    <div className="delete-card-container">
+                        <button className="delete-card" onClick={(e) => handleDeleteCard(e, id)}>Delete</button>
+                    </div>
                 </div>
             }
-            {!isFormActive && isContentVisible && <button className="note-create-button" onClick={() => setIsFormActive(true)}> Create Note </button>}
-            {isFormActive && isContentVisible && <form style={{ display: "inline-block" }} onSubmit={handleCreateNote}>
-                <input className="note-create-input" type="text" onChange={(e) => setNewNoteTitle(e.target.value)} />
-            </form>}
 
         </div>
     )

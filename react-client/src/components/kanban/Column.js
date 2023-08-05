@@ -71,6 +71,14 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
         setIsFormActive(false);
     }
 
+    function handleDeleteCard(e, cardId) {
+        KanbanService.deleteCard(cardId).then(async (response) => {
+            if(response.ok) {
+                setAllCards(prevCards => prevCards.filter(c => c.id != cardId))
+            }
+        });
+    }
+
     function updateColumnTitle(e) {
         KanbanService.updateColumnTitle(columnTitle, columnId).then(async (response) => {
             const result = await response.json();
@@ -90,6 +98,7 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
                     moveCard={moveCard}
                     updateCardIndexes={updateCardIndexes}
                     columnId={columnId}
+                    handleDeleteCard={handleDeleteCard}
                 />
             );
         }
