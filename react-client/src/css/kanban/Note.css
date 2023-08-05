@@ -1,6 +1,7 @@
 .note-wrapper {
     display: inline-block;
     border: 5px solid rgba(255, 255, 255, .5);
+    position: relative;
 }
 
 .note-wrapper:hover {

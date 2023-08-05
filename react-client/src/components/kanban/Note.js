@@ -3,9 +3,10 @@ import '../../css/kanban/Note.css';
 import ReactModal from 'react-modal';
 import KanbanService from '../../services/KanbanService';
 
-const Note = ({ noteId, title, content }) => {
+const Note = ({ noteId, title, content, handleDeleteNote }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [text, setText] = useState(content);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     useEffect(() => {
         setText(content)
@@ -27,10 +28,10 @@ const Note = ({ noteId, title, content }) => {
         }
 
         // ctrl + s
-        if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)  && e.keyCode === 83) {
+        if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey) && e.keyCode === 83) {
             e.preventDefault();
             KanbanService.updateNoteContent(text, noteId).then(async (response) => {
-                if(response.ok){
+                if (response.ok) {
                     // popup
                     console.log("note content updated");
                 }
@@ -38,9 +39,20 @@ const Note = ({ noteId, title, content }) => {
         }
     }
 
+    function toggleMenu(e) {
+        e.preventDefault();
+        setIsMenuOpen(!isMenuOpen);
+        console.log("inside context menu");
+    }
+
     return (
-        <div className='note-wrapper'>
+        <div className='note-wrapper' onContextMenu={toggleMenu}>
             <h5 className='note-title' onClick={openModal}> {title} </h5>
+
+            {isMenuOpen &&
+                <ul className="dropdown">
+                    <li onClick={(e) => handleDeleteNote(e, noteId)}>Delete</li>
+                </ul>}
 
             <ReactModal
                 isOpen={isModalOpen}

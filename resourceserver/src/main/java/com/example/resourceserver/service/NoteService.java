@@ -10,6 +10,8 @@ import com.example.resourceserver.repository.NoteRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class NoteService {
     private NoteRepository noteRepository;
@@ -64,4 +66,19 @@ public class NoteService {
         this.cardService = cardService;
     }
 
+    public void deleteByNoteId(Long id) {
+        if (!noteRepository.existsById(id)) {
+            throw new NotFoundException("Note not found with id: " + id);
+        }
+        noteRepository.deleteById(id);
+    }
+
+    public List<NoteDto> getNotes(Long cardId) {
+        if (!cardService.isExistByCardId(cardId)) {
+            throw new NotFoundException("card not found with id: " + cardId);
+        }
+
+        List<Note> notes = noteRepository.getAllByCard_Id(cardId);
+        return noteMapper.noteListToNoteDtoList(notes);
+    }
 }

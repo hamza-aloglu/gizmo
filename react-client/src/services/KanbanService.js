@@ -209,7 +209,25 @@ const KanbanService = {
             mode: 'cors',
             headers,
         })
-    }
+    },
+
+    deleteNote: async (noteId) => {
+        const url = resourceUrl() + `/notes?id=${noteId}`;
+        return fetch(url, {
+            method: 'DELETE',
+            mode: 'cors',
+            headers,
+        })
+    },
+
+    getNotes: async (cardId) => {
+        const url = resourceUrl() + `/notes?cardId=${cardId}`;
+        return fetch(url, {
+            method: 'GET',
+            mode: 'cors',
+            headers,
+        });
+    },
 }
 
 export default KanbanService;
