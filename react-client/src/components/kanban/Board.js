@@ -37,6 +37,14 @@ const Board = ({ title, boardId }) => {
         setIsFormActive(false);
     }
 
+    function handleDeleteColumn(e, columnId) {
+        KanbanService.deleteColumn(columnId).then(async (response) => {
+            if(response.ok) {
+                setKanbanColumns(prevCols => prevCols.filter((col) => col.id != columnId));
+            }
+        });
+    }
+
     function updateBoardTitle(e) {
         KanbanService.updateBoardTitle(boardTitle, boardId).then(async (response) => {
             const result = await response.json
@@ -99,6 +107,7 @@ const Board = ({ title, boardId }) => {
                     setAllCards={setCards}
                     moveCard={moveCard}
                     updateCardIndexes={updateCardIndexes}
+                    handleDeleteColumn={handleDeleteColumn}
                 />
             </div>
         )

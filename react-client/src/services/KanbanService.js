@@ -192,6 +192,15 @@ const KanbanService = {
             body: JSON.stringify(body),
         });
     },
+
+    deleteColumn: async (columnId) => {
+        const url = resourceUrl() + `/columns?id=${columnId}`;
+        return fetch(url, {
+            method: 'DELETE',
+            mode: 'cors',
+            headers,
+        })
+    }
 }
 
 export default KanbanService;

@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import KanbanService from "../../services/KanbanService";
 import '../../css/kanban/Column.css';
 import Card from "./Card";
@@ -6,13 +6,15 @@ import { useDrop } from "react-dnd";
 import { ItemTypes } from "../../ItemTypes";
 import update from "immutability-helper";
 
-const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, moveCard, updateCardIndexes }) => {
+const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, moveCard, updateCardIndexes, handleDeleteColumn }) => {
     const [columnTitle, setColumnTitle] = useState(title);
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [isFormActive, setIsFormActive] = useState(false);
     const [newCardTitle, setNewCardTitle] = useState("");
     const columnObject = { id: columnId, title: title, restrictedKanbanColumns: restrictedKanbanColumns };
-    const [{isOver, item }, drop] = useDrop({
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const [{ isOver, item }, drop] = useDrop({
         accept: ItemTypes.CARD,
         collect(monitor) {
             return {
@@ -38,7 +40,7 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
                         [prevCards.length - 1, 0, prevCards[item.index]],
                     ],
                 });
-                
+
                 // Why I don't have to populate item in here but I had to in moving cards?
                 item.index = prevCards.length - 1;
                 item.initialDragIndex = prevCards.length - 1;
@@ -100,6 +102,18 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
 
     return (
         <div ref={drop} className="column-wrapper" style={{ opacity }}>
+            <div className="menu" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            {isMenuOpen && (
+                <ul className="dropdown">
+                    <li onClick={(e) => handleDeleteColumn(e, columnId)}>Delete Column</li>
+                </ul>
+            )}
+
             <div className="column-title">
                 {isEditingTitle ? <input type="text" value={columnTitle} onChange={(e) => setColumnTitle(e.target.value)} autoFocus onBlur={updateColumnTitle} />
                     : <h5 id="board-title" onDoubleClick={() => setIsEditingTitle(true)}> {columnTitle} </h5>}

@@ -8,6 +8,7 @@
     display: flex;
     flex-direction: column;
     padding: 4px;
+    position: relative;
 
     /* overflow: visible; */
     overflow-y: scroll;
@@ -51,4 +52,39 @@ hr {
     margin: 4px;
     text-align: center;
     white-space: normal;
+}
+
+.menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.menu span {
+    display: block;
+    width: 5px;
+    height: 5px;
+    margin-bottom: 2px;
+    background: #000;
+    border-radius: 50%;
+}
+
+.dropdown {
+    position: absolute;
+    top: 30px;
+    right: 10px;
+    background: #fff;
+    border: 1px solid #000;
+    list-style: none;
+    padding: 0;
+}
+
+.dropdown li {
+    padding: 4px;
+    opacity: 0.4;
+}
+
+li:hover {
+    opacity: 1;
 }
