@@ -39,7 +39,7 @@ const Board = ({ title, boardId }) => {
 
     function handleDeleteColumn(e, columnId) {
         KanbanService.deleteColumn(columnId).then(async (response) => {
-            if(response.ok) {
+            if (response.ok) {
                 setKanbanColumns(prevCols => prevCols.filter((col) => col.id != columnId));
             }
         });
@@ -97,19 +97,18 @@ const Board = ({ title, boardId }) => {
 
     const renderColumn = useCallback((column) => {
         return (
-            <div key={column.id} className="column-container">
-                <Column
-                    columnId={column.id}
-                    title={column.title}
-                    restrictedKanbanColumns={column.restrictedKanbanColumns}
+            <Column
+                key={column.id}
+                columnId={column.id}
+                title={column.title}
+                restrictedKanbanColumns={column.restrictedKanbanColumns}
 
-                    cards={cards}
-                    setAllCards={setCards}
-                    moveCard={moveCard}
-                    updateCardIndexes={updateCardIndexes}
-                    handleDeleteColumn={handleDeleteColumn}
-                />
-            </div>
+                cards={cards}
+                setAllCards={setCards}
+                moveCard={moveCard}
+                updateCardIndexes={updateCardIndexes}
+                handleDeleteColumn={handleDeleteColumn}
+            />
         )
     })
 
@@ -122,7 +121,8 @@ const Board = ({ title, boardId }) => {
                         : <h3 id="board-title" onDoubleClick={() => setIsEditingTitle(true)}> {boardTitle} </h3>}
                 </div>
                 <div id="columns-wrapper">
-                    {kanbanColumns && kanbanColumns.map(kanbanColumn => renderColumn(kanbanColumn))}
+                    {kanbanColumns && kanbanColumns.map(kanbanColumn =>  renderColumn(kanbanColumn)
+                    )}
 
                     <div className="column-container">
                         {!isFormActive &&

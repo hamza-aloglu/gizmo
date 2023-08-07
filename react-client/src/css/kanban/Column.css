@@ -1,7 +1,30 @@
+#columns-wrapper {
+    /* Enable horizontal scrolling */
+    overflow-x: auto;
+    /* Prevent new line wrapping */
+    white-space: nowrap;
+    display: flex;
+    padding-top: 10px;
+    padding-left: 25px;
+}
+
+.column-container {
+    width: 295px;
+    flex-shrink: 0;
+    /* Prevent the container from shrinking */
+    flex-grow: 0;
+    /* Prevent the container from growing */
+    margin-right: 10px;
+}
+
+.chunk-column {
+    width: 330px;
+}
+
 .column-wrapper {
     width: 100%;
-    min-height: 420px;
-    max-height: 675px;
+    min-height: 500px;
+    max-height: 700px;
     background-color: #F6F4EB;
     border-radius: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -12,23 +35,6 @@
 
     /* overflow: visible; */
     overflow-y: scroll;
-}
-
-.column-container {
-    width: 250px;
-    flex-shrink: 0; /* Prevent the container from shrinking */
-    flex-grow: 0; /* Prevent the container from growing */
-    margin-right: 10px;
-  }
-
-#columns-wrapper {
-    /* Enable horizontal scrolling */
-    overflow-x: auto;
-    /* Prevent new line wrapping */
-    white-space: nowrap;
-    display: flex;
-    margin-left: 25px;
-    padding: 10px;
 }
 
 .column-wrapper::-webkit-scrollbar {

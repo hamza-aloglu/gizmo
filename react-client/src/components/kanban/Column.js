@@ -73,7 +73,7 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
 
     function handleDeleteCard(e, cardId) {
         KanbanService.deleteCard(cardId).then(async (response) => {
-            if(response.ok) {
+            if (response.ok) {
                 setAllCards(prevCards => prevCards.filter(c => c.id != cardId))
             }
         });
@@ -109,31 +109,39 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
         opacity = 0.5;
     }
 
+    let chunkColumn = "";
+    if (columnTitle.toLowerCase() == "chunk") {
+        chunkColumn = "chunk-column";
+    }
+
     return (
-        <div ref={drop} className="column-wrapper" style={{ opacity }}>
-            <div className="menu" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+        <div className={`column-container ${chunkColumn}`}>
+            <div ref={drop} className="column-wrapper" style={{ opacity }}>
+                <div className="menu" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
 
-            {isMenuOpen && (
-                <ul className="dropdown">
-                    <li onClick={(e) => handleDeleteColumn(e, columnId)}>Delete Column</li>
-                </ul>
-            )}
+                {isMenuOpen && (
+                    <ul className="dropdown">
+                        <li onClick={(e) => handleDeleteColumn(e, columnId)}>Delete Column</li>
+                    </ul>
+                )}
 
-            <div className="column-title">
-                {isEditingTitle ? <input type="text" value={columnTitle} onChange={(e) => setColumnTitle(e.target.value)} autoFocus onBlur={updateColumnTitle} />
-                    : <h5 id="board-title" onDoubleClick={() => setIsEditingTitle(true)}> {columnTitle} </h5>}
-            </div>
-            <hr />
-            {cards && cards.map((card, i) => renderCard(card, i))}
-            <div className="create-card-container">
-                {!isFormActive && <button className="long-button" onClick={() => setIsFormActive(true)}> Create Card </button>}
-                {isFormActive && <form onSubmit={(e) => handleCreateCard(e, columnId, newCardTitle)}>
-                    <input className="long-input" type="text" onChange={(e) => setNewCardTitle(e.target.value)} />
-                </form>}
+                <div className="column-title">
+                    {isEditingTitle
+                        ? <input type="text" value={columnTitle} onChange={(e) => setColumnTitle(e.target.value)} autoFocus onBlur={updateColumnTitle} />
+                        : <h5 id="board-title" onDoubleClick={() => setIsEditingTitle(true)}> {columnTitle} </h5>}
+                </div>
+                <hr />
+                {cards && cards.map((card, i) => renderCard(card, i))}
+                <div className="create-card-container">
+                    {!isFormActive && <button className="long-button" onClick={() => setIsFormActive(true)}> Create Card </button>}
+                    {isFormActive && <form onSubmit={(e) => handleCreateCard(e, columnId, newCardTitle)}>
+                        <input className="long-input" type="text" onChange={(e) => setNewCardTitle(e.target.value)} />
+                    </form>}
+                </div>
             </div>
         </div>
     )
