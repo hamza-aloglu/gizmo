@@ -74,11 +74,11 @@ const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes, co
         }),
     })
 
-    useEffect( () => {
+    useEffect(() => {
         KanbanService.getNotes(id).then(async (response) => {
             const responseNotes = await response.json();
             setNotes(responseNotes);
-        }) ;
+        });
     }, [])
 
     function handleCreateNote(e) {
@@ -99,7 +99,7 @@ const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes, co
 
     function handleDeleteNote(e, noteId) {
         KanbanService.deleteNote(noteId).then(async (response) => {
-            if(response.ok) {
+            if (response.ok) {
                 setNotes(prevNotes => prevNotes.filter(n => n.id != noteId));
             }
         })
@@ -124,17 +124,16 @@ const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes, co
         <div className={`card-wrapper`} ref={ref} style={{ opacity }}>
             <div className="card-title-container" onClick={toggleContent}>
                 {notes && notes.length != 0 && <span className="symbol">↓</span>}
-                {isEditingTitle ? <input type="text" value={cardTitle} onChange={(e) => setCardTitle(e.target.value)} autoFocus onBlur={updateCardTitle} /> :
-                    <h4 className="card-title" onDoubleClick={() => setIsEditingTitle(true)}> {cardTitle}  </h4>}
+                {isEditingTitle
+                    ? <input className="title-edit-input" type="text" value={cardTitle} onChange={(e) => setCardTitle(e.target.value)} autoFocus onBlur={updateCardTitle} />
+                    : <h4 className="card-title" onDoubleClick={() => setIsEditingTitle(true)}> {cardTitle}  </h4>}
             </div>
             {isContentVisible &&
                 <div className="content-wrapper">
                     <div className="notes-wrapper">
                         <hr />
                         {notes && notes.map(note => (
-                            <div key={note.id}>
-                                <Note noteId={note.id} title={note.title} content={note.content} handleDeleteNote={handleDeleteNote} />
-                            </div>
+                            <Note key={note.id} noteId={note.id} title={note.title} content={note.content} handleDeleteNote={handleDeleteNote} />
                         ))}
                     </div>
 

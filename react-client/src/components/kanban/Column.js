@@ -131,7 +131,7 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
 
                 <div className="column-title">
                     {isEditingTitle
-                        ? <input type="text" value={columnTitle} onChange={(e) => setColumnTitle(e.target.value)} autoFocus onBlur={updateColumnTitle} />
+                        ? <input className="title-edit-input" type="text" value={columnTitle} onChange={(e) => setColumnTitle(e.target.value)} autoFocus onBlur={updateColumnTitle} />
                         : <h5 id="board-title" onDoubleClick={() => setIsEditingTitle(true)}> {columnTitle} </h5>}
                 </div>
                 <hr />
@@ -139,7 +139,7 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
                 <div className="create-card-container">
                     {!isFormActive && <button className="long-button" onClick={() => setIsFormActive(true)}> Create Card </button>}
                     {isFormActive && <form onSubmit={(e) => handleCreateCard(e, columnId, newCardTitle)}>
-                        <input className="long-input" type="text" onChange={(e) => setNewCardTitle(e.target.value)} />
+                        <input className="title-edit-input" type="text" onChange={(e) => setNewCardTitle(e.target.value)} />
                     </form>}
                 </div>
             </div>

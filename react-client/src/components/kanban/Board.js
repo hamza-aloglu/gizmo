@@ -115,13 +115,15 @@ const Board = ({ title, boardId }) => {
     return (
         <DndProvider backend={HTML5Backend}>
             <div className="board-wrapper">
-                <div id="board-title-wrapper">
-                    {isEditingTitle
-                        ? <input type="text" value={boardTitle} onChange={(e) => setBoardTitle(e.target.value)} autoFocus onBlur={updateBoardTitle} />
-                        : <h3 id="board-title" onDoubleClick={() => setIsEditingTitle(true)}> {boardTitle} </h3>}
+                <div id="board-header-section">
+                    <div id="board-title-wrapper">
+                        {isEditingTitle
+                            ? <input className="title-edit-input" type="text" value={boardTitle} onChange={(e) => setBoardTitle(e.target.value)} autoFocus onBlur={updateBoardTitle} />
+                            : <h3 id="board-title" onDoubleClick={() => setIsEditingTitle(true)}> {boardTitle} </h3>}
+                    </div>
                 </div>
                 <div id="columns-wrapper">
-                    {kanbanColumns && kanbanColumns.map(kanbanColumn =>  renderColumn(kanbanColumn)
+                    {kanbanColumns && kanbanColumns.map(kanbanColumn => renderColumn(kanbanColumn)
                     )}
 
                     <div className="column-container">
@@ -130,7 +132,7 @@ const Board = ({ title, boardId }) => {
 
                         {isFormActive &&
                             <form onSubmit={handleCreateColumn}>
-                                <input className="long-input" type="text" onChange={(e) => setNewColumnTitle(e.target.value)} />
+                                <input className="title-edit-input" type="text" onChange={(e) => setNewColumnTitle(e.target.value)} />
                             </form>}
                     </div>
                 </div>
