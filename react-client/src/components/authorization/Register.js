@@ -2,7 +2,6 @@ import { useState } from "react";
 import AuthService from "../../services/AuthService";
 import { useNavigate } from "react-router";
 import '../../css/register.css';
-import '../../css/style.css';
 import authorizationServerUrl from "../../authorization/links/authorizationServerUrl";
 import { Link } from 'react-router-dom';
 
@@ -25,7 +24,7 @@ const Register = () => {
     }
 
     return (
-        <div>
+        <div className="register-body">
             <div className="login-page">
                 <div className="form">
                     <h1>Gizmo</h1>

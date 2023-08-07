@@ -3,7 +3,6 @@
     width: 700px;
     padding: 8% 0 0;
     margin: auto;
-    box-sizing: content-box;
 }
 .form {
     position: relative;
@@ -47,16 +46,38 @@
     color: #b3b3b3;
     font-size: 12px;
 }
-.form .error-container {
-    margin: 15px;
-}
 .form .error {
     color: red;
 }
 .form h1 {
     color: #4169E1;
+    margin: 20px;
 }
+
+.form h2 {
+    margin: 17px;
+}
+
 .form .message a {
     color: #4169E1;
     text-decoration: none;
 }
+.register-body {
+    height: 100vh;
+    background: #F5F5DC;
+    font-family: "Roboto", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.link-text {
+    text-decoration: none;
+}
+
+.register-body *,
+.register-body *::before,
+.register-body *::after {
+    box-sizing: content-box;
+}
+
+
+
