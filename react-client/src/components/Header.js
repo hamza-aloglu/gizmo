@@ -10,17 +10,13 @@ const Header = () => {
     return (
         <div className="header-container">
             {isLoggedIn ? (
-                <button className="header-button">
-                    <Link className="link-text" to={"/logout"}> Logout </Link>
-                </button>
+                <div>
+                    <Link className="link-text header-button" to={"/logout"}>logout</Link>
+                </div>
             ) : (
                 <div>
-                    <button className="header-button">
-                        <Link className="link-text" to={"/redirect"}> Login </Link>
-                    </button>
-                    <button className="header-button">
-                        <Link className="link-text" to={"/register"}> Register </Link>
-                    </button>
+                    <Link className="link-text header-button" to={"/redirect"}> Login </Link>
+                    <Link className="link-text header-button" to={"/register"}> Register </Link>
                 </div>
             )}
         </div>
