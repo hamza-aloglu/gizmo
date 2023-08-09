@@ -4,6 +4,8 @@ import ReactModal from 'react-modal';
 import KanbanService from '../../services/KanbanService';
 
 const Note = ({ noteId, title, content, handleDeleteNote }) => {
+    const [noteTitle, setNoteTitle] = useState(title);
+    const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [text, setText] = useState(content);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,6 +15,14 @@ const Note = ({ noteId, title, content, handleDeleteNote }) => {
         ReactModal.setAppElement('body')
     }, [])
 
+    function updateNoteTitle(e) {
+        KanbanService.updateNoteTitle(noteId, noteTitle).then(async (response) => {
+            const result = await response.json();
+            console.log(result);
+        })
+        setIsEditingTitle(false);
+    }
+
     function openModal() {
         setIsModalOpen(true);
     }
@@ -21,7 +31,7 @@ const Note = ({ noteId, title, content, handleDeleteNote }) => {
         setIsModalOpen(false);
     }
 
-    function handleKeyDowns(e) {
+    function handleKeyDownsEditor(e) {
         if (e.key === 'Enter') {
             e.preventDefault();
             setText(prevText => prevText + '\n');
@@ -39,6 +49,12 @@ const Note = ({ noteId, title, content, handleDeleteNote }) => {
         }
     }
 
+    function handleKeyDownsTitle(e) {
+        if (e.key === 'Enter') {
+            updateNoteTitle();
+        }
+    }
+
     function toggleMenu(e) {
         e.preventDefault();
         setIsMenuOpen(!isMenuOpen);
@@ -47,7 +63,7 @@ const Note = ({ noteId, title, content, handleDeleteNote }) => {
 
     return (
         <div className='note-wrapper' onContextMenu={toggleMenu}>
-            <h5 className='note-title' onClick={openModal}> {title} </h5>
+            <h5 className='note-title' onClick={openModal}> {noteTitle} </h5>
 
             {isMenuOpen &&
                 <ul className="dropdown">
@@ -62,15 +78,20 @@ const Note = ({ noteId, title, content, handleDeleteNote }) => {
                 style={{
                     content: {
                         display: 'flex',
+                        flexDirection: 'column',
                         justifyContent: 'center',
                         alignItems: 'center',
                         height: '90%',
                     }
                 }}
             >
+                {isEditingTitle
+                    ? <input className="title-edit-input-short" type="text" value={noteTitle}
+                        onChange={(e) => setNoteTitle(e.target.value)} autoFocus onBlur={updateNoteTitle} onKeyDown={handleKeyDownsTitle} />
+                    : <h3 style={{ display: "inline-block", padding: "10px" }} onDoubleClick={() => setIsEditingTitle(true)}> {noteTitle}  </h3>}
                 <textarea
                     className='note-editor'
-                    onKeyDown={handleKeyDowns}
+                    onKeyDown={handleKeyDownsEditor}
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                 />

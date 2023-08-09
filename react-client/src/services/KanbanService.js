@@ -162,7 +162,6 @@ const KanbanService = {
 
     updateCardIndexes: async (cards) => {
         const cardIndexUpdateRequestList = [];
-        console.log(cards);
         cards.forEach((card, i) => cardIndexUpdateRequestList.push({ "cardId": card.id, "index": i }));
 
         const body = {
@@ -224,6 +223,15 @@ const KanbanService = {
         const url = resourceUrl() + `/notes?cardId=${cardId}`;
         return fetch(url, {
             method: 'GET',
+            mode: 'cors',
+            headers,
+        });
+    },
+
+    updateNoteTitle: async (noteId, title) => {
+        const url = resourceUrl() + `/notes/title?title=${title}&noteId=${noteId}`;
+        return fetch(url, {
+            method: 'PUT',
             mode: 'cors',
             headers,
         });

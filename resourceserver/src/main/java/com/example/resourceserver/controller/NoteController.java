@@ -41,6 +41,13 @@ public class NoteController {
         return noteService.getNotes(cardId);
     }
 
+    @PutMapping("/title")
+    public String updateNoteTitle(@Valid @NotNull @RequestParam Long noteId,
+                                  @Valid @NotNull @RequestParam String title) {
+        noteService.updateNoteTitle(noteId, title);
+        return "Successfully updated note title";
+    }
+
     public NoteService getNoteService() {
         return noteService;
     }

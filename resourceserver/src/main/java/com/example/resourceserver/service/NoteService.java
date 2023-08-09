@@ -81,4 +81,10 @@ public class NoteService {
         List<Note> notes = noteRepository.getAllByCard_Id(cardId);
         return noteMapper.noteListToNoteDtoList(notes);
     }
+
+    public void updateNoteTitle(Long noteId, String title) {
+        Note note = this.getNote(noteId);
+        note.setTitle(title);
+        noteRepository.save(note);
+    }
 }
