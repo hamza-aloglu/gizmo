@@ -47,7 +47,6 @@ const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes, co
                 return
             }
 
-            console.log("updating card...");
             // Time to actually perform the action
             moveCard(dragIndex, hoverIndex);
             item.index = hoverIndex;
@@ -117,6 +116,12 @@ const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes, co
         setIsEditingTitle(false);
     }
 
+    function handleKeyDownsTitle(e) {
+        if (e.key == "Enter") {
+            updateCardTitle();
+        }
+    }
+
     const opacity = isDragging ? 0 : 1
     drag(drop(ref))
 
@@ -125,7 +130,8 @@ const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes, co
             <div className="card-title-container" onClick={toggleContent}>
                 {notes && notes.length != 0 && <span className="symbol">↓</span>}
                 {isEditingTitle
-                    ? <input className="title-edit-input" type="text" value={cardTitle} onChange={(e) => setCardTitle(e.target.value)} autoFocus onBlur={updateCardTitle} />
+                    ? <input className="title-edit-input" type="text" value={cardTitle}
+                        onChange={(e) => setCardTitle(e.target.value)} autoFocus onBlur={updateCardTitle} onKeyDown={handleKeyDownsTitle} />
                     : <h4 className="card-title" onDoubleClick={() => setIsEditingTitle(true)}> {cardTitle}  </h4>}
             </div>
             {isContentVisible &&
@@ -139,7 +145,8 @@ const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes, co
 
                     {!isFormActive && <button className="note-create-button" onClick={() => setIsFormActive(true)}> Create Note </button>}
                     {isFormActive && <form style={{ display: "inline-block" }} onSubmit={handleCreateNote}>
-                        <input className="note-create-input" type="text" onChange={(e) => setNewNoteTitle(e.target.value)} />
+                        <input className="note-create-input" type="text" onChange={(e) => setNewNoteTitle(e.target.value)}
+                            autoFocus onBlur={() => setIsFormActive(false)} />
                     </form>}
 
                     <div className="delete-card-container">

@@ -57,7 +57,7 @@ const Board = ({ title, boardId }) => {
         setIsEditingTitle(false);
     }
 
-    async function updateCardIndexes(updateColumnOfCard) {
+    function updateCardIndexes(updateColumnOfCard) {
         setCards((prevCards) => {
             KanbanService.updateCardIndexes(prevCards).then(async (response) => {
                 if (response.ok) {
@@ -77,13 +77,6 @@ const Board = ({ title, boardId }) => {
 
     const moveCard = useCallback((dragIndex, hoverIndex) => {
         setCards((prevCards) => {
-
-            const draggedCardColumn = prevCards[dragIndex].kanbanColumn;
-            const hoveredCardColumn = prevCards[dragIndex].kanbanColumn;
-            if (draggedCardColumn.id != hoveredCardColumn.id) {
-                prevCards[dragIndex].kanbanColumn = hoveredCardColumn;
-            }
-
             return update(prevCards, {
                 $splice: [
                     [dragIndex, 1],
@@ -93,6 +86,12 @@ const Board = ({ title, boardId }) => {
 
         })
     }, [])
+
+    function handleKeyDownsTitle(e) {
+        if (e.key == "Enter") {
+            updateBoardTitle();
+        }
+    }
 
 
     const renderColumn = useCallback((column) => {
@@ -118,7 +117,8 @@ const Board = ({ title, boardId }) => {
                 <div id="board-header-section">
                     <div id="board-title-wrapper">
                         {isEditingTitle
-                            ? <input className="title-edit-input" type="text" value={boardTitle} onChange={(e) => setBoardTitle(e.target.value)} autoFocus onBlur={updateBoardTitle} />
+                            ? <input className="title-edit-input" type="text" value={boardTitle}
+                                onChange={(e) => setBoardTitle(e.target.value)} autoFocus onBlur={updateBoardTitle} onKeyDown={handleKeyDownsTitle} />
                             : <h3 id="board-title" onDoubleClick={() => setIsEditingTitle(true)}> {boardTitle} </h3>}
                     </div>
                 </div>
@@ -132,7 +132,8 @@ const Board = ({ title, boardId }) => {
 
                         {isFormActive &&
                             <form onSubmit={handleCreateColumn}>
-                                <input className="title-edit-input" type="text" onChange={(e) => setNewColumnTitle(e.target.value)} />
+                                <input className="title-edit-input" type="text" onChange={(e) => setNewColumnTitle(e.target.value)}
+                                    autoFocus onBlur={() => setIsFormActive(false)} />
                             </form>}
                     </div>
                 </div>

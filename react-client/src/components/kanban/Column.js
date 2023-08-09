@@ -41,10 +41,10 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
                     ],
                 });
 
-                // Why I don't have to populate item in here but I had to in moving cards?
-                item.index = prevCards.length - 1;
-                item.initialDragIndex = prevCards.length - 1;
-                item.columnId = columnId;
+                // Why I don't have to populate item in here but I had to after moveCard?
+                // item.index = prevCards.length - 1;
+                // item.initialDragIndex = prevCards.length - 1;
+                // item.columnId = columnId;
 
                 return resultCards;
             });
@@ -85,6 +85,12 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
             console.log(result);
         });
         setIsEditingTitle(false);
+    }
+
+    function handleKeyDownsTitle(e) {
+        if (e.key == "Enter") {
+            updateColumnTitle();
+        }
     }
 
     const renderCard = useCallback((card, index) => {
@@ -131,7 +137,8 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
 
                 <div className="column-title">
                     {isEditingTitle
-                        ? <input className="title-edit-input" type="text" value={columnTitle} onChange={(e) => setColumnTitle(e.target.value)} autoFocus onBlur={updateColumnTitle} />
+                        ? <input className="title-edit-input" type="text" value={columnTitle}
+                            onChange={(e) => setColumnTitle(e.target.value)} autoFocus onBlur={updateColumnTitle} onKeyDown={handleKeyDownsTitle} />
                         : <h5 id="board-title" onDoubleClick={() => setIsEditingTitle(true)}> {columnTitle} </h5>}
                 </div>
                 <hr />
@@ -139,7 +146,8 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
                 <div className="create-card-container">
                     {!isFormActive && <button className="long-button" onClick={() => setIsFormActive(true)}> Create Card </button>}
                     {isFormActive && <form onSubmit={(e) => handleCreateCard(e, columnId, newCardTitle)}>
-                        <input className="title-edit-input" type="text" onChange={(e) => setNewCardTitle(e.target.value)} />
+                        <input className="title-edit-input" type="text" onChange={(e) => setNewCardTitle(e.target.value)}
+                            autoFocus onBlur={() => setIsFormActive(false)} />
                     </form>}
                 </div>
             </div>
