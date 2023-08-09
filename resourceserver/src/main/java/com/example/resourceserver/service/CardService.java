@@ -118,11 +118,6 @@ public class CardService {
 
     public void updateColumnOfCard(CardColumnUpdateRequest cardColumnUpdateRequest) {
         Card card = this.getCardById(cardColumnUpdateRequest.getCardId());
-        Long sourceColumnId = card.getKanbanColumn().getId();
-        if (!kanbanColumnService.isKanbanColumnExistsById(sourceColumnId)) {
-            throw new NotFoundException("source column not found with id: " + sourceColumnId);
-        }
-
         KanbanColumn targetColumn = kanbanColumnService.getKanbanColumnById(cardColumnUpdateRequest.getTargetColumnId());
         card.setKanbanColumn(targetColumn);
         cardRepository.save(card);
