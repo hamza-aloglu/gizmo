@@ -75,6 +75,14 @@ const Board = ({ title, boardId }) => {
         });
     }
 
+    function handleCardTitleUpdate(cardIndex, newTitle) {
+        setCards(prevCards => {
+            const updatedCards = [...prevCards];
+            updatedCards[cardIndex].title = newTitle;
+            return updatedCards;
+        });
+    }
+
     const moveCard = useCallback((dragIndex, hoverIndex) => {
         setCards((prevCards) => {
             return update(prevCards, {
@@ -107,6 +115,7 @@ const Board = ({ title, boardId }) => {
                 moveCard={moveCard}
                 updateCardIndexes={updateCardIndexes}
                 handleDeleteColumn={handleDeleteColumn}
+                handleCardTitleUpdate={handleCardTitleUpdate}
             />
         )
     })

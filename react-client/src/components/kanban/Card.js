@@ -5,10 +5,10 @@ import '../../css/kanban/Card.css';
 import { useDrag, useDrop } from "react-dnd";
 import { ItemTypes } from "../../ItemTypes";
 
-const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes, columnId, handleDeleteCard }) => {
+const Card = ({ title, index, id, moveCard, updateCardIndexes, columnId, handleDeleteCard, handleCardTitleUpdate }) => {
     const [cardTitle, setCardTitle] = useState(title);
     const [isEditingTitle, setIsEditingTitle] = useState(false);
-    const [notes, setNotes] = useState(notesResponse);
+    const [notes, setNotes] = useState([]);
     const [isFormActive, setIsFormActive] = useState(false);
     const [newNoteTitle, setNewNoteTitle] = useState("");
     const [isContentVisible, setIsContentVisible] = useState(false);
@@ -122,6 +122,10 @@ const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes, co
         }
     }
 
+    function handleCardTitleChange(e) {
+        setCardTitle(e.target.value);
+        handleCardTitleUpdate(index, e.target.value);
+    }
     const opacity = isDragging ? 0 : 1
     drag(drop(ref))
 
@@ -131,7 +135,7 @@ const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes, co
                 {notes && notes.length != 0 && <span className="symbol">↓</span>}
                 {isEditingTitle
                     ? <input className="title-edit-input" type="text" value={cardTitle}
-                        onChange={(e) => setCardTitle(e.target.value)} autoFocus onBlur={updateCardTitle} onKeyDown={handleKeyDownsTitle} />
+                        onChange={(e) => handleCardTitleChange(e)} autoFocus onBlur={updateCardTitle} onKeyDown={handleKeyDownsTitle} />
                     : <h4 className="card-title" onDoubleClick={() => setIsEditingTitle(true)}> {cardTitle}  </h4>}
             </div>
             {isContentVisible &&
@@ -139,7 +143,8 @@ const Card = ({ title, notesResponse, index, id, moveCard, updateCardIndexes, co
                     <div className="notes-wrapper">
                         <hr />
                         {notes && notes.map(note => (
-                            <Note key={note.id} noteId={note.id} title={note.title} content={note.content} handleDeleteNote={handleDeleteNote} />
+                            <Note key={note.id} noteId={note.id} title={note.title} content={note.content}
+                                handleDeleteNote={handleDeleteNote} />
                         ))}
                     </div>
 

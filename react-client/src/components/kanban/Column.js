@@ -6,7 +6,7 @@ import { useDrop } from "react-dnd";
 import { ItemTypes } from "../../ItemTypes";
 import update from "immutability-helper";
 
-const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, moveCard, updateCardIndexes, handleDeleteColumn }) => {
+const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, moveCard, updateCardIndexes, handleDeleteColumn, handleCardTitleUpdate }) => {
     const [columnTitle, setColumnTitle] = useState(title);
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [isFormActive, setIsFormActive] = useState(false);
@@ -29,22 +29,19 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
 
             // move column of card.
             setAllCards(prevCards => {
-                const draggedCard = prevCards[item.index];
-                draggedCard.kanbanColumn = columnObject;
+
+                const updatedCards = JSON.parse(JSON.stringify(prevCards));
+
+                updatedCards[item.index].kanbanColumn = columnObject;
 
                 // Whenever a card moves to another column
                 // its index is updated to be the last element and other elements splice before that
-                const resultCards = update(prevCards, {
+                const resultCards = update(updatedCards, {
                     $splice: [
                         [item.index, 1],
-                        [prevCards.length - 1, 0, prevCards[item.index]],
+                        [updatedCards.length - 1, 0, updatedCards[item.index]],
                     ],
                 });
-
-                // Why I don't have to populate item in here but I had to after moveCard?
-                // item.index = prevCards.length - 1;
-                // item.initialDragIndex = prevCards.length - 1;
-                // item.columnId = columnId;
 
                 return resultCards;
             });
@@ -105,6 +102,7 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
                     updateCardIndexes={updateCardIndexes}
                     columnId={columnId}
                     handleDeleteCard={handleDeleteCard}
+                    handleCardTitleUpdate={handleCardTitleUpdate}
                 />
             );
         }
