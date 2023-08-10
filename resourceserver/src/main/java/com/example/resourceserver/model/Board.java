@@ -1,20 +1,19 @@
 package com.example.resourceserver.model;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import com.example.resourceserver.listener.BoardListener;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.List;
 
 @Entity
+@EntityListeners(BoardListener.class)
 public class Board extends BaseModel {
     private String title;
     @NotNull
     private String username;
-    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<KanbanColumn> kanbanColumns;
 
     public Board() {
