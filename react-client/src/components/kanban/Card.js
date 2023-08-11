@@ -85,12 +85,7 @@ const Card = ({ title, index, id, moveCard, updateCardIndexes, columnId, handleD
         KanbanService.createNote(newNoteTitle, id).then(async (response) => {
             const note = await response.json(); // deserialize data.
             if (response.ok) {
-                const newNotes = [];
-                if (notes != null) {
-                    newNotes.push(...notes);
-                }
-                newNotes.push(note);
-                setNotes(newNotes);
+                setNotes(prevNotes => [...prevNotes, note]);
             }
         });
         setIsFormActive(false);
@@ -110,8 +105,6 @@ const Card = ({ title, index, id, moveCard, updateCardIndexes, columnId, handleD
 
     function updateCardTitle(e) {
         KanbanService.updateCardTitle(cardTitle, id).then(async (response) => {
-            const result = await response.json();
-            console.log(result);
         });
         setIsEditingTitle(false);
     }
@@ -124,6 +117,7 @@ const Card = ({ title, index, id, moveCard, updateCardIndexes, columnId, handleD
 
     function handleCardTitleChange(e) {
         setCardTitle(e.target.value);
+        // Synchronize title within cards state and with title state.
         handleCardTitleUpdate(index, e.target.value);
     }
     const opacity = isDragging ? 0 : 1

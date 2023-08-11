@@ -78,8 +78,6 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
 
     function updateColumnTitle(e) {
         KanbanService.updateColumnTitle(columnTitle, columnId).then(async (response) => {
-            const result = await response.json();
-            console.log(result);
         });
         setIsEditingTitle(false);
     }

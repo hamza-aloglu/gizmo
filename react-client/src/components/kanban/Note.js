@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import '../../css/kanban/Note.css';
 import ReactModal from 'react-modal';
 import KanbanService from '../../services/KanbanService';
+import Info from '../notification/Info';
 
 const Note = ({ noteId, title, content, handleDeleteNote }) => {
     const [noteTitle, setNoteTitle] = useState(title);
@@ -9,6 +10,7 @@ const Note = ({ noteId, title, content, handleDeleteNote }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [text, setText] = useState(content);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [notficationMessage, setNotificationMessage] = useState(null);
 
     useEffect(() => {
         setText(content)
@@ -17,8 +19,6 @@ const Note = ({ noteId, title, content, handleDeleteNote }) => {
 
     function updateNoteTitle(e) {
         KanbanService.updateNoteTitle(noteId, noteTitle).then(async (response) => {
-            const result = await response.json();
-            console.log(result);
         })
         setIsEditingTitle(false);
     }
@@ -42,8 +42,10 @@ const Note = ({ noteId, title, content, handleDeleteNote }) => {
             e.preventDefault();
             KanbanService.updateNoteContent(text, noteId).then(async (response) => {
                 if (response.ok) {
-                    // popup
-                    console.log("note content updated");
+                    setNotificationMessage("content has saved");
+                    setTimeout(() => {
+                        setNotificationMessage(null);
+                    }, 1400);
                 }
             });
         }
@@ -60,6 +62,8 @@ const Note = ({ noteId, title, content, handleDeleteNote }) => {
         setIsMenuOpen(!isMenuOpen);
         console.log("inside context menu");
     }
+
+    const isNotificationVisible = notficationMessage ? "visible" : "hidden";
 
     return (
         <div className='note-wrapper' onContextMenu={toggleMenu}>
@@ -85,6 +89,9 @@ const Note = ({ noteId, title, content, handleDeleteNote }) => {
                     }
                 }}
             >
+                <div style={{visibility: isNotificationVisible}}>
+                    <Info message={notficationMessage} />
+                </div>
                 {isEditingTitle
                     ? <input className="title-edit-input-short" type="text" value={noteTitle}
                         onChange={(e) => setNoteTitle(e.target.value)} autoFocus onBlur={updateNoteTitle} onKeyDown={handleKeyDownsTitle} />

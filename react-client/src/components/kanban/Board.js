@@ -47,12 +47,6 @@ const Board = ({ title, boardId }) => {
 
     function updateBoardTitle(e) {
         KanbanService.updateBoardTitle(boardTitle, boardId).then(async (response) => {
-            const result = await response.json
-            console.log(result);
-            if (response.ok) {
-                // create pop-up
-                console.log("successfully updated board title");
-            }
         });
         setIsEditingTitle(false);
     }
