@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../../css/kanban/Note.css';
 import ReactModal from 'react-modal';
 import KanbanService from '../../services/KanbanService';
@@ -9,11 +9,13 @@ const Note = ({ noteId, title, content, handleDeleteNote }) => {
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [text, setText] = useState(content);
+    const prevTextRef = useRef();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [notficationMessage, setNotificationMessage] = useState(null);
 
     useEffect(() => {
         setText(content)
+        prevTextRef.current = content;
         ReactModal.setAppElement('body')
     }, [])
 
@@ -40,14 +42,17 @@ const Note = ({ noteId, title, content, handleDeleteNote }) => {
         // ctrl + s
         if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey) && e.keyCode === 83) {
             e.preventDefault();
-            KanbanService.updateNoteContent(text, noteId).then(async (response) => {
-                if (response.ok) {
-                    setNotificationMessage("content has saved");
-                    setTimeout(() => {
-                        setNotificationMessage(null);
-                    }, 1400);
-                }
-            });
+            if(prevTextRef.current != text) {
+                KanbanService.updateNoteContent(text, noteId).then(async (response) => {
+                    if (response.ok) {
+                        setNotificationMessage("content has saved");
+                        prevTextRef.current = text;
+                        setTimeout(() => {
+                            setNotificationMessage(null);
+                        }, 1400);
+                    }
+                });
+            }
         }
     }
 
