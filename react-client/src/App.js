@@ -6,7 +6,6 @@ import  Redirect  from './components/authorization/Redirect';
 import Logout from './components/authorization/Logout';
 import Register from './components/authorization/Register';
 import PrivateRoute from './authorization/PrivateRoute';
-import Board from './components/kanban/Board';
 import BoardPage from './components/kanban/BoardPage';
 
 

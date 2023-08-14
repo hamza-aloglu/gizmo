@@ -7,6 +7,8 @@
     flex: 1;
     max-width: 25%;
     padding: 10px;
+    display: flex;
+    gap: 60px;
 }
 
 #board-title {
@@ -14,3 +16,49 @@
     font-size: 1.4em;
 }
 
+.sidebar-toggle-btn {
+    background: linear-gradient(45deg, #143bb8, #393b74, #181843);
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    font-weight: bold;
+}
+
+.sidebar-toggle-btn:hover {
+    background: linear-gradient(45deg, #C06C84, #F67280, #6C5B7B);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
+.sidebar-toggle-btn:active {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(1px);
+}
+
+.arrow-icon-right {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 8px solid white;
+    /* Adjust color as needed */
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+}
+
+.arrow-icon-left {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: none;
+    border-right: 8px solid white;
+    /* Adjust color as needed */
+    /* Adjust color as needed */
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+}

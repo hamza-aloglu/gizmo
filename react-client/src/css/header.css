@@ -1,32 +1,33 @@
 body {
-    margin: 0;
+  margin: 0;
 }
 
 .header-container {
-    display: flex;
-    align-items: center;
-    justify-content: end;
-    padding: 16px;
-    background-color: #4682A9;
-  }
-  
-  .header-title {
-    font-size: 24px;
-    margin: 0;
-  }
-  
-  .header-button {
-    margin-left: 10px;
-    padding: 8px 16px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    background-color: #F6F4EB;
-    color: black;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .header-button:hover {
-    background-color: #45a049;
-  }
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 16px;
+  background-color: #4682A9;
+}
+
+.header-title {
+  font-size: 24px;
+  margin: 0;
+}
+
+.header-button {
+  margin-left: 10px;
+  padding: 8px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #F6F4EB;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.header-button:hover {
+  background-color: #45a049;
+}

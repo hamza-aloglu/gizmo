@@ -1,0 +1,62 @@
+.container {
+    display: flex;
+    transition: all 0.3s ease;
+    /* Enable horizontal scrolling */
+    overflow-x: auto;
+}
+
+.sidebar {
+    width: 0;
+    transition: width 0.3s ease;
+    visibility: hidden;
+
+    background: rgb(47, 151, 204);
+    background: -moz-linear-gradient(90deg, rgba(47, 151, 204, 1) 0%, rgba(145, 200, 228, 1) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(47, 151, 204, 1) 0%, rgba(145, 200, 228, 1) 100%);
+    background: linear-gradient(90deg, rgba(47, 151, 204, 1) 0%, rgba(145, 200, 228, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#2f97cc", endColorstr="#91c8e4", GradientType=1);
+
+    position: absolute;
+    top: 60px;
+    bottom: 0;
+    left: 0;
+    z-index: 99;
+
+    border-right: 1px solid black;
+}
+
+.sidebar.open {
+    width: 200px;
+    visibility: visible;
+}
+
+.sidebar-space {
+    margin-left: 200px;
+}
+
+#username-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 60%;
+    font-size: x-large;
+}
+
+.boards {
+    margin-top: 40%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.board-button {
+    width: 70%;
+    border-radius: 10px;
+    height: 28px;
+    background-color: #F6F4EB;
+
+}
+
+.board-button:hover {
+    background-color: #edf1fa;
+}

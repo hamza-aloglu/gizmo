@@ -46,6 +46,11 @@ const AuthService = {
             body: JSON.stringify(body),
         });
     },
+
+    generateUsername:  () => {
+        const token = sessionStorage.getItem(process.env.REACT_APP_TOKEN);
+        return jwt_decode(token).sub;
+    },
 }
 
 export default AuthService;

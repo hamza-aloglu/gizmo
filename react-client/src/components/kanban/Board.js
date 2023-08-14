@@ -6,7 +6,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import update from "immutability-helper";
 
-const Board = ({ title, boardId }) => {
+const Board = ({ title, boardId, showSidebar, setShowSidebar }) => {
     const [boardTitle, setBoardTitle] = useState(title);
     const [kanbanColumns, setKanbanColumns] = useState([]);
     const [cards, setCards] = useState([]);
@@ -119,25 +119,35 @@ const Board = ({ title, boardId }) => {
             <div className="board-wrapper">
                 <div id="board-header-section">
                     <div id="board-title-wrapper">
+                        <div>
+                            <button className="sidebar-toggle-btn"
+                                onClick={() => setShowSidebar(!showSidebar)}
+                                title="toggle sidebar"
+                            >
+                                {showSidebar ? <span className="arrow-icon-left"></span> : <span className="arrow-icon-right"></span>}
+                            </button>
+                        </div>
                         {isEditingTitle
                             ? <input className="title-edit-input" type="text" value={boardTitle}
                                 onChange={(e) => setBoardTitle(e.target.value)} autoFocus onBlur={updateBoardTitle} onKeyDown={handleKeyDownsTitle} />
                             : <h3 id="board-title" onDoubleClick={() => setIsEditingTitle(true)}> {boardTitle} </h3>}
                     </div>
                 </div>
-                <div id="columns-wrapper">
-                    {kanbanColumns && kanbanColumns.map(kanbanColumn => renderColumn(kanbanColumn)
-                    )}
+                <div className="container">
+                    <div id="columns-wrapper">
+                        {kanbanColumns && kanbanColumns.map(kanbanColumn => renderColumn(kanbanColumn)
+                        )}
 
-                    <div className="column-container">
-                        {!isFormActive &&
-                            <button className="long-button" onClick={() => setIsFormActive(true)}> Create Column </button>}
+                        <div className="column-container">
+                            {!isFormActive &&
+                                <button className="long-button" onClick={() => setIsFormActive(true)}> Create Column </button>}
 
-                        {isFormActive &&
-                            <form onSubmit={handleCreateColumn}>
-                                <input className="title-edit-input" type="text" onChange={(e) => setNewColumnTitle(e.target.value)}
-                                    autoFocus onBlur={() => setIsFormActive(false)} />
-                            </form>}
+                            {isFormActive &&
+                                <form onSubmit={handleCreateColumn}>
+                                    <input className="title-edit-input" type="text" onChange={(e) => setNewColumnTitle(e.target.value)}
+                                        autoFocus onBlur={() => setIsFormActive(false)} />
+                                </form>}
+                        </div>
                     </div>
                 </div>
             </div>
