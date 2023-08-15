@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import  Home  from './components/Home';
-import Welcome from './components/Welcome';
+import Profile from './components/Profile';
 import  Redirect  from './components/authorization/Redirect';
 import Logout from './components/authorization/Logout';
 import Register from './components/authorization/Register';
@@ -22,7 +22,7 @@ function App() {
           <Route path='/home' element={ <Home /> } />
 
           <Route path='/' element={<PrivateRoute/>}>
-            <Route path='/' element={<Welcome/>}/>
+            <Route path='/' element={<Profile/>}/>
           </Route>
 
           <Route path='/logout' element={<Logout />} />

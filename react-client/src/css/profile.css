@@ -1,0 +1,48 @@
+.profile-wrapper {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:  calc(100vh - 60px);
+    width: 100vw;
+    position: absolute;
+    top: 60px;
+    left: 0;
+}
+
+.profile-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    width: 40%;
+    /* You can adjust this as needed */
+}
+
+.box {
+    width: 120px;
+    /* Width of each box */
+    height: 70px;
+    /* Height of each box */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #55c5e0;
+    border: 1px solid #bbb;
+}
+
+.box:hover {
+    background-color: #b4f0d9;
+    cursor: pointer;
+}
+
+.create-box {
+    width: 90%;
+    height: 50px;
+}
+
+#welcome-username {
+    margin: 40px;
+    font-size: xx-large;
+
+}
