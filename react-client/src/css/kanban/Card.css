@@ -40,3 +40,36 @@
     cursor: pointer;
     background-color: crimson;
 }
+
+.content-wrapper {
+    position: relative;
+}
+
+.arrow-button {
+    background-color: transparent;
+    color: green;
+    border: none;
+    font-size: 20px; /* adjust as needed */
+    cursor: pointer;
+    outline: none;
+    font-size: 30px;
+    transition: font-size 0.3s ease-in-out; /* added transition for smooth animation */
+
+}
+.arrow-button:hover {
+    color: blue; 
+    font-size: 35px;
+}
+
+.set-for-tomorrow-container {
+    display: flex;
+    justify-content: end;
+}
+
+.set-for-tomorrow-container span {
+    font-size: smaller;
+}
+
+.green-shadow {
+    box-shadow: 0px 0px 15px 0px green;
+}

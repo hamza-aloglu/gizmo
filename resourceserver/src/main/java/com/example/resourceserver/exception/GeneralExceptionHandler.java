@@ -12,4 +12,10 @@ public class GeneralExceptionHandler {
         System.out.println(notFoundException.getMessage());
         return new ResponseEntity<>(notFoundException.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(value = AlreadyReportedException.class)
+    public ResponseEntity<?> handleAlreadyReportedException(AlreadyReportedException ex) {
+        System.out.println(ex.getMessage());
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.ALREADY_REPORTED);
+    }
 }

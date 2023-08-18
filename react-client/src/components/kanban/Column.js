@@ -6,7 +6,8 @@ import { useDrop } from "react-dnd";
 import { ItemTypes } from "../../ItemTypes";
 import update from "immutability-helper";
 
-const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, moveCard, updateCardIndexes, handleDeleteColumn, handleCardTitleUpdate }) => {
+const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, moveCard, updateCardIndexes,
+     handleDeleteColumn, handleCardTitleUpdate, handleColumnTitleUpdate, colIndex, toggleSetForTomorrow }) => {
     const [columnTitle, setColumnTitle] = useState(title);
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [isFormActive, setIsFormActive] = useState(false);
@@ -79,6 +80,7 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
     function updateColumnTitle(e) {
         KanbanService.updateColumnTitle(columnTitle, columnId).then(async (response) => {
         });
+        handleColumnTitleUpdate(colIndex, columnTitle);
         setIsEditingTitle(false);
     }
 
@@ -96,11 +98,14 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
                     index={index}
                     id={card.id}
                     title={card.title}
+                    setForTomorrow={card.setForTomorrow}
+
                     moveCard={moveCard}
                     updateCardIndexes={updateCardIndexes}
                     columnId={columnId}
                     handleDeleteCard={handleDeleteCard}
                     handleCardTitleUpdate={handleCardTitleUpdate}
+                    toggleSetForTomorrow={toggleSetForTomorrow}
                 />
             );
         }

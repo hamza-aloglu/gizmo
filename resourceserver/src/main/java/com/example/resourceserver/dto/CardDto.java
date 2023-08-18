@@ -8,6 +8,7 @@ public class CardDto {
     private List<NoteDto> notes;
     private CardDto masterCard;
     private int index;
+    private boolean isSetForTomorrow;
 
     private KanbanColumnDto kanbanColumn;
 
@@ -61,5 +62,13 @@ public class CardDto {
 
     public void setKanbanColumn(KanbanColumnDto kanbanColumn) {
         this.kanbanColumn = kanbanColumn;
+    }
+
+    public boolean isSetForTomorrow() {
+        return isSetForTomorrow;
+    }
+
+    public void setSetForTomorrow(boolean setForTomorrow) {
+        isSetForTomorrow = setForTomorrow;
     }
 }

@@ -5,7 +5,7 @@ import '../../css/kanban/Card.css';
 import { useDrag, useDrop } from "react-dnd";
 import { ItemTypes } from "../../ItemTypes";
 
-const Card = ({ title, index, id, moveCard, updateCardIndexes, columnId, handleDeleteCard, handleCardTitleUpdate }) => {
+const Card = ({ title, index, id, moveCard, updateCardIndexes, columnId, handleDeleteCard, handleCardTitleUpdate, toggleSetForTomorrow, setForTomorrow }) => {
     const [cardTitle, setCardTitle] = useState(title);
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [notes, setNotes] = useState([]);
@@ -103,6 +103,10 @@ const Card = ({ title, index, id, moveCard, updateCardIndexes, columnId, handleD
         setIsContentVisible(!isContentVisible);
     }
 
+    function handleSetForTomorrowClick(e) {
+        toggleSetForTomorrow(index);
+    }
+
     function updateCardTitle(e) {
         KanbanService.updateCardTitle(cardTitle, id).then(async (response) => {
         });
@@ -123,8 +127,15 @@ const Card = ({ title, index, id, moveCard, updateCardIndexes, columnId, handleD
     const opacity = isDragging ? 0 : 1
     drag(drop(ref))
 
+    let greenShadow = "";
+    if(setForTomorrow) {
+        greenShadow = "green-shadow";
+    }
+
+    console.log(setForTomorrow);
+
     return (
-        <div className={`card-wrapper`} ref={ref} style={{ opacity }}>
+        <div className={`card-wrapper ${greenShadow}`} ref={ref} style={{ opacity }}>
             <div className="card-title-container" onClick={toggleContent}>
                 {notes && notes.length != 0 && <span className="symbol">↓</span>}
                 {isEditingTitle
@@ -140,6 +151,10 @@ const Card = ({ title, index, id, moveCard, updateCardIndexes, columnId, handleD
                             <Note key={note.id} noteId={note.id} title={note.title} content={note.content}
                                 handleDeleteNote={handleDeleteNote} />
                         ))}
+                    </div>
+
+                    <div className="set-for-tomorrow-container">
+                        <button onClick={handleSetForTomorrowClick} className="arrow-button">&#9654;</button>
                     </div>
 
                     {!isFormActive && <button className="note-create-button" onClick={() => setIsFormActive(true)}> Create Note </button>}

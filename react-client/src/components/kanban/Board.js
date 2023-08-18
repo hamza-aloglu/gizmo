@@ -5,6 +5,7 @@ import "../../css/kanban/Board.css";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import update from "immutability-helper";
+import DateUtils from "../../utils/DateUtils";
 
 const Board = ({ title, boardId, showSidebar, setShowSidebar }) => {
     const [boardTitle, setBoardTitle] = useState(title);
@@ -77,6 +78,52 @@ const Board = ({ title, boardId, showSidebar, setShowSidebar }) => {
         });
     }
 
+    function handleColumnTitleUpdate(columnIndex, newTitle) {
+        setKanbanColumns(prevCols => {
+            const updatedCols = [...prevCols];
+            updatedCols[columnIndex].title = newTitle;
+            return updatedCols;
+        });
+    }
+
+    function toggleSetForTomorrow(cardIndex) {
+        setCards(prevCards => {
+            const tmpCards = JSON.parse(JSON.stringify(prevCards));
+
+            const isSetForTomorrow = tmpCards[cardIndex].setForTomorrow;
+            const cardId = tmpCards[cardIndex].id;
+            console.log(cardId);
+
+            if (isSetForTomorrow) {
+                // unset db.
+                tmpCards[cardIndex].setForTomorrow = false;
+                console.log("inside unset");
+                KanbanService.unsetColumnOfCardScheduled(cardId).then(async (response) => {
+                    if (response.ok) {
+                        console.log("set for tomorrow")
+                        
+                    }
+                })
+
+            }
+            else {
+                tmpCards[cardIndex].setForTomorrow = true;
+                const scheduleTime = DateUtils.getTomorrowDate();
+                const doingColumn = kanbanColumns.find(c => c.title == "doing");
+                const targetId = doingColumn ? doingColumn.id : null;
+
+                KanbanService.updateColumnOfCardScheduled(cardId, targetId, scheduleTime).then(async (response) => {
+                    if (response.ok) {
+                        console.log("set for tomorrow")
+                        
+                    }
+                });
+            }
+            return tmpCards;
+        })
+
+    }
+
     const moveCard = useCallback((dragIndex, hoverIndex) => {
         setCards((prevCards) => {
             return update(prevCards, {
@@ -96,13 +143,14 @@ const Board = ({ title, boardId, showSidebar, setShowSidebar }) => {
     }
 
 
-    const renderColumn = useCallback((column) => {
+    const renderColumn = useCallback((column, i) => {
         return (
             <Column
                 key={column.id}
                 columnId={column.id}
                 title={column.title}
                 restrictedKanbanColumns={column.restrictedKanbanColumns}
+                colIndex={i}
 
                 cards={cards}
                 setAllCards={setCards}
@@ -110,6 +158,8 @@ const Board = ({ title, boardId, showSidebar, setShowSidebar }) => {
                 updateCardIndexes={updateCardIndexes}
                 handleDeleteColumn={handleDeleteColumn}
                 handleCardTitleUpdate={handleCardTitleUpdate}
+                handleColumnTitleUpdate={handleColumnTitleUpdate}
+                toggleSetForTomorrow={toggleSetForTomorrow}
             />
         )
     })
@@ -135,7 +185,7 @@ const Board = ({ title, boardId, showSidebar, setShowSidebar }) => {
                 </div>
                 <div className="container">
                     <div id="columns-wrapper">
-                        {kanbanColumns && kanbanColumns.map(kanbanColumn => renderColumn(kanbanColumn)
+                        {kanbanColumns && kanbanColumns.map((kanbanColumn, i) => renderColumn(kanbanColumn, i)
                         )}
 
                         <div className="column-container">

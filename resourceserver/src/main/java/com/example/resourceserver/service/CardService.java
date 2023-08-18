@@ -4,18 +4,21 @@ import com.example.resourceserver.dto.CardColumnUpdateRequest;
 import com.example.resourceserver.dto.CardCreateRequest;
 import com.example.resourceserver.dto.CardDto;
 import com.example.resourceserver.dto.CardIndexUpdateRequest;
+import com.example.resourceserver.exception.AlreadyReportedException;
 import com.example.resourceserver.exception.NotFoundException;
 import com.example.resourceserver.mapper.CardMapper;
 import com.example.resourceserver.model.Card;
 import com.example.resourceserver.model.KanbanColumn;
 import com.example.resourceserver.repository.CardRepository;
 import org.mapstruct.factory.Mappers;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalInt;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class CardService {
@@ -123,6 +126,21 @@ public class CardService {
         cardRepository.save(card);
     }
 
+    public void updateColumnOfCardScheduled(CardColumnUpdateRequest cardColumnUpdateRequest, Date date) {
+        Card card = this.getCardById(cardColumnUpdateRequest.getCardId());
+        if (card.isSetForTomorrow()) {
+            throw new AlreadyReportedException("This card is already set for tomorrow");
+        }
+        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        long delayTimeSeconds = (date.getTime() - System.currentTimeMillis()) / 1000;
+        executorService.schedule(() -> updateColumnOfCard(cardColumnUpdateRequest), delayTimeSeconds, TimeUnit.SECONDS);
+
+        card.setSetForTomorrow(true);
+        cardRepository.save(card);
+
+        executorService.shutdown();
+    }
+
     public void updateCards(List<CardIndexUpdateRequest> cardRequests) {
         List<Card> cards = cardRequests.stream()
                 .map(request -> {
@@ -139,7 +157,6 @@ public class CardService {
                 .map(Optional::get)
                 .toList();
 
-        //save that list.
         cardRepository.saveAll(cards);
     }
 
@@ -159,4 +176,9 @@ public class CardService {
         this.kanbanColumnService = kanbanColumnService;
     }
 
+    public void unsetColumnOfCardScheduled(Long cardId) {
+        Card card = this.getCardById(cardId);
+        card.setSetForTomorrow(false);
+        cardRepository.save(card);
+    }
 }

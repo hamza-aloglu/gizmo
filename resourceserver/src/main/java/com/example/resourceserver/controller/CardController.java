@@ -7,8 +7,10 @@ import com.example.resourceserver.dto.CardIndexUpdateRequestList;
 import com.example.resourceserver.service.CardService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -60,6 +62,19 @@ public class CardController {
         return "Successfully updated column of the card";
     }
 
+    @PutMapping("/column/schedule")
+    public String updateColumnOfCardScheduled(@RequestBody @Valid CardColumnUpdateRequest cardColumnUpdateRequest,
+                                              @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")Date date) {
+        cardService.updateColumnOfCardScheduled(cardColumnUpdateRequest, date);
+        return "Card will be updated at: " + date;
+    }
+
+    @PutMapping("/column/schedule/unset")
+    public String unsetColumnOfCardScheduled(@RequestBody CardColumnUpdateRequest cardColumnUpdateRequest) {
+
+        cardService.unsetColumnOfCardScheduled(cardColumnUpdateRequest.getCardId());
+        return "unsetted";
+    }
 
     public CardService getCardService() {
         return cardService;

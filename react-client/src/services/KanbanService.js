@@ -236,6 +236,36 @@ const KanbanService = {
             headers,
         });
     },
+
+    updateColumnOfCardScheduled: async (cardId, columnId, scheduleTime) => {
+        const body = {
+            "targetColumnId": columnId,
+            "cardId": cardId,
+        }
+
+        const url = resourceUrl() + `/cards/column/schedule?date=${scheduleTime}`;
+        return fetch(url, {
+            method: 'PUT',
+            mode: "cors",
+            headers,
+            body: JSON.stringify(body)
+        });
+    },
+
+    unsetColumnOfCardScheduled: async (cardId) => {
+        const body = {
+            "cardId": cardId,
+            "targetColumnId": 1,
+        }
+
+        const url = resourceUrl() + `/cards/column/schedule/unset`;
+        return fetch(url, {
+            method: 'PUT',
+            mode: "cors",
+            headers,
+            body: JSON.stringify(body)
+        });
+    },
 }
 
 export default KanbanService;

@@ -17,7 +17,6 @@ const BoardPage = () => {
     useEffect(() => {
         KanbanService.fetchBoards().then(async (response) => {
             const responseBoards = await response.json();
-            console.log(responseBoards);
             setBoards(responseBoards);
         })
     }, [boardId])
@@ -53,7 +52,7 @@ const BoardPage = () => {
                     <div className="boards">
                         <h3> Boards </h3>
                         {boards && boards.map((board) =>
-                            <button className="board-button" onClick={(e) => navigateToBoard(e, board.id)}>
+                            <button key={board.id} className="board-button" onClick={(e) => navigateToBoard(e, board.id)}>
                                 {board.title}
                             </button>
                         )}
