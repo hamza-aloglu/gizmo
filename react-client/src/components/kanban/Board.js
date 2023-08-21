@@ -97,12 +97,7 @@ const Board = ({ title, boardId, showSidebar, setShowSidebar }) => {
             if (isSetForTomorrow) {
                 // unset db.
                 tmpCards[cardIndex].setForTomorrow = false;
-                console.log("inside unset");
                 KanbanService.unsetColumnOfCardScheduled(cardId).then(async (response) => {
-                    if (response.ok) {
-                        console.log("set for tomorrow")
-                        
-                    }
                 })
 
             }
@@ -115,7 +110,7 @@ const Board = ({ title, boardId, showSidebar, setShowSidebar }) => {
                 KanbanService.updateColumnOfCardScheduled(cardId, targetId, scheduleTime).then(async (response) => {
                     if (response.ok) {
                         console.log("set for tomorrow")
-                        
+
                     }
                 });
             }

@@ -253,17 +253,12 @@ const KanbanService = {
     },
 
     unsetColumnOfCardScheduled: async (cardId) => {
-        const body = {
-            "cardId": cardId,
-            "targetColumnId": 1,
-        }
-
-        const url = resourceUrl() + `/cards/column/schedule/unset`;
+        
+        const url = resourceUrl() + `/cards/column/schedule/unset?cardId=${cardId}`;
         return fetch(url, {
             method: 'PUT',
             mode: "cors",
             headers,
-            body: JSON.stringify(body)
         });
     },
 }

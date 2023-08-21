@@ -132,8 +132,6 @@ const Card = ({ title, index, id, moveCard, updateCardIndexes, columnId, handleD
         greenShadow = "green-shadow";
     }
 
-    console.log(setForTomorrow);
-
     return (
         <div className={`card-wrapper ${greenShadow}`} ref={ref} style={{ opacity }}>
             <div className="card-title-container" onClick={toggleContent}>

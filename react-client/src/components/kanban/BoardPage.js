@@ -43,7 +43,6 @@ const BoardPage = () => {
     return (
         <div>
             <Header />
-
             <div>
                 <div className={`sidebar ${showSidebar ? 'open' : ""}`}>
                     <div id="username-section">

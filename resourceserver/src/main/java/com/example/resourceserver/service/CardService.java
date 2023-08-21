@@ -11,20 +11,17 @@ import com.example.resourceserver.model.Card;
 import com.example.resourceserver.model.KanbanColumn;
 import com.example.resourceserver.repository.CardRepository;
 import org.mapstruct.factory.Mappers;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 @Service
 public class CardService {
     private CardRepository cardRepository;
     private KanbanColumnService kanbanColumnService;
-    private BoardService boardService;
+    private final BoardService boardService;
+    private final Map<Long, ScheduledFuture<?>> tasksMap = new ConcurrentHashMap<>();
     CardMapper cardMapper = Mappers.getMapper(CardMapper.class);
 
     public CardService(CardRepository cardRepository, KanbanColumnService kanbanColumnService, BoardService boardService) {
@@ -123,6 +120,13 @@ public class CardService {
         Card card = this.getCardById(cardColumnUpdateRequest.getCardId());
         KanbanColumn targetColumn = kanbanColumnService.getKanbanColumnById(cardColumnUpdateRequest.getTargetColumnId());
         card.setKanbanColumn(targetColumn);
+
+        tasksMap.computeIfPresent(card.getId(), (cardId, scheduledFuture) -> {
+            scheduledFuture.cancel(true);
+            card.setSetForTomorrow(false);
+            return null;
+        });
+
         cardRepository.save(card);
     }
 
@@ -131,14 +135,29 @@ public class CardService {
         if (card.isSetForTomorrow()) {
             throw new AlreadyReportedException("This card is already set for tomorrow");
         }
-        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+
+        ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);  // single-threaded
+        executor.setRemoveOnCancelPolicy(true);  // remove tasks from the queue upon cancellation
+        ScheduledExecutorService executorService = Executors.unconfigurableScheduledExecutorService(executor);
+
         long delayTimeSeconds = (date.getTime() - System.currentTimeMillis()) / 1000;
-        executorService.schedule(() -> updateColumnOfCard(cardColumnUpdateRequest), delayTimeSeconds, TimeUnit.SECONDS);
+        ScheduledFuture<?> var = executorService.schedule(() -> updateColumnOfCard(cardColumnUpdateRequest),
+                delayTimeSeconds, TimeUnit.SECONDS);
+        tasksMap.put(card.getId(), var);
 
         card.setSetForTomorrow(true);
         cardRepository.save(card);
 
         executorService.shutdown();
+    }
+
+    public void unsetUpdatingColumnOfCardScheduled(Long cardId) {
+        ScheduledFuture<?> task = tasksMap.remove(cardId);
+        task.cancel(true);
+
+        Card card = this.getCardById(cardId);
+        card.setSetForTomorrow(false);
+        cardRepository.save(card);
     }
 
     public void updateCards(List<CardIndexUpdateRequest> cardRequests) {
@@ -174,11 +193,5 @@ public class CardService {
 
     public void setKanbanColumnService(KanbanColumnService kanbanColumnService) {
         this.kanbanColumnService = kanbanColumnService;
-    }
-
-    public void unsetColumnOfCardScheduled(Long cardId) {
-        Card card = this.getCardById(cardId);
-        card.setSetForTomorrow(false);
-        cardRepository.save(card);
     }
 }

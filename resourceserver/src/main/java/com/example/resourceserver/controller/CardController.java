@@ -70,10 +70,9 @@ public class CardController {
     }
 
     @PutMapping("/column/schedule/unset")
-    public String unsetColumnOfCardScheduled(@RequestBody CardColumnUpdateRequest cardColumnUpdateRequest) {
-
-        cardService.unsetColumnOfCardScheduled(cardColumnUpdateRequest.getCardId());
-        return "unsetted";
+    public String unsetColumnOfCardScheduled(@RequestParam @Valid Long cardId) {
+        cardService.unsetUpdatingColumnOfCardScheduled(cardId);
+        return "Successfully unset";
     }
 
     public CardService getCardService() {
