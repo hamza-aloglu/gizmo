@@ -5,7 +5,8 @@ import '../../css/kanban/Card.css';
 import { useDrag, useDrop } from "react-dnd";
 import { ItemTypes } from "../../ItemTypes";
 
-const Card = ({ title, index, id, moveCard, updateCardIndexes, columnId, handleDeleteCard, handleCardTitleUpdate, toggleSetForTomorrow, setForTomorrow }) => {
+const Card = ({ title, index, id, moveCard, updateCardIndexes, columnId, handleDeleteCard, handleCardTitleUpdate,
+     toggleSetForTomorrow, setForTomorrow, setNotificationMessage }) => {
     const [cardTitle, setCardTitle] = useState(title);
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [notes, setNotes] = useState([]);
@@ -147,7 +148,7 @@ const Card = ({ title, index, id, moveCard, updateCardIndexes, columnId, handleD
                         <hr />
                         {notes && notes.map(note => (
                             <Note key={note.id} noteId={note.id} title={note.title} content={note.content}
-                                handleDeleteNote={handleDeleteNote} />
+                                handleDeleteNote={handleDeleteNote} setNotificationMessage={setNotificationMessage} />
                         ))}
                     </div>
 

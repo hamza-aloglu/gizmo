@@ -7,7 +7,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import update from "immutability-helper";
 import DateUtils from "../../utils/DateUtils";
 
-const Board = ({ title, boardId, showSidebar, setShowSidebar }) => {
+const Board = ({ title, boardId, showSidebar, setShowSidebar, setNotificationMessage }) => {
     const [boardTitle, setBoardTitle] = useState(title);
     const [kanbanColumns, setKanbanColumns] = useState([]);
     const [cards, setCards] = useState([]);
@@ -109,7 +109,10 @@ const Board = ({ title, boardId, showSidebar, setShowSidebar }) => {
 
                 KanbanService.updateColumnOfCardScheduled(cardId, targetId, scheduleTime).then(async (response) => {
                     if (response.ok) {
-                        console.log("set for tomorrow")
+                        setNotificationMessage("card will move to doing column tomorrow");
+                        setTimeout(() => {
+                            setNotificationMessage(null);
+                        }, 3500);
 
                     }
                 });
@@ -155,6 +158,7 @@ const Board = ({ title, boardId, showSidebar, setShowSidebar }) => {
                 handleCardTitleUpdate={handleCardTitleUpdate}
                 handleColumnTitleUpdate={handleColumnTitleUpdate}
                 toggleSetForTomorrow={toggleSetForTomorrow}
+                setNotificationMessage={setNotificationMessage}
             />
         )
     })

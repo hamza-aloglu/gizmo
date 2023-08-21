@@ -61,14 +61,16 @@
     background-color: #edf1fa;
 }
 
-#popup {
+.popup {
     position: fixed;
-    top: 12%;
+    top: 6px;
     left: 50%;
-    transform: translate(-50%, -150%); /* This moves the popup to the middle top */
-    padding: 20px;
-    background-color: #ffffff;
-    border: 1px solid #000;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    z-index: 999; /* To make sure it's above other content */
+    transform: translateX(-50%);
+    padding: 7px 14px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 4px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    /* To ensure it appears above all other elements */
+    z-index: 1000;
 }

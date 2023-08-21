@@ -7,7 +7,7 @@ import { ItemTypes } from "../../ItemTypes";
 import update from "immutability-helper";
 
 const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, moveCard, updateCardIndexes,
-     handleDeleteColumn, handleCardTitleUpdate, handleColumnTitleUpdate, colIndex, toggleSetForTomorrow }) => {
+     handleDeleteColumn, handleCardTitleUpdate, handleColumnTitleUpdate, colIndex, toggleSetForTomorrow, setNotificationMessage }) => {
     const [columnTitle, setColumnTitle] = useState(title);
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [isFormActive, setIsFormActive] = useState(false);
@@ -106,6 +106,7 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
                     handleDeleteCard={handleDeleteCard}
                     handleCardTitleUpdate={handleCardTitleUpdate}
                     toggleSetForTomorrow={toggleSetForTomorrow}
+                    setNotificationMessage={setNotificationMessage}
                 />
             );
         }

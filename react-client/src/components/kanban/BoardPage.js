@@ -5,12 +5,15 @@ import Header from "../Header";
 import AuthService from "../../services/AuthService";
 import '../../css/kanban/BoardPage.css';
 import { useNavigate, useParams } from 'react-router-dom';
+import Info from '../notification/Info';
 
 
 const BoardPage = () => {
     const [boards, setBoards] = useState([]);
     const [showSidebar, setShowSidebar] = useState(false);
     const navigate = useNavigate();
+    const [notificationMessage, setNotificationMessage] = useState(null);
+
 
     const { boardId } = useParams();
 
@@ -35,14 +38,23 @@ const BoardPage = () => {
                     kanbanColumnsResponse={board.kanbanColumns}
                     boardId={board.id}
                     showSidebar={showSidebar}
-                    setShowSidebar={setShowSidebar} />
+                    setShowSidebar={setShowSidebar}
+                    setNotificationMessage={setNotificationMessage}
+                    />
             )
         }
     }
 
+    const isNotificationVisible = notificationMessage ? "visible" : "hidden";
+
     return (
         <div>
             <Header />
+
+            <div style={{ visibility: isNotificationVisible }}>
+                <Info message={notificationMessage} />
+            </div>
+
             <div>
                 <div className={`sidebar ${showSidebar ? 'open' : ""}`}>
                     <div id="username-section">

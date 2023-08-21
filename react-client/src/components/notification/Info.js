@@ -2,7 +2,7 @@ import '../../css/notification.css';
 
 const Info = ({message}) => {
     return (
-        <div className="notification">
+        <div className="popup">
             {message}
         </div>
     )

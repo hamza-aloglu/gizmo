@@ -2,16 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import '../../css/kanban/Note.css';
 import ReactModal from 'react-modal';
 import KanbanService from '../../services/KanbanService';
-import Info from '../notification/Info';
 
-const Note = ({ noteId, title, content, handleDeleteNote }) => {
+const Note = ({ noteId, title, content, handleDeleteNote, setNotificationMessage }) => {
     const [noteTitle, setNoteTitle] = useState(title);
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [text, setText] = useState(content);
     const prevTextRef = useRef();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [notficationMessage, setNotificationMessage] = useState(null);
 
     useEffect(() => {
         setText(content)
@@ -46,10 +44,10 @@ const Note = ({ noteId, title, content, handleDeleteNote }) => {
                 KanbanService.updateNoteContent(text, noteId).then(async (response) => {
                     if (response.ok) {
                         setNotificationMessage("content has saved");
-                        prevTextRef.current = text;
                         setTimeout(() => {
                             setNotificationMessage(null);
                         }, 1400);
+                        prevTextRef.current = text;
                     }
                 });
             }
@@ -67,8 +65,6 @@ const Note = ({ noteId, title, content, handleDeleteNote }) => {
         setIsMenuOpen(!isMenuOpen);
         console.log("inside context menu");
     }
-
-    const isNotificationVisible = notficationMessage ? "visible" : "hidden";
 
     return (
         <div className='note-wrapper' onContextMenu={toggleMenu}>
@@ -94,9 +90,6 @@ const Note = ({ noteId, title, content, handleDeleteNote }) => {
                     }
                 }}
             >
-                <div style={{visibility: isNotificationVisible}}>
-                    <Info message={notficationMessage} />
-                </div>
                 {isEditingTitle
                     ? <input className="title-edit-input-short" type="text" value={noteTitle}
                         onChange={(e) => setNoteTitle(e.target.value)} autoFocus onBlur={updateNoteTitle} onKeyDown={handleKeyDownsTitle} />
