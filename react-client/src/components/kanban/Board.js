@@ -97,6 +97,10 @@ const Board = ({ title, boardId, showSidebar, setShowSidebar, setNotificationMes
                 // unset db.
                 tmpCards[cardIndex].setForTomorrow = false;
                 KanbanService.unsetColumnOfCardScheduled(cardId).then(async (response) => {
+                    if(!response.ok) {
+                        PopupUtils.setErrorMessage(setErrorMessage, 2700);
+                        tmpCards[cardIndex].setForTomorrow = true;
+                    }
                 })
 
             }
