@@ -253,13 +253,22 @@ const KanbanService = {
     },
 
     unsetColumnOfCardScheduled: async (cardId) => {
-        
         const url = resourceUrl() + `/cards/column/schedule/unset?cardId=${cardId}`;
         return fetch(url, {
             method: 'PUT',
             mode: "cors",
             headers,
         });
+    },
+
+    deleteBoard: async (boardId) => {
+        console.log(boardId);
+        const url = resourceUrl() + `/boards?boardId=${boardId}`;
+        return fetch(url, {
+            method: 'DELETE',
+            mode: 'cors',
+            headers,
+        })
     },
 }
 

@@ -15,7 +15,6 @@ const BoardPage = () => {
     const [notificationMessage, setNotificationMessage] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
 
-
     const { boardId } = useParams();
 
     useEffect(() => {
@@ -27,6 +26,14 @@ const BoardPage = () => {
 
     function navigateToBoard(e, boardId) {
         navigate("/board/" + boardId);
+    }
+
+    function deleteBoard() {
+        KanbanService.deleteBoard(boardId).then(async (response) => {
+            if(response.ok) {
+                navigate("/");
+            }
+        });
     }
 
     const renderBoard = () => {
@@ -64,7 +71,7 @@ const BoardPage = () => {
             <div>
                 <div className={`sidebar ${showSidebar ? 'open' : ""}`}>
                     <div id="delete-board-section">
-                        <button id="delete-board-button" > Delete board </button>
+                        <button onClick={deleteBoard} id="delete-board-button" > Delete board </button>
                     </div>
                     <div id="username-section">
                         <h2> {AuthService.generateUsername()} </h2>
