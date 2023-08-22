@@ -50,22 +50,6 @@ public class NoteService {
         noteRepository.save(note);
     }
 
-    public NoteRepository getNoteRepository() {
-        return noteRepository;
-    }
-
-    public void setNoteRepository(NoteRepository noteRepository) {
-        this.noteRepository = noteRepository;
-    }
-
-    public CardService getCardService() {
-        return cardService;
-    }
-
-    public void setCardService(CardService cardService) {
-        this.cardService = cardService;
-    }
-
     public void deleteByNoteId(Long id) {
         if (!noteRepository.existsById(id)) {
             throw new NotFoundException("Note not found with id: " + id);

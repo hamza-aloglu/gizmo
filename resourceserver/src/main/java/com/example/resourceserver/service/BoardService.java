@@ -67,15 +67,6 @@ public class BoardService {
         return boardMapper.boardToBoardDto(board);
     }
 
-    public BoardRepository getBoardRepository() {
-        return boardRepository;
-    }
-
-    public void setBoardRepository(BoardRepository boardRepository) {
-        this.boardRepository = boardRepository;
-    }
-
-
     public void updateBoardTitle(String title, Long boardId) {
         Board board = this.getBoard(boardId);
         board.setTitle(title);

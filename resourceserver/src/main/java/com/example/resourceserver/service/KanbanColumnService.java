@@ -40,7 +40,7 @@ public class KanbanColumnService {
     }
 
     public List<KanbanColumnDto> getAllKanbanColumns(Long boardId) {
-        if (!getBoardService().isBoardExists(boardId)) {
+        if (!boardService.isBoardExists(boardId)) {
             throw new NotFoundException("Board not found with id: " + boardId);
         }
 
@@ -67,23 +67,6 @@ public class KanbanColumnService {
         }
 
         return kanbanColumnRepository.getKanbanColumnById(id);
-    }
-
-
-    public KanbanColumnRepository getKanbanColumnRepository() {
-        return kanbanColumnRepository;
-    }
-
-    public void setKanbanColumnRepository(KanbanColumnRepository kanbanColumnRepository) {
-        this.kanbanColumnRepository = kanbanColumnRepository;
-    }
-
-    public BoardService getBoardService() {
-        return boardService;
-    }
-
-    public void setBoardService(BoardService boardService) {
-        this.boardService = boardService;
     }
 
     public void updateKanbanColumnTitle(String title, Long id) {

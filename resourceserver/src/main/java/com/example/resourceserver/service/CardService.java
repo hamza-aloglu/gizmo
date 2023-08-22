@@ -157,20 +157,4 @@ public class CardService {
 
         cardRepository.saveAll(cards);
     }
-
-    public CardRepository getCardRepository() {
-        return cardRepository;
-    }
-
-    public void setCardRepository(CardRepository cardRepository) {
-        this.cardRepository = cardRepository;
-    }
-
-    public KanbanColumnService getKanbanColumnService() {
-        return kanbanColumnService;
-    }
-
-    public void setKanbanColumnService(KanbanColumnService kanbanColumnService) {
-        this.kanbanColumnService = kanbanColumnService;
-    }
 }
