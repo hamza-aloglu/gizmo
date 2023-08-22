@@ -39,25 +39,6 @@ public class KanbanColumnService {
         return kanbanColumnMapper.kanbanColumnToKanbanColumnDto(kanbanColumn);
     }
 
-    public KanbanColumnDto addRestrictedKanbanColumns(List<Long> restrictedKanbanColumnIds, Long kanbanColumnId) {
-        if (!kanbanColumnRepository.existsById(kanbanColumnId)) {
-            throw new NotFoundException("KanbanColumn does not exists with id: " + kanbanColumnId);
-        }
-        KanbanColumn kanbanColumn = kanbanColumnRepository.getKanbanColumnById(kanbanColumnId);
-
-        List<KanbanColumn> restrictedKanbanColumns = new ArrayList<>();
-        restrictedKanbanColumnIds.forEach((id) -> {
-            if (!kanbanColumnRepository.existsById(id)) {
-                throw new NotFoundException("KanbanColumn does not exists with id: " + kanbanColumnId + " in the list");
-            }
-            restrictedKanbanColumns.add(kanbanColumnRepository.getKanbanColumnById(id));
-        });
-
-        kanbanColumn.setRestrictedKanbanColumns(restrictedKanbanColumns);
-        KanbanColumn savedKanbanColumn = kanbanColumnRepository.save(kanbanColumn);
-        return kanbanColumnMapper.kanbanColumnToKanbanColumnDto(savedKanbanColumn);
-    }
-
     public List<KanbanColumnDto> getAllKanbanColumns(Long boardId) {
         if (!getBoardService().isBoardExists(boardId)) {
             throw new NotFoundException("Board not found with id: " + boardId);

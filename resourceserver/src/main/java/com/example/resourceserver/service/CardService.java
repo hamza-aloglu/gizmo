@@ -33,16 +33,6 @@ public class CardService {
     public CardDto saveCard(CardCreateRequest cardCreateRequest) {
         Card card = cardMapper.cardCreateRequestToCard(cardCreateRequest);
 
-        Long masterCardId = cardCreateRequest.getMasterCardId();
-        if (masterCardId != null) {
-            if (!cardRepository.existsById(masterCardId)) {
-                throw new NotFoundException("master card not found with id: " + masterCardId);
-            }
-
-            populateIndex(card, masterCardId);
-            card.setMasterCard(cardRepository.getCardById(masterCardId));
-        }
-
         Long kanbanColumnId = cardCreateRequest.getKanbanColumnId();
         if (!kanbanColumnService.isKanbanColumnExistsById(kanbanColumnId)) {
             throw new NotFoundException("Kanban column not found with id: " + kanbanColumnId);
@@ -60,17 +50,6 @@ public class CardService {
 
         Card savedCard = cardRepository.save(card);
         return cardMapper.cardToCardDto(savedCard);
-    }
-
-    private void populateIndex(Card card, Long masterCardId) {
-        List<Card> slaveCards = cardRepository.getCardByMasterCardId(masterCardId);
-        Optional<Card> highestIndexedSlaveCard = slaveCards.stream()
-                .max(Comparator.comparing(Card::getIndex));
-        int highestSlaveIndex = 0;
-        if (highestIndexedSlaveCard.isPresent()) {
-            highestSlaveIndex = highestIndexedSlaveCard.get().getIndex();
-        }
-        card.setIndex(highestSlaveIndex + 1);
     }
 
     public List<CardDto> getAllCards(Long kanbanColumnId) {

@@ -10,7 +10,6 @@ import java.util.List;
 @Repository
 public interface CardRepository extends ListCrudRepository<Card, Long> {
     Card getCardById(Long id);
-    List<Card> getCardByMasterCardId(Long masterCardId);
     List<Card> findAllByKanbanColumn_Id(Long kanbanColumnId);
 
     @Query("select c from Card c join c.kanbanColumn k where k.board.id = ?1")

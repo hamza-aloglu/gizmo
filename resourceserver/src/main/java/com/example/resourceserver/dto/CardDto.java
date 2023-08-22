@@ -6,7 +6,6 @@ public class CardDto {
     private Long id;
     private String title;
     private List<NoteDto> notes;
-    private CardDto masterCard;
     private int index;
     private boolean isSetForTomorrow;
 
@@ -38,14 +37,6 @@ public class CardDto {
 
     public void setNotes(List<NoteDto> notes) {
         this.notes = notes;
-    }
-
-    public CardDto getMasterCard() {
-        return masterCard;
-    }
-
-    public void setMasterCard(CardDto masterCard) {
-        this.masterCard = masterCard;
     }
 
     public int getIndex() {

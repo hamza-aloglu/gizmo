@@ -154,7 +154,6 @@ const Board = ({ title, boardId, showSidebar, setShowSidebar, setNotificationMes
                 key={column.id}
                 columnId={column.id}
                 title={column.title}
-                restrictedKanbanColumns={column.restrictedKanbanColumns}
                 colIndex={i}
 
                 cards={cards}

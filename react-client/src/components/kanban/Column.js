@@ -6,13 +6,13 @@ import { useDrop } from "react-dnd";
 import { ItemTypes } from "../../ItemTypes";
 import update from "immutability-helper";
 
-const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, moveCard, updateCardIndexes,
+const Column = ({ title, setAllCards, cards, columnId, moveCard, updateCardIndexes,
      handleDeleteColumn, handleCardTitleUpdate, handleColumnTitleUpdate, colIndex, toggleSetForTomorrow, setNotificationMessage }) => {
     const [columnTitle, setColumnTitle] = useState(title);
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [isFormActive, setIsFormActive] = useState(false);
     const [newCardTitle, setNewCardTitle] = useState("");
-    const columnObject = { id: columnId, title: title, restrictedKanbanColumns: restrictedKanbanColumns };
+    const columnObject = { id: columnId, title: title };
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const [{ isOver, item }, drop] = useDrop({

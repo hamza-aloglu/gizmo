@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotNull;
 
 public class CardCreateRequest {
     private String title;
-    private Long masterCardId;
     @NotNull
     private Long kanbanColumnId;
 
@@ -18,14 +17,6 @@ public class CardCreateRequest {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public Long getMasterCardId() {
-        return masterCardId;
-    }
-
-    public void setMasterCardId(Long masterCardId) {
-        this.masterCardId = masterCardId;
     }
 
     public Long getKanbanColumnId() {
