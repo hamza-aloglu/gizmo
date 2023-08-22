@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './components/Home';
 import Profile from './components/Profile';
 import Redirect from './components/authorization/Redirect';
 import Logout from './components/authorization/Logout';
@@ -19,11 +18,8 @@ function App() {
         <Routes>
           <Route path='/redirect' element={<Redirect />} />
           <Route path='/authorized' element={<Redirect />} />
-          <Route path='/home' element={<Home />} />
 
-          <Route path='/' element={<PrivateRoute />}>
-            <Route path='/' element={<Profile />} />
-          </Route>
+          <Route path='/' element={<Profile />} />
 
           <Route path='/logout' element={<Logout />} />
           <Route path='/register' element={<Register />} />

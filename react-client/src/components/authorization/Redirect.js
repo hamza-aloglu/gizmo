@@ -9,7 +9,7 @@ import '../../css/spinner.css';
     * User clicks login button and is redirected to this component.
     * Since there is no token in session and no "code" in search params user is redirected to authorize url.
     * User comes back with "code" in search params.
-    * Since no token, fetch request is sent. Awaited result. Token is set on session storage and then navigated to home.
+    * Since no token, fetch request is sent. Awaited result. Token is set on session storage and then navigated to profile.
 */
 
 
@@ -38,7 +38,7 @@ const Redirect = () => {
             AuthService.fetchToken(authCode).then(async (response) => {
                 const token = await response.json();
                 sessionStorage.setItem(tokenString, token.access_token);
-                navigate("/home");
+                navigate("/");
             })
             .catch( (err) => {
                 // TODO: snackbar error screen
@@ -46,7 +46,7 @@ const Redirect = () => {
             } );
         }
         else {
-            navigate("/home");
+            navigate("/");
         }
     }, [] );
 

@@ -10,13 +10,28 @@ const Profile = () => {
     const [boardTitle, setBoardTitle] = useState([]);
     const [isFormActive, setIsFormActive] = useState(false);
     const navigate = useNavigate();
+    const isLoggedIn = AuthService.isLoggedIn();
 
     useEffect(() => {
-        KanbanService.fetchBoards().then(async (response) => {
-            const boards = await response.json();
-            setBoards(boards);
-        });
+        if (isLoggedIn) {
+            KanbanService.fetchBoards().then(async (response) => {
+                if(response.ok) {
+                    const boards = await response.json();
+                    setBoards(boards);
+                }
+            });
+        }
     }, [])
+
+
+    function handleClickCreateBoard() {
+        if (isLoggedIn) {
+            setIsFormActive(true);
+        }
+        else {
+            navigate('/redirect');
+        }
+    }
 
     function handleCreateBoard(e) {
         e.preventDefault();
@@ -28,7 +43,7 @@ const Profile = () => {
 
     function renderBoard(board) {
         return (
-            <div className="box" onClick={() => navigate('/board/' + board.id)}>
+            <div key={board.id} className="box" onClick={() => navigate('/board/' + board.id)}>
                 {board.title}
             </div>
         )
@@ -39,7 +54,7 @@ const Profile = () => {
             <Header />
 
             <div id="welcome-username">
-                Welcome {AuthService.generateUsername()}
+                Welcome {isLoggedIn && AuthService.generateUsername()}
             </div>
             <div className="profile-wrapper">
                 <div className="profile-container">
@@ -47,7 +62,7 @@ const Profile = () => {
 
                     {
                         !isFormActive &&
-                        <div className="box create-box" onClick={() => setIsFormActive(true)}>
+                        <div className="box create-box" onClick={handleClickCreateBoard}>
                             Create Board
                         </div>
                     }

@@ -7,7 +7,7 @@ const Logout = () => {
 
     useEffect(() => {
         sessionStorage.removeItem(process.env.REACT_APP_TOKEN);
-        navigate("/home");
+        navigate("/");
     }, []);
 
     return (

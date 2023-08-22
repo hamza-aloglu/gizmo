@@ -6,6 +6,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import update from "immutability-helper";
 import DateUtils from "../../utils/DateUtils";
+import PopupUtils from "../../utils/PopupUtils";
 
 const Board = ({ title, boardId, showSidebar, setShowSidebar, setNotificationMessage, setErrorMessage }) => {
     const [boardTitle, setBoardTitle] = useState(title);

@@ -1,10 +1,13 @@
 import resourceUrl from "../authorization/links/resourceUrl";
 
-const token = sessionStorage.getItem(process.env.REACT_APP_TOKEN);
-const headers = new Headers();
-headers.set("Content-Type", "application/json");
-headers.set("Accept", "application/json");
-headers.set("Authorization", "Bearer " + token);
+const getHeaders = () => {
+    const token = sessionStorage.getItem(process.env.REACT_APP_TOKEN);
+    const headers = new Headers();
+    headers.set("Content-Type", "application/json");
+    headers.set("Accept", "application/json");
+    headers.set("Authorization", "Bearer " + token);
+    return headers;
+};
 
 const KanbanService = {
     fetchBoards: async () => {
@@ -12,7 +15,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'GET',
             mode: 'cors',
-            headers,
+            headers: getHeaders(),
         });
     },
 
@@ -25,7 +28,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'POST',
             mode: 'cors',
-            headers,
+            headers: getHeaders(),
             body: JSON.stringify(body),
         });
     },
@@ -35,7 +38,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'GET',
             mode: 'cors',
-            headers,
+            headers: getHeaders(),
         });
     },
 
@@ -49,7 +52,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'POST',
             mode: 'cors',
-            headers,
+            headers: getHeaders(),
             body: JSON.stringify(body),
         });
     },
@@ -64,7 +67,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'POST',
             mode: 'cors',
-            headers,
+            headers: getHeaders(),
             body: JSON.stringify(body),
         });
     },
@@ -79,7 +82,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'POST',
             mode: 'cors',
-            headers,
+            headers: getHeaders(),
             body: JSON.stringify(body),
         });
     },
@@ -89,7 +92,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'GET',
             mode: 'cors',
-            headers,
+            headers: getHeaders(),
         });
     },
 
@@ -98,7 +101,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'GET',
             mode: 'cors',
-            headers,
+            headers: getHeaders(),
         })
     },
 
@@ -107,7 +110,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'PUT',
             mode: 'cors',
-            headers,
+            headers: getHeaders(),
         });
     },
 
@@ -116,7 +119,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'PUT',
             mode: 'cors',
-            headers,
+            headers: getHeaders(),
         });
     },
 
@@ -125,7 +128,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'PUT',
             mode: 'cors',
-            headers,
+            headers: getHeaders(),
         });
     },
 
@@ -139,7 +142,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'PUT',
             mode: 'cors',
-            headers,
+            headers: getHeaders(),
             body: JSON.stringify(body),
         });
     },
@@ -155,7 +158,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'PUT',
             mode: 'cors',
-            headers,
+            headers: getHeaders(),
             body: JSON.stringify(body),
         });
     },
@@ -172,7 +175,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'PUT',
             mode: 'cors',
-            headers,
+            headers: getHeaders(),
             body: JSON.stringify(body),
         })
     },
@@ -187,7 +190,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'PUT',
             mode: 'cors',
-            headers,
+            headers: getHeaders(),
             body: JSON.stringify(body),
         });
     },
@@ -197,7 +200,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'DELETE',
             mode: 'cors',
-            headers,
+            headers: getHeaders(),
         })
     },
 
@@ -206,7 +209,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'DELETE',
             mode: 'cors',
-            headers,
+            headers: getHeaders(),
         })
     },
 
@@ -215,7 +218,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'DELETE',
             mode: 'cors',
-            headers,
+            headers: getHeaders(),
         })
     },
 
@@ -224,7 +227,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'GET',
             mode: 'cors',
-            headers,
+            headers: getHeaders(),
         });
     },
 
@@ -233,7 +236,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'PUT',
             mode: 'cors',
-            headers,
+            headers: getHeaders(),
         });
     },
 
@@ -247,7 +250,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'PUT',
             mode: "cors",
-            headers,
+            headers: getHeaders(),
             body: JSON.stringify(body)
         });
     },
@@ -257,7 +260,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'PUT',
             mode: "cors",
-            headers,
+            headers: getHeaders(),
         });
     },
 
@@ -267,7 +270,7 @@ const KanbanService = {
         return fetch(url, {
             method: 'DELETE',
             mode: 'cors',
-            headers,
+            headers: getHeaders(),
         })
     },
 }
