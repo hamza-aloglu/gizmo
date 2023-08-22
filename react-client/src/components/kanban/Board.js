@@ -102,8 +102,10 @@ const Board = ({ title, boardId, showSidebar, setShowSidebar, setNotificationMes
             }
             else {
                 const scheduleTime = DateUtils.getTomorrowDate();
-                const doingColumn = kanbanColumns.find(c => c.title == "doing");
+                const doingColumn = kanbanColumns.find(c => c.title.toLowerCase() == "doing");
                 const targetId = doingColumn ? doingColumn.id : null;
+
+                console.log(kanbanColumns);
 
                 if (targetId == null) {
                     setErrorMessage("There are no doing column exists");

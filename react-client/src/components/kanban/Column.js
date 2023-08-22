@@ -6,8 +6,8 @@ import { useDrop } from "react-dnd";
 import { ItemTypes } from "../../ItemTypes";
 import update from "immutability-helper";
 
-const Column = ({ title, setAllCards, cards, columnId, moveCard, updateCardIndexes,
-     handleDeleteColumn, handleCardTitleUpdate, handleColumnTitleUpdate, colIndex, toggleSetForTomorrow, setNotificationMessage }) => {
+const Column = ({ title, setAllCards, cards, columnId, moveCard, updateCardIndexes, handleDeleteColumn, handleCardTitleUpdate,
+    handleColumnTitleUpdate, colIndex, toggleSetForTomorrow, setNotificationMessage }) => {
     const [columnTitle, setColumnTitle] = useState(title);
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [isFormActive, setIsFormActive] = useState(false);
@@ -36,7 +36,7 @@ const Column = ({ title, setAllCards, cards, columnId, moveCard, updateCardIndex
                 updatedCards[item.index].kanbanColumn = columnObject;
 
                 // Whenever a card moves to another column
-                // its index is updated to be the last element and other elements splice before that
+                // its index is updated to be the last element and other elements splice before
                 const resultCards = update(updatedCards, {
                     $splice: [
                         [item.index, 1],

@@ -3,7 +3,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height:  calc(100vh - 60px);
+    height: calc(100vh - 60px);
     width: 100vw;
     position: absolute;
     top: 60px;

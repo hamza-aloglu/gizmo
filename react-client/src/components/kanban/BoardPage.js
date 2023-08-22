@@ -30,7 +30,7 @@ const BoardPage = () => {
 
     function deleteBoard() {
         KanbanService.deleteBoard(boardId).then(async (response) => {
-            if(response.ok) {
+            if (response.ok) {
                 navigate("/");
             }
         });

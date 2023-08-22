@@ -40,7 +40,7 @@ const Note = ({ noteId, title, content, handleDeleteNote, setNotificationMessage
         // ctrl + s
         if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey) && e.keyCode === 83) {
             e.preventDefault();
-            if(prevTextRef.current != text) {
+            if (prevTextRef.current != text) {
                 KanbanService.updateNoteContent(text, noteId).then(async (response) => {
                     if (response.ok) {
                         setNotificationMessage("content has saved");

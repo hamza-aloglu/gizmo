@@ -49,15 +49,18 @@
     background-color: transparent;
     color: green;
     border: none;
-    font-size: 20px; /* adjust as needed */
+    font-size: 20px;
+    /* adjust as needed */
     cursor: pointer;
     outline: none;
     font-size: 30px;
-    transition: font-size 0.3s ease-in-out; /* added transition for smooth animation */
+    transition: font-size 0.3s ease-in-out;
+    /* added transition for smooth animation */
 
 }
+
 .arrow-button:hover {
-    color: blue; 
+    color: blue;
     font-size: 35px;
 }
 

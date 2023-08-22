@@ -5,7 +5,6 @@ import Header from "./Header";
 import '../css/profile.css';
 import AuthService from "../services/AuthService";
 
-// Should be profile.
 const Profile = () => {
     const [boards, setBoards] = useState([]);
     const [boardTitle, setBoardTitle] = useState([]);

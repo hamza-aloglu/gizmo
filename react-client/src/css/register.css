@@ -1,9 +1,9 @@
-
 .login-page {
     width: 700px;
     padding: 8% 0 0;
     margin: auto;
 }
+
 .form {
     position: relative;
     z-index: 1;
@@ -15,6 +15,7 @@
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
     border-radius: 25% 10%;
 }
+
 .form input {
     font-family: "Roboto", sans-serif;
     outline: 0;
@@ -26,6 +27,7 @@
     box-sizing: border-box;
     font-size: 14px;
 }
+
 .form .button {
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
@@ -38,17 +40,23 @@
     font-size: 14px;
     cursor: pointer;
 }
-.form button:hover,.form button:active,.form button:focus {
+
+.form button:hover,
+.form button:active,
+.form button:focus {
     background: #4169E1;
 }
+
 .form .message {
     margin: 15px 0 0;
     color: #b3b3b3;
     font-size: 12px;
 }
+
 .form .error {
     color: red;
 }
+
 .form h1 {
     color: #4169E1;
     margin: 20px;
@@ -62,6 +70,7 @@
     color: #4169E1;
     text-decoration: none;
 }
+
 .register-body {
     height: 100vh;
     background: #F5F5DC;
@@ -69,6 +78,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
 .link-text {
     text-decoration: none;
 }
@@ -78,6 +88,3 @@
 .register-body *::after {
     box-sizing: content-box;
 }
-
-
-
