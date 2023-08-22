@@ -6,7 +6,7 @@ import { useDrag, useDrop } from "react-dnd";
 import { ItemTypes } from "../../ItemTypes";
 
 const Card = ({ title, index, id, moveCard, updateCardIndexes, columnId, handleDeleteCard, handleCardTitleUpdate,
-     toggleSetForTomorrow, setForTomorrow, setNotificationMessage }) => {
+    toggleSetForTomorrow, setForTomorrow, setNotificationMessage, columnTitle }) => {
     const [cardTitle, setCardTitle] = useState(title);
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [notes, setNotes] = useState([]);
@@ -129,8 +129,13 @@ const Card = ({ title, index, id, moveCard, updateCardIndexes, columnId, handleD
     drag(drop(ref))
 
     let greenShadow = "";
-    if(setForTomorrow) {
+    if (setForTomorrow) {
         greenShadow = "green-shadow";
+    }
+
+    let canSetForTomorrow = false;
+    if (columnTitle.toLowerCase() == "todo") {
+        canSetForTomorrow = true;
     }
 
     return (
@@ -152,9 +157,11 @@ const Card = ({ title, index, id, moveCard, updateCardIndexes, columnId, handleD
                         ))}
                     </div>
 
-                    <div className="set-for-tomorrow-container">
-                        <button onClick={handleSetForTomorrowClick} className="arrow-button">&#9654;</button>
-                    </div>
+                    {canSetForTomorrow &&
+                        <div className="set-for-tomorrow-container">
+                            <button onClick={handleSetForTomorrowClick} className="arrow-button">&#9654;</button>
+                        </div>
+                    }
 
                     {!isFormActive && <button className="note-create-button" onClick={() => setIsFormActive(true)}> Create Note </button>}
                     {isFormActive && <form style={{ display: "inline-block" }} onSubmit={handleCreateNote}>

@@ -13,6 +13,7 @@ const BoardPage = () => {
     const [showSidebar, setShowSidebar] = useState(false);
     const navigate = useNavigate();
     const [notificationMessage, setNotificationMessage] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
 
 
     const { boardId } = useParams();
@@ -40,23 +41,31 @@ const BoardPage = () => {
                     showSidebar={showSidebar}
                     setShowSidebar={setShowSidebar}
                     setNotificationMessage={setNotificationMessage}
-                    />
+                    setErrorMessage={setErrorMessage}
+                />
             )
         }
     }
 
     const isNotificationVisible = notificationMessage ? "visible" : "hidden";
+    const isErrorVisible = errorMessage ? "visible" : "hidden";
 
     return (
         <div>
             <Header />
 
             <div style={{ visibility: isNotificationVisible }}>
-                <Info message={notificationMessage} />
+                <Info message={notificationMessage} backgroundColor={"#4CAF50"} />
+            </div>
+            <div style={{ visibility: isErrorVisible }}>
+                <Info message={errorMessage} backgroundColor={"#e60b6e"} />
             </div>
 
             <div>
                 <div className={`sidebar ${showSidebar ? 'open' : ""}`}>
+                    <div id="delete-board-section">
+                        <button id="delete-board-button" > Delete board </button>
+                    </div>
                     <div id="username-section">
                         <h2> {AuthService.generateUsername()} </h2>
                     </div>

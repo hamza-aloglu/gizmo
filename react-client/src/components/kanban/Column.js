@@ -103,6 +103,7 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
                     moveCard={moveCard}
                     updateCardIndexes={updateCardIndexes}
                     columnId={columnId}
+                    columnTitle={columnTitle}
                     handleDeleteCard={handleDeleteCard}
                     handleCardTitleUpdate={handleCardTitleUpdate}
                     toggleSetForTomorrow={toggleSetForTomorrow}
@@ -110,7 +111,7 @@ const Column = ({ title, setAllCards, cards, columnId, restrictedKanbanColumns, 
                 />
             );
         }
-    }, []);
+    }, [columnTitle]);
 
     let opacity = 1;
     if (isOver && columnId != item.columnId) {

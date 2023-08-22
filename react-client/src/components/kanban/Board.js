@@ -7,7 +7,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import update from "immutability-helper";
 import DateUtils from "../../utils/DateUtils";
 
-const Board = ({ title, boardId, showSidebar, setShowSidebar, setNotificationMessage }) => {
+const Board = ({ title, boardId, showSidebar, setShowSidebar, setNotificationMessage, setErrorMessage }) => {
     const [boardTitle, setBoardTitle] = useState(title);
     const [kanbanColumns, setKanbanColumns] = useState([]);
     const [cards, setCards] = useState([]);
@@ -92,7 +92,6 @@ const Board = ({ title, boardId, showSidebar, setShowSidebar, setNotificationMes
 
             const isSetForTomorrow = tmpCards[cardIndex].setForTomorrow;
             const cardId = tmpCards[cardIndex].id;
-            console.log(cardId);
 
             if (isSetForTomorrow) {
                 // unset db.
@@ -102,20 +101,28 @@ const Board = ({ title, boardId, showSidebar, setShowSidebar, setNotificationMes
 
             }
             else {
-                tmpCards[cardIndex].setForTomorrow = true;
                 const scheduleTime = DateUtils.getTomorrowDate();
                 const doingColumn = kanbanColumns.find(c => c.title == "doing");
                 const targetId = doingColumn ? doingColumn.id : null;
 
-                KanbanService.updateColumnOfCardScheduled(cardId, targetId, scheduleTime).then(async (response) => {
-                    if (response.ok) {
-                        setNotificationMessage("card will move to doing column tomorrow");
-                        setTimeout(() => {
-                            setNotificationMessage(null);
-                        }, 3500);
+                if (targetId == null) {
+                    setErrorMessage("There are no doing column exists");
+                    setTimeout(() => {
+                        setErrorMessage(null);
+                    }, 3500);
+                }
+                else {
+                    tmpCards[cardIndex].setForTomorrow = true;
+                    KanbanService.updateColumnOfCardScheduled(cardId, targetId, scheduleTime).then(async (response) => {
+                        if (response.ok) {
+                            setNotificationMessage("card will move to doing column tomorrow");
+                            setTimeout(() => {
+                                setNotificationMessage(null);
+                            }, 3500);
 
-                    }
-                });
+                        }
+                    });
+                }
             }
             return tmpCards;
         })

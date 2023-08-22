@@ -41,6 +41,34 @@
     font-size: x-large;
 }
 
+#delete-board-section {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+#delete-board-button {
+    background-color: #e74c3c; /* red color */
+    border: none;
+    color: white;
+    padding: 8px 22px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 4px;
+    transition: background-color 0.3s, transform 0.3s;
+    cursor: pointer;
+    /* Optional: Add a subtle shadow to give it some depth */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+#delete-board-button:hover {
+    background-color: #c0392b; /* slightly darker red for hover */
+    transform: scale(1.05); /* slightly enlarge the button when hovered */
+}
+
 .boards {
     margin-top: 40%;
     display: flex;
