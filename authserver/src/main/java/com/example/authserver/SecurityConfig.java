@@ -84,20 +84,12 @@ public class SecurityConfig {
     @Order(2)
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
             throws Exception {
-
-        // h2 console configurations
-        http
-                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers(toH2Console()).permitAll()
-                );
-
         http
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/register", "/login", "/error").permitAll()
                         .anyRequest().authenticated()
                 )
+                .csrf(AbstractHttpConfigurer::disable)
                 // Form login handles the redirect to the login page from the authorization server filter chain
                 .formLogin(loginConfig -> loginConfig.loginPage("/login"));
 
