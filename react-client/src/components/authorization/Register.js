@@ -18,7 +18,7 @@ const Register = () => {
             setStatus(Object.entries(jsonResponse));
 
             if (response.ok) {
-                navigate("/home");
+                navigate("/");
             }
         });
     }
