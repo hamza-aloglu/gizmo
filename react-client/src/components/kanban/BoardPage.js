@@ -58,8 +58,8 @@ const BoardPage = () => {
     const isErrorVisible = errorMessage ? "visible" : "hidden";
 
     return (
-        <div>
-            <Header />
+        <div className="boardPage-wrapper">
+            <Header backgroundColor={"#69aed1"} />
 
             <div style={{ visibility: isNotificationVisible }}>
                 <Info message={notificationMessage} backgroundColor={"#4CAF50"} />

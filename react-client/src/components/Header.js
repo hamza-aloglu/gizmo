@@ -4,11 +4,11 @@ import '../css/style.css'
 import { Link } from 'react-router-dom';
 
 
-const Header = () => {
+const Header = ({ backgroundColor }) => {
     const isLoggedIn = AuthService.isLoggedIn();
 
     return (
-        <div className="header-container">
+        <div className="header-container" style={{ background: backgroundColor }}>
             {isLoggedIn ? (
                 <div>
                     <Link className="link-text header-button" to={"/logout"}>logout</Link>
