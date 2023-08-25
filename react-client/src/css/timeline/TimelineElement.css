@@ -1,0 +1,53 @@
+.timeline-element-border {
+    padding: 10px; /* This creates space for the blue background */
+    border: 1px solid white; /* This is the white border */
+    outline: 1px solid black; /* This is the black border surrounding the white border */
+    background-color: inherit;
+    padding: 5px;
+}
+.timeline-element-border:focus {
+    box-shadow: 0 0 10px 3px rgba(255,255,255,0.2); /* Adds a soft white glow */
+}
+
+.board-select-section {
+    padding-top: 15px;
+    display: flex;
+    justify-content: end;
+}
+
+.board-select-section select {
+    background-color: inherit;
+    font-size: larger;
+    width: 50%;
+}
+
+.board-select-section select:hover {
+    cursor: pointer;
+}
+
+.timeline-title-input {
+    width: 50%;
+    font-size: large;
+}
+
+.timeline-subtitle-input {
+    width: 36%;
+    font-size: medium;
+}
+
+.description-editor {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    resize: none;
+    overflow-y: hidden;
+    margin: 5px;
+}
+
+.description {
+    white-space: pre-wrap;
+}
+
+.description, .description-editor {
+    font-size: 15px;
+}

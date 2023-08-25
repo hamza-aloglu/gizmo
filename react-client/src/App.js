@@ -6,6 +6,7 @@ import Logout from './components/authorization/Logout';
 import Register from './components/authorization/Register';
 import PrivateRoute from './authorization/PrivateRoute';
 import BoardPage from './components/kanban/BoardPage';
+import TimelinePage from './components/timeline/TimelinePage';
 
 
 
@@ -27,6 +28,8 @@ function App() {
           <Route path='/board/:boardId' element={<PrivateRoute />}>
             <Route path='/board/:boardId' element={<BoardPage />} />
           </Route>
+
+          <Route path='/test' element={<TimelinePage />} />
         </Routes>
       </BrowserRouter>
 
