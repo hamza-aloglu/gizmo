@@ -29,6 +29,10 @@ function App() {
             <Route path='/board/:boardId' element={<BoardPage />} />
           </Route>
 
+          <Route path='/timeline/:timelineId' element={<PrivateRoute />}>
+            <Route path='/timeline/:timelineId' element={<TimelinePage />} />
+          </Route>
+
           <Route path='/test' element={<TimelinePage />} />
         </Routes>
       </BrowserRouter>

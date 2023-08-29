@@ -1,12 +1,11 @@
 package com.example.resourceserver.controller;
 
 import com.example.resourceserver.dto.TimelineCreateRequest;
+import com.example.resourceserver.dto.TimelineDto;
 import com.example.resourceserver.service.TimelineService;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/timelines")
@@ -20,5 +19,10 @@ public class TimelineController {
     @PostMapping
     public void createTimeline(@Valid @RequestBody TimelineCreateRequest timelineCreateRequest) {
         timelineService.createTimeline(timelineCreateRequest);
+    }
+
+    @GetMapping("/{timelineId}")
+    public TimelineDto getTimeline(@Valid @NotNull @PathVariable Long timelineId) {
+        return timelineService.getTimeline(timelineId);
     }
 }

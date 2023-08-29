@@ -5,8 +5,12 @@ import { VerticalTimeline, VerticalTimelineElement } from "react-vertical-timeli
 import 'react-vertical-timeline-component/style.min.css';
 import TimelineElement from "./TimelineElement";
 import TimelineService from "../../services/TimelineService";
+import { useParams } from "react-router";
 
 const TimelinePage = ({ }) => {
+    const textareaRef = useRef(null);
+    const timelineId = useParams().timelineId;
+
     const [title, setTitle] = useState("default title ...");
     const [timelineElements, setTimelineElements] = useState([
         {
@@ -21,8 +25,7 @@ const TimelinePage = ({ }) => {
             },
         },
     ]);
-    const timelineId = 1;
-    const [showForm, setShowForm] = useState(false);
+
     const emptyFormData = {
         title: '',
         subtitle: '',
@@ -31,10 +34,18 @@ const TimelinePage = ({ }) => {
         timelineId: timelineId,
         boardId: null,
     };
+    const [showForm, setShowForm] = useState(false);
     const [formData, setFormData] = useState(emptyFormData);
 
-    const textareaRef = useRef(null);
-
+    useEffect(() => {
+        TimelineService.getTimeline(timelineId).then(async (response) => {
+            const timelineResponse = await response.json();
+            if(response.ok) {
+                setTimelineElements(timelineResponse.timelineElements);
+                setTitle(timelineResponse.title);
+            }
+        });
+    }, []);
 
     useEffect(() => {
         function adjustHeight() {
@@ -43,7 +54,6 @@ const TimelinePage = ({ }) => {
                 textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
             }
         }
-
         adjustHeight();
     }, [formData]);
 

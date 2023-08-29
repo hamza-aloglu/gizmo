@@ -19,6 +19,15 @@ const TimelineService = {
             body: JSON.stringify(formData),
         });
     },
+
+    getTimeline: async (timelineId) => {
+        const url = resourceUrl() + `/timelines/${timelineId}`;
+        return fetch(url, {
+            method: 'GET',
+            mode: 'cors',
+            headers: getHeaders(),
+        })
+    },
 }
 
 export default TimelineService;
