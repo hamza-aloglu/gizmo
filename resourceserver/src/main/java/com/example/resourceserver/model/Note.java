@@ -2,12 +2,14 @@ package com.example.resourceserver.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Note extends BaseModel {
     private String title;
+    @Column(length = 10485760)
     private String content;
     @ManyToOne
     @JsonIgnore

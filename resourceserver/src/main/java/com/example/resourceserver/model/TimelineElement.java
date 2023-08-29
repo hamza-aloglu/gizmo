@@ -1,6 +1,7 @@
 package com.example.resourceserver.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,6 +14,7 @@ public class TimelineElement extends BaseModel {
     private String subtitle;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
+    @Column(length = 10485760)
     private String description;
     @ManyToOne
     @JsonIgnore
