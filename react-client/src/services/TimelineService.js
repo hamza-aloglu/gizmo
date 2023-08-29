@@ -43,14 +43,23 @@ const TimelineService = {
         })
     },
 
-    deleteTimelineElement: async (timelineId) => {
-        const url = resourceUrl() + `/timelineelements?id=${timelineId}`;
+    deleteTimelineElement: async (timelineElementId) => {
+        const url = resourceUrl() + `/timelineelements?id=${timelineElementId}`;
         return fetch(url, {
             method: 'DELETE',
             mode: 'cors',
             headers: getHeaders(),
         })
-    }
+    },
+
+    deleteTimeline: async (timelineId) => {
+        const url = resourceUrl() + `/timelines?timelineId=${timelineId}`;
+        return fetch(url, {
+            method: 'DELETE',
+            mode: 'cors',
+            headers: getHeaders(),
+        });
+    },
 }
 
 export default TimelineService;

@@ -5,8 +5,9 @@ import { VerticalTimeline, VerticalTimelineElement } from "react-vertical-timeli
 import 'react-vertical-timeline-component/style.min.css';
 import TimelineElement from "./TimelineElement";
 import TimelineService from "../../services/TimelineService";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import KanbanService from "../../services/KanbanService";
+import DropdownMenu from "../DropdownMenu";
 
 const TimelinePage = ({ }) => {
     const textareaRef = useRef(null);
@@ -26,11 +27,12 @@ const TimelinePage = ({ }) => {
     const [showForm, setShowForm] = useState(false);
     const [formData, setFormData] = useState(emptyFormData);
     const [boards, setBoards] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         TimelineService.getTimeline(timelineId).then(async (response) => {
             const timelineResponse = await response.json();
-            if(response.ok) {
+            if (response.ok) {
                 setTimelineElements(timelineResponse.timelineElements);
                 setTitle(timelineResponse.title);
             }
@@ -38,7 +40,7 @@ const TimelinePage = ({ }) => {
 
         KanbanService.fetchBoards().then(async (response) => {
             const boardsResponse = await response.json();
-            if(response.ok) {
+            if (response.ok) {
                 setBoards(boardsResponse);
             }
         })
@@ -105,17 +107,25 @@ const TimelinePage = ({ }) => {
                 setTimelineElements(prev => [...prev, newTimelineElement]);
                 setShowForm(false);
                 setFormData(emptyFormData);
-              } else {
+            } else {
                 // Handle error, maybe show a message to the user.
                 console.error('Error creating new timeline element:', newTimelineElement);
-              }
-        } );
+            }
+        });
     }
 
     function deleteTimelineElement(e, timelineId) {
         TimelineService.deleteTimelineElement(timelineId).then(async (response) => {
-            if(response.ok) {
+            if (response.ok) {
                 setTimelineElements(prevTes => prevTes.filter(te => te.id != timelineId));
+            }
+        });
+    }
+
+    function deleteTimeline(e) {
+        TimelineService.deleteTimeline(timelineId).then(async (response) => {
+            if(response.ok) {
+                navigate('/');
             }
         });
     }
@@ -125,9 +135,15 @@ const TimelinePage = ({ }) => {
             <Header />
             <div className="timeline-title-section">
                 {title}
+                <div style={{ fontSize: 'medium' }}>
+                    <DropdownMenu type={"Timeline"} handleDelete={deleteTimeline} />
+                </div>
             </div>
 
+
+
             <VerticalTimeline>
+
                 {timelineElements && timelineElements.map((te, index) => renderTimelineElement(te, index))}
 
                 {showForm && (
@@ -157,14 +173,14 @@ const TimelinePage = ({ }) => {
 
                             <div className="board-select-section">
                                 <select className="timeline-element-border" defaultValue={0}
-                                 onChange={(e) => setFormData(prev => ({...prev, boardId: e.target.value}))}>
+                                    onChange={(e) => setFormData(prev => ({ ...prev, boardId: e.target.value }))}>
                                     <option value={0}> none </option>
                                     {boards && boards.map(b => <option key={b.id} value={b.id}> {b.title} </option>)}
                                 </select>
                             </div>
 
                             <button className="small-btn" type="submit">Submit</button>
-                            <button className="small-btn bg-redish" style={{marginLeft: "5px"}} type="reset" onClick={() => setShowForm(false)}>Cancel</button>
+                            <button className="small-btn bg-redish" style={{ marginLeft: "5px" }} type="reset" onClick={() => setShowForm(false)}>Cancel</button>
                         </VerticalTimelineElement>
                     </form>
                 )}

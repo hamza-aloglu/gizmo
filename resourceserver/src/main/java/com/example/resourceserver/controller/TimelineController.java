@@ -25,4 +25,9 @@ public class TimelineController {
     public TimelineDto getTimeline(@Valid @NotNull @PathVariable Long timelineId) {
         return timelineService.getTimeline(timelineId);
     }
+
+    @DeleteMapping
+    public void deleteTimeline(@Valid @NotNull @RequestParam Long timelineId) {
+        timelineService.deleteTimeline(timelineId);
+    }
 }

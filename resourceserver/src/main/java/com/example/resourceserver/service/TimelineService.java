@@ -42,4 +42,11 @@ public class TimelineService {
         Timeline timeline = this.get(timelineId);
         return timelineMapper.timelineToTimelineDto(timeline);
     }
+
+    public void deleteTimeline(Long timelineId) {
+        if (!timelineRepository.existsById(timelineId)) {
+            throw new NotFoundException("Timeline not found with id: " + timelineId);
+        }
+        timelineRepository.deleteById(timelineId);
+    }
 }
