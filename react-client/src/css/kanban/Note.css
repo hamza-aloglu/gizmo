@@ -20,7 +20,7 @@
     font-weight: 800;
 }
 
-.note-create-button {
+.small-btn {
     display: inline-block;
     border: 5px solid transparent;
     border-radius: 5px;
