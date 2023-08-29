@@ -106,7 +106,7 @@ const TimelineElement = ({ id, title, subtitle, date, description, board, onUpda
                 <input type="date" className="timeline-element-border" onChange={(e) => setLocalDate(e.target.value)}
                     value={localDate} onBlur={finishEditDate} onKeyDown={(e) => e.key === 'Enter' && finishEditDate()} autoFocus />
             ) : (
-                <p onDoubleClick={() => setIsEditingDate(true)}> {localDate} </ p>
+                <p onDoubleClick={() => setIsEditingDate(true)}> {localDate && localDate.split('T')[0]} </ p>
             )}
         >
             {isEditingTitle ? (

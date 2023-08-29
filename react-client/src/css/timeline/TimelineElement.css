@@ -53,3 +53,7 @@
 .description, .description-editor {
     font-size: 15px;
 }
+
+.vertical-timeline-element--work * {
+    overflow-wrap: break-word; 
+}
