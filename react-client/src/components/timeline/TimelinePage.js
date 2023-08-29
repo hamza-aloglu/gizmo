@@ -66,6 +66,7 @@ const TimelinePage = ({ }) => {
                 description={tElement.description}
                 board={tElement.board}
                 boards={boards}
+                deleteTimelineElement={deleteTimelineElement}
             />
         )
     }
@@ -111,6 +112,14 @@ const TimelinePage = ({ }) => {
         } );
     }
 
+    function deleteTimelineElement(e, timelineId) {
+        TimelineService.deleteTimelineElement(timelineId).then(async (response) => {
+            if(response.ok) {
+                setTimelineElements(prevTes => prevTes.filter(te => te.id != timelineId));
+            }
+        });
+    }
+
     return (
         <div>
             <Header />
@@ -150,7 +159,7 @@ const TimelinePage = ({ }) => {
                                 <select className="timeline-element-border" defaultValue={0}
                                  onChange={(e) => setFormData(prev => ({...prev, boardId: e.target.value}))}>
                                     <option value={0}> none </option>
-                                    {boards && boards.map(b => <option value={b.id}> {b.title} </option>)}
+                                    {boards && boards.map(b => <option key={b.id} value={b.id}> {b.title} </option>)}
                                 </select>
                             </div>
 

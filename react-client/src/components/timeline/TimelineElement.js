@@ -2,8 +2,9 @@ import { VerticalTimelineElement } from "react-vertical-timeline-component"
 import '../../css/timeline/TimelineElement.css';
 import { useState, useEffect, useRef } from "react";
 import DropdownMenu from "../DropdownMenu";
+import TimelineService from "../../services/TimelineService";
 
-const TimelineElement = ({ id, title, subtitle, date, description, board, onUpdate, boards }) => {
+const TimelineElement = ({ id, title, subtitle, date, description, board, onUpdate, boards, deleteTimelineElement }) => {
     const [localTitle, setLocalTitle] = useState(title);
     const [localSubtitle, setLocalSubtitle] = useState(subtitle);
     const [localDate, setLocalDate] = useState(date);
@@ -110,7 +111,7 @@ const TimelineElement = ({ id, title, subtitle, date, description, board, onUpda
                 <p onDoubleClick={() => setIsEditingDate(true)}> {localDate && localDate.split('T')[0]} </ p>
             )}
         >
-            <DropdownMenu />
+            <DropdownMenu id={id} handleDelete={deleteTimelineElement} />
             {isEditingTitle ? (
                 <input type="text" className="timeline-element-border timeline-title-input" onChange={(e) => setLocalTitle(e.target.value)}
                     value={localTitle} onBlur={finishEditTitle} onKeyDown={(e) => e.key === 'Enter' && finishEditTitle()} autoFocus />
@@ -137,7 +138,7 @@ const TimelineElement = ({ id, title, subtitle, date, description, board, onUpda
                 <select className="timeline-element-border" defaultValue={localBoard ? localBoard.id : 0} onChange={handleBoardSelect}>
                     <option value={0}> none </option>
                     {localBoard && <option value={localBoard.id}> {localBoard.title}  </option>}
-                    {boards && boards.map(b => <option value={b.id}> {b.title} </option>)}
+                    {boards && boards.map(b => <option value={b.id} key={b.id}> {b.title} </option>)}
                 </select>
             </div>
         </VerticalTimelineElement>

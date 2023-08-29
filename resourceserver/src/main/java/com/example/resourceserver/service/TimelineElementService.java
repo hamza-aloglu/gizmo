@@ -2,6 +2,7 @@ package com.example.resourceserver.service;
 
 import com.example.resourceserver.dto.TimelineElementCreateRequest;
 import com.example.resourceserver.dto.TimelineElementDto;
+import com.example.resourceserver.exception.NotFoundException;
 import com.example.resourceserver.mapper.TimelineElementMapper;
 import com.example.resourceserver.model.Board;
 import com.example.resourceserver.model.Timeline;
@@ -37,5 +38,12 @@ public class TimelineElementService {
 
         TimelineElement savedTimelineElement = timelineElementRepository.save(timelineElement);
         return timelineElementMapper.timelineElementToTimelineElementDto(savedTimelineElement);
+    }
+
+    public void deleteTimelineElement(Long id) {
+        if (!timelineElementRepository.existsById(id)) {
+            throw new NotFoundException("Timeline element not found with id: " + id);
+        }
+        timelineElementRepository.deleteById(id);
     }
 }

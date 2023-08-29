@@ -29,7 +29,7 @@ const TimelineService = {
         })
     },
 
-    createTimeline: async(timelineTitle) => {
+    createTimeline: async (timelineTitle) => {
         const body = {
             "title": timelineTitle,
         };
@@ -42,6 +42,15 @@ const TimelineService = {
             body: JSON.stringify(body),
         })
     },
+
+    deleteTimelineElement: async (timelineId) => {
+        const url = resourceUrl() + `/timelineelements?id=${timelineId}`;
+        return fetch(url, {
+            method: 'DELETE',
+            mode: 'cors',
+            headers: getHeaders(),
+        })
+    }
 }
 
 export default TimelineService;

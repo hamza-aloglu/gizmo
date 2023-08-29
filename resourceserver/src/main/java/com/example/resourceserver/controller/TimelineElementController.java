@@ -4,10 +4,8 @@ import com.example.resourceserver.dto.TimelineElementCreateRequest;
 import com.example.resourceserver.dto.TimelineElementDto;
 import com.example.resourceserver.service.TimelineElementService;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/timelineelements")
@@ -21,5 +19,10 @@ public class TimelineElementController {
     @PostMapping
     public TimelineElementDto createTimelineElement(@Valid @RequestBody TimelineElementCreateRequest req) {
         return timelineElementService.createTimelineElement(req);
+    }
+
+    @DeleteMapping
+    public void deleteTimelineElement(@RequestParam @Valid @NotNull Long id) {
+        timelineElementService.deleteTimelineElement(id);
     }
 }
