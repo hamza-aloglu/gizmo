@@ -1,27 +1,21 @@
-package com.example.resourceserver.model;
+package com.example.resourceserver.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
-@Entity
-public class TimelineElement extends BaseModel {
+public class TimelineElementCreateRequest {
     private String title;
     private String subtitle;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
     private String description;
-    @ManyToOne
-    @JsonIgnore
-    private Timeline timeline;
+    @NotNull
+    private Long timelineId;
+    private Long boardId;
 
-    @ManyToOne
-    private Board board;
-
-    public TimelineElement() {
+    public TimelineElementCreateRequest() {
     }
 
     public String getTitle() {
@@ -56,19 +50,19 @@ public class TimelineElement extends BaseModel {
         this.description = description;
     }
 
-    public Timeline getTimeline() {
-        return timeline;
+    public Long getTimelineId() {
+        return timelineId;
     }
 
-    public void setTimeline(Timeline timeline) {
-        this.timeline = timeline;
+    public void setTimelineId(Long timelineId) {
+        this.timelineId = timelineId;
     }
 
-    public Board getBoard() {
-        return board;
+    public Long getBoardId() {
+        return boardId;
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
+    public void setBoardId(Long boardId) {
+        this.boardId = boardId;
     }
 }

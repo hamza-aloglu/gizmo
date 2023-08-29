@@ -132,7 +132,8 @@ const TimelineElement = ({ id, title, subtitle, date, description, board, onUpda
 
 
             <div className="board-select-section">
-                <select className="timeline-element-border" defaultValue={1} onChange={handleBoardSelect}>
+                <select className="timeline-element-border" defaultValue={localBoard ? localBoard.id : 0} onChange={handleBoardSelect}>
+                    <option value={0} disabled> none </option>
                     {localBoard && <option value={1}> {localBoard.title}  </option>}
                     <option value={2}> boardTitle...lkadls </option>
                 </select>

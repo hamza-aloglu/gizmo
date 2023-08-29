@@ -28,6 +28,8 @@
 .timeline-title-input {
     width: 50%;
     font-size: large;
+    display: block;
+    margin-bottom: 6px;
 }
 
 .timeline-subtitle-input {

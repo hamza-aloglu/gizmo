@@ -163,7 +163,7 @@ const Card = ({ title, index, id, moveCard, updateCardIndexes, columnId, handleD
                         </div>
                     }
 
-                    {!isFormActive && <button className="note-create-button" onClick={() => setIsFormActive(true)}> Create Note </button>}
+                    {!isFormActive && <button className="small-btn" onClick={() => setIsFormActive(true)}> Create Note </button>}
                     {isFormActive && <form style={{ display: "inline-block" }} onSubmit={handleCreateNote}>
                         <input className="note-create-input" type="text" onChange={(e) => setNewNoteTitle(e.target.value)}
                             autoFocus onBlur={() => setIsFormActive(false)} />
