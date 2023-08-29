@@ -6,25 +6,14 @@ import 'react-vertical-timeline-component/style.min.css';
 import TimelineElement from "./TimelineElement";
 import TimelineService from "../../services/TimelineService";
 import { useParams } from "react-router";
+import KanbanService from "../../services/KanbanService";
 
 const TimelinePage = ({ }) => {
     const textareaRef = useRef(null);
     const timelineId = useParams().timelineId;
 
     const [title, setTitle] = useState("default title ...");
-    const [timelineElements, setTimelineElements] = useState([
-        {
-            "id": Math.random(),
-            "title": "Title",
-            "subtitle": "subtitle",
-            "date": "2222-2-22",
-            "description": "asdsadsad adjsoaşdjasodjaospd dsaodjoasşmoşsamd samdoşsamdosakmdoşsa dsadasdsa",
-            "board": {
-                "id": Math.random(),
-                "title": "board title",
-            },
-        },
-    ]);
+    const [timelineElements, setTimelineElements] = useState([]);
 
     const emptyFormData = {
         title: '',
@@ -36,6 +25,7 @@ const TimelinePage = ({ }) => {
     };
     const [showForm, setShowForm] = useState(false);
     const [formData, setFormData] = useState(emptyFormData);
+    const [boards, setBoards] = useState([]);
 
     useEffect(() => {
         TimelineService.getTimeline(timelineId).then(async (response) => {
@@ -45,6 +35,13 @@ const TimelinePage = ({ }) => {
                 setTitle(timelineResponse.title);
             }
         });
+
+        KanbanService.fetchBoards().then(async (response) => {
+            const boardsResponse = await response.json();
+            if(response.ok) {
+                setBoards(boardsResponse);
+            }
+        })
     }, []);
 
     useEffect(() => {
@@ -68,6 +65,7 @@ const TimelinePage = ({ }) => {
                 date={tElement.date}
                 description={tElement.description}
                 board={tElement.board}
+                boards={boards}
             />
         )
     }
@@ -151,12 +149,13 @@ const TimelinePage = ({ }) => {
                             <div className="board-select-section">
                                 <select className="timeline-element-border" defaultValue={0}
                                  onChange={(e) => setFormData(prev => ({...prev, boardId: e.target.value}))}>
-                                    <option value={0} disabled> none </option>
-                                    <option value={1}> boardTitle...lkadls </option>
+                                    <option value={0}> none </option>
+                                    {boards && boards.map(b => <option value={b.id}> {b.title} </option>)}
                                 </select>
                             </div>
 
                             <button className="small-btn" type="submit">Submit</button>
+                            <button className="small-btn bg-redish" style={{marginLeft: "5px"}} type="reset" onClick={() => setShowForm(false)}>Cancel</button>
                         </VerticalTimelineElement>
                     </form>
                 )}

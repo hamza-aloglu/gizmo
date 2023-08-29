@@ -2,7 +2,7 @@ import { VerticalTimelineElement } from "react-vertical-timeline-component"
 import '../../css/timeline/TimelineElement.css';
 import { useState, useEffect, useRef } from "react";
 
-const TimelineElement = ({ id, title, subtitle, date, description, board, onUpdate }) => {
+const TimelineElement = ({ id, title, subtitle, date, description, board, onUpdate, boards }) => {
     const [localTitle, setLocalTitle] = useState(title);
     const [localSubtitle, setLocalSubtitle] = useState(subtitle);
     const [localDate, setLocalDate] = useState(date);
@@ -133,9 +133,9 @@ const TimelineElement = ({ id, title, subtitle, date, description, board, onUpda
 
             <div className="board-select-section">
                 <select className="timeline-element-border" defaultValue={localBoard ? localBoard.id : 0} onChange={handleBoardSelect}>
-                    <option value={0} disabled> none </option>
-                    {localBoard && <option value={1}> {localBoard.title}  </option>}
-                    <option value={2}> boardTitle...lkadls </option>
+                    <option value={0}> none </option>
+                    {localBoard && <option value={localBoard.id}> {localBoard.title}  </option>}
+                    {boards && boards.map(b => <option value={b.id}> {b.title} </option>)}
                 </select>
             </div>
         </VerticalTimelineElement>
