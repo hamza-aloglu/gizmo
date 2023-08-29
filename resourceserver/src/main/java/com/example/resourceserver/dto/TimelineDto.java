@@ -5,6 +5,7 @@ import com.example.resourceserver.model.TimelineElement;
 import java.util.List;
 
 public class TimelineDto {
+    private Long id;
     private String title;
     private List<TimelineElement> timelineElements;
 
@@ -25,5 +26,13 @@ public class TimelineDto {
 
     public void setTimelineElements(List<TimelineElement> timelineElements) {
         this.timelineElements = timelineElements;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

@@ -28,6 +28,20 @@ const TimelineService = {
             headers: getHeaders(),
         })
     },
+
+    createTimeline: async(timelineTitle) => {
+        const body = {
+            "title": timelineTitle,
+        };
+
+        const url = resourceUrl() + '/timelines';
+        return fetch(url, {
+            method: 'POST',
+            mode: 'cors',
+            headers: getHeaders(),
+            body: JSON.stringify(body),
+        })
+    },
 }
 
 export default TimelineService;

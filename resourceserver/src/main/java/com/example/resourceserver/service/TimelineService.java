@@ -21,11 +21,13 @@ public class TimelineService {
         this.timelineRepository = timelineRepository;
     }
 
-    public void createTimeline(TimelineCreateRequest timelineCreateRequest) {
+    public TimelineDto createTimeline(TimelineCreateRequest timelineCreateRequest) {
         Timeline timeline = new Timeline();
         timeline.setTitle(timelineCreateRequest.getTitle());
         timeline.setUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        timelineRepository.save(timeline);
+
+        Timeline savedTimeline = timelineRepository.save(timeline);
+        return timelineMapper.timelineToTimelineDto(savedTimeline);
     }
 
     protected Timeline get(Long timelineId) {

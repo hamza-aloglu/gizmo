@@ -4,18 +4,20 @@ import { useNavigate } from "react-router";
 import Header from "./Header";
 import '../css/profile.css';
 import AuthService from "../services/AuthService";
+import TimelineService from "../services/TimelineService";
 
 const Profile = () => {
     const [boards, setBoards] = useState([]);
     const [boardTitle, setBoardTitle] = useState([]);
     const [isFormActive, setIsFormActive] = useState(false);
+    const [timelineTitle, setTimelineTitle] = useState('');
     const navigate = useNavigate();
     const isLoggedIn = AuthService.isLoggedIn();
 
     useEffect(() => {
         if (isLoggedIn) {
             KanbanService.fetchBoards().then(async (response) => {
-                if(response.ok) {
+                if (response.ok) {
                     const boards = await response.json();
                     setBoards(boards);
                 }
@@ -41,6 +43,16 @@ const Profile = () => {
         });
     }
 
+    function handleCreateTimeline(e) {
+        e.preventDefault();
+        TimelineService.createTimeline(timelineTitle).then(async (response) => {
+            if(response.ok) {
+                const timeline = await response.json()
+                navigate('/timeline/' + timeline.id);
+            }
+        })   
+    }
+
     function renderBoard(board) {
         return (
             <div key={board.id} className="box" onClick={() => navigate('/board/' + board.id)}>
@@ -51,6 +63,11 @@ const Profile = () => {
 
     return (
         <div>
+            <div className="profile-timeline-section">
+                <input type="text" onChange={(e) => setTimelineTitle(e.target.value)} value={timelineTitle} />
+                <button onClick={handleCreateTimeline}> create timeline </button>
+            </div>
+
             <Header />
 
             <div id="welcome-username">
@@ -75,9 +92,6 @@ const Profile = () => {
                     }
                 </div>
             </div>
-
-
-
         </div>
     )
 }

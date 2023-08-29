@@ -17,8 +17,8 @@ public class TimelineController {
     }
 
     @PostMapping
-    public void createTimeline(@Valid @RequestBody TimelineCreateRequest timelineCreateRequest) {
-        timelineService.createTimeline(timelineCreateRequest);
+    public TimelineDto createTimeline(@Valid @RequestBody TimelineCreateRequest timelineCreateRequest) {
+        return timelineService.createTimeline(timelineCreateRequest);
     }
 
     @GetMapping("/{timelineId}")
