@@ -5,6 +5,8 @@ import Card from "./Card";
 import { useDrop } from "react-dnd";
 import { ItemTypes } from "../../ItemTypes";
 import update from "immutability-helper";
+import DropdownMenu from '../DropdownMenu';
+
 
 const Column = ({ title, setAllCards, cards, columnId, moveCard, updateCardIndexes, handleDeleteColumn, handleCardTitleUpdate,
     handleColumnTitleUpdate, colIndex, toggleSetForTomorrow, setNotificationMessage }) => {
@@ -126,17 +128,7 @@ const Column = ({ title, setAllCards, cards, columnId, moveCard, updateCardIndex
     return (
         <div className={`column-container ${chunkColumn}`}>
             <div ref={drop} className="column-wrapper" style={{ opacity }}>
-                <div className="menu" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-
-                {isMenuOpen && (
-                    <ul className="dropdown">
-                        <li onClick={(e) => handleDeleteColumn(e, columnId)}>Delete Column</li>
-                    </ul>
-                )}
+            <DropdownMenu id={columnId} handleDelete={handleDeleteColumn} type={"column"} />
 
                 <div className="column-title">
                     {isEditingTitle

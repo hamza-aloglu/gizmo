@@ -48,25 +48,6 @@ h6 {
 
 }
 
-.dropdown {
-  position: absolute;
-  top: 30px;
-  right: 10px;
-  background: #fff;
-  border: 1px solid #000;
-  list-style: none;
-  padding: 0;
-}
-
-.dropdown li {
-  padding: 4px;
-  opacity: 0.4;
-}
-
-li:hover {
-  opacity: 1;
-}
-
 .title-edit-input {
   width: 100%;
   padding: 8px;
@@ -80,4 +61,8 @@ li:hover {
 
 .bg-blueish {
   background-color: rgb(33, 150, 243);
+}
+
+.bg-redish {
+  background-color: #f5205c !important;
 }

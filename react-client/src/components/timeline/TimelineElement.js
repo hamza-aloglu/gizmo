@@ -1,6 +1,7 @@
 import { VerticalTimelineElement } from "react-vertical-timeline-component"
 import '../../css/timeline/TimelineElement.css';
 import { useState, useEffect, useRef } from "react";
+import DropdownMenu from "../DropdownMenu";
 
 const TimelineElement = ({ id, title, subtitle, date, description, board, onUpdate, boards }) => {
     const [localTitle, setLocalTitle] = useState(title);
@@ -109,6 +110,7 @@ const TimelineElement = ({ id, title, subtitle, date, description, board, onUpda
                 <p onDoubleClick={() => setIsEditingDate(true)}> {localDate && localDate.split('T')[0]} </ p>
             )}
         >
+            <DropdownMenu />
             {isEditingTitle ? (
                 <input type="text" className="timeline-element-border timeline-title-input" onChange={(e) => setLocalTitle(e.target.value)}
                     value={localTitle} onBlur={finishEditTitle} onKeyDown={(e) => e.key === 'Enter' && finishEditTitle()} autoFocus />

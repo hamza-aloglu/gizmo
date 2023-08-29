@@ -1,0 +1,46 @@
+.menu-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: flex-start; /* Align at the top of container */
+    justify-content: flex-end; /* Push to the right side of container */
+}
+
+.menu-icon {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 24px;
+    width: 24px;
+    align-items: center;
+    padding: 6px;
+}
+
+.menu-icon span {
+    height: 3px;
+    width: 18px;
+    background-color: black;
+    border-radius: 2px;
+}
+
+.dropdown {
+    position: absolute;
+    right: 0; /* This ensures the dropdown starts at the rightmost edge of the menu container */
+    top: 100%; /* This ensures the dropdown appears right below the menu-icon */
+    background-color: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    z-index: 10; /* Ensure the dropdown is on top */
+}
+
+.dropdown li {
+    list-style-type: none;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.dropdown li:hover {
+    background-color: #f7f7f7;
+}
