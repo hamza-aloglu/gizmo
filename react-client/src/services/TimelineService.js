@@ -107,6 +107,15 @@ const TimelineService = {
         });
     },
     // </timeline element updates>
+
+    updateTimelineTitle: async (timelineId, title) => {
+        const url = resourceUrl() + `/timelines/title?id=${timelineId}&title=${title}`;
+        return fetch(url, {
+            method: 'PUT',
+            mode: 'cors',
+            headers: getHeaders(),
+        });
+    },
 }
 
 export default TimelineService;

@@ -3,4 +3,6 @@
     padding: 25px;
     font-size: x-large;
     position: relative;
+    display: flex;
+    justify-content: center;
 }

@@ -30,4 +30,10 @@ public class TimelineController {
     public void deleteTimeline(@Valid @NotNull @RequestParam Long timelineId) {
         timelineService.deleteTimeline(timelineId);
     }
+
+    @PutMapping("/title")
+    public void updateTimelineTitle(@Valid @NotNull @RequestParam Long id,
+                                    @Valid @NotNull @RequestParam String title) {
+        timelineService.updateTitle(id, title);
+    }
 }

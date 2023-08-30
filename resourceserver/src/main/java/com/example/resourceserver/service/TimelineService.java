@@ -49,4 +49,10 @@ public class TimelineService {
         }
         timelineRepository.deleteById(timelineId);
     }
+
+    public void updateTitle(Long id, String title) {
+        Timeline timeline = this.get(id);
+        timeline.setTitle(title);
+        timelineRepository.save(timeline);
+    }
 }

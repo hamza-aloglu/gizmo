@@ -14,6 +14,7 @@ const TimelinePage = ({ }) => {
     const timelineId = useParams().timelineId;
 
     const [title, setTitle] = useState("default title ...");
+    const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [timelineElements, setTimelineElements] = useState([]);
 
     const emptyFormData = {
@@ -141,11 +142,23 @@ const TimelinePage = ({ }) => {
         });
     }
 
+    function finishEditTitle() {
+        setIsEditingTitle(false);
+        TimelineService.updateTimelineTitle(timelineId, title).then(async (response) => {
+        });
+    }
+
     return (
         <div>
             <Header />
             <div className="timeline-title-section">
-                {title}
+                {isEditingTitle ? (
+                    <input type="text" className="timeline-element-border timeline-title-input" onChange={(e) => setTitle(e.target.value)}
+                        value={title} onBlur={finishEditTitle} onKeyDown={(e) => e.key === 'Enter' && finishEditTitle()} autoFocus
+                         />
+                ) : (
+                    <h4 className="vertical-timeline-element-title" onDoubleClick={() => setIsEditingTitle(true)}> {title} </h4>
+                )}
                 <div style={{ fontSize: 'medium' }}>
                     <DropdownMenu type={"Timeline"} handleDelete={deleteTimeline} />
                 </div>
