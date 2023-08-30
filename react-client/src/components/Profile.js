@@ -8,8 +8,10 @@ import TimelineService from "../services/TimelineService";
 
 const Profile = () => {
     const [boards, setBoards] = useState([]);
+    const [timelines, setTimelines] = useState([]);
     const [boardTitle, setBoardTitle] = useState([]);
     const [isFormActive, setIsFormActive] = useState(false);
+    const [isTimelineFormActive, setIsTimelineFormActive] = useState(false);
     const [timelineTitle, setTimelineTitle] = useState('');
     const navigate = useNavigate();
     const isLoggedIn = AuthService.isLoggedIn();
@@ -18,8 +20,15 @@ const Profile = () => {
         if (isLoggedIn) {
             KanbanService.fetchBoards().then(async (response) => {
                 if (response.ok) {
-                    const boards = await response.json();
-                    setBoards(boards);
+                    const boardsResponse = await response.json();
+                    setBoards(boardsResponse);
+                }
+            });
+
+            TimelineService.fetchTimelines().then(async (response) => {
+                if (response.ok) {
+                    const timelinesResponse = await response.json();
+                    setTimelines(timelinesResponse);
                 }
             });
         }
@@ -35,6 +44,10 @@ const Profile = () => {
         }
     }
 
+    function handleClickCreateTimeline() {
+        isLoggedIn ? setIsTimelineFormActive(true) : navigate('/redirect');
+    }
+
     function handleCreateBoard(e) {
         e.preventDefault();
         KanbanService.createBoard(boardTitle).then(async (response) => {
@@ -46,28 +59,35 @@ const Profile = () => {
     function handleCreateTimeline(e) {
         e.preventDefault();
         TimelineService.createTimeline(timelineTitle).then(async (response) => {
-            if(response.ok) {
+            if (response.ok) {
                 const timeline = await response.json()
                 navigate('/timeline/' + timeline.id);
             }
-        })   
+        })
     }
 
     function renderBoard(board) {
         return (
-            <div key={board.id} className="box" onClick={() => navigate('/board/' + board.id)}>
-                {board.title}
+            <div className="render-element-container">
+                <div key={board.id} className="box" onClick={() => navigate('/board/' + board.id)}>
+                    {board.title}
+                </div>
+            </div>
+        )
+    }
+
+    function renderTimeline(timeline) {
+        return (
+            <div className="render-element-container">
+                <div key={timeline.id} className="box bg-purpleish" onClick={() => navigate('/timeline/' + timeline.id)}>
+                    {timeline.title}
+                </div>
             </div>
         )
     }
 
     return (
         <div>
-            <div className="profile-timeline-section">
-                <input type="text" onChange={(e) => setTimelineTitle(e.target.value)} value={timelineTitle} />
-                <button onClick={handleCreateTimeline}> create timeline </button>
-            </div>
-
             <Header />
 
             <div id="welcome-username">
@@ -75,25 +95,51 @@ const Profile = () => {
             </div>
             <div className="profile-wrapper">
                 <div className="profile-container">
-                    {boards && boards.map((board) => renderBoard(board))}
+                    <div className="board-container">
+                        {boards && boards.map((board) => renderBoard(board))}
 
-                    {
-                        !isFormActive &&
-                        <div className="box create-box" onClick={handleClickCreateBoard}>
-                            Create Board
-                        </div>
-                    }
-                    {
-                        isFormActive &&
-                        <form className="create-box" onSubmit={handleCreateBoard}>
-                            <input className="long-button" type="text" onChange={(e) => setBoardTitle(e.target.value)}
-                                autoFocus onBlur={() => setIsFormActive(false)} />
-                        </form>
-                    }
+                        {
+                            !isFormActive &&
+                            <div className="box create-box" onClick={handleClickCreateBoard}>
+                                Create Board
+                            </div>
+                        }
+                        {
+                            isFormActive &&
+                            <form className="create-box" onSubmit={handleCreateBoard}>
+                                <input className="long-button" type="text" onChange={(e) => setBoardTitle(e.target.value)}
+                                    autoFocus onBlur={() => setIsFormActive(false)} />
+                            </form>
+                        }
+                    </div>
+
+                    <div className="timeline-container">
+                        {timelines && timelines.map((t) => renderTimeline(t))}
+
+                        {
+                            !isTimelineFormActive &&
+                            <div className="box create-box bg-purpleish" onClick={handleClickCreateTimeline}>
+                                Create Timeline
+                            </div>
+                        }
+                        {
+                            isTimelineFormActive &&
+                            <form className="create-box" onSubmit={handleCreateTimeline}>
+                                <input className="long-button" type="text" onChange={(e) => setTimelineTitle(e.target.value)}
+                                    autoFocus onBlur={() => setIsTimelineFormActive(false)} />
+                            </form>
+                        }
+
+
+                    </div>
+
                 </div>
             </div>
         </div>
     )
 }
+
+{/* <button className="long-button" onClick={handleCreateTimeline}> create timeline </button> */ }
+
 
 export default Profile;

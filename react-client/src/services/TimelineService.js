@@ -116,6 +116,15 @@ const TimelineService = {
             headers: getHeaders(),
         });
     },
+
+    fetchTimelines: async () => {
+        const url = resourceUrl() + `/timelines`;
+        return fetch(url, {
+            method: 'GET',
+            mode: 'cors',
+            headers: getHeaders(),
+        })
+    },
 }
 
 export default TimelineService;

@@ -10,6 +10,7 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -54,5 +55,10 @@ public class TimelineService {
         Timeline timeline = this.get(id);
         timeline.setTitle(title);
         timelineRepository.save(timeline);
+    }
+
+    public List<TimelineDto> getTimelinesByUsername() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return timelineMapper.timelineListToTimelineDtoList( timelineRepository.findAllByUsername(username) );
     }
 }

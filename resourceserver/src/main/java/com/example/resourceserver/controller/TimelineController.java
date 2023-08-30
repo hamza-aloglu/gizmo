@@ -7,6 +7,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/timelines")
 public class TimelineController {
@@ -35,5 +37,10 @@ public class TimelineController {
     public void updateTimelineTitle(@Valid @NotNull @RequestParam Long id,
                                     @Valid @NotNull @RequestParam String title) {
         timelineService.updateTitle(id, title);
+    }
+
+    @GetMapping
+    public List<TimelineDto> getTimelinesByUsername() {
+        return timelineService.getTimelinesByUsername();
     }
 }
