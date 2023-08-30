@@ -2,6 +2,7 @@ package com.example.resourceserver.dto;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class TimelineElementDto {
@@ -12,6 +13,7 @@ public class TimelineElementDto {
     private Date date;
     private String description;
     private BoardDto board;
+    private LocalDateTime createdAt;
 
     public TimelineElementDto() {
     }
@@ -62,5 +64,13 @@ public class TimelineElementDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

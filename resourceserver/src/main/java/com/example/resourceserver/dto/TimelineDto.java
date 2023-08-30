@@ -7,7 +7,7 @@ import java.util.List;
 public class TimelineDto {
     private Long id;
     private String title;
-    private List<TimelineElement> timelineElements;
+    private List<TimelineElementDto> timelineElements;
 
     public TimelineDto() {
     }
@@ -20,11 +20,11 @@ public class TimelineDto {
         this.title = title;
     }
 
-    public List<TimelineElement> getTimelineElements() {
+    public List<TimelineElementDto> getTimelineElements() {
         return timelineElements;
     }
 
-    public void setTimelineElements(List<TimelineElement> timelineElements) {
+    public void setTimelineElements(List<TimelineElementDto> timelineElements) {
         this.timelineElements = timelineElements;
     }
 

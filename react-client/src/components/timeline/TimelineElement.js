@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import DropdownMenu from "../DropdownMenu";
 import TimelineService from "../../services/TimelineService";
 
-const TimelineElement = ({ id, title, subtitle, date, description, board, onUpdate, boards, deleteTimelineElement }) => {
+const TimelineElement = ({ id, title, subtitle, date, description, board, onUpdate, boards, deleteTimelineElement, createdAt }) => {
     const [localTitle, setLocalTitle] = useState(title);
     const [localSubtitle, setLocalSubtitle] = useState(subtitle);
     const [localDate, setLocalDate] = useState(date);
@@ -36,6 +36,7 @@ const TimelineElement = ({ id, title, subtitle, date, description, board, onUpda
         "date": localDate,
         "description": localDescription,
         "board": localBoard,
+        "createdAt": createdAt,
         onUpdate,
     };
 

@@ -33,7 +33,17 @@ const TimelinePage = ({ }) => {
         TimelineService.getTimeline(timelineId).then(async (response) => {
             const timelineResponse = await response.json();
             if (response.ok) {
-                setTimelineElements(timelineResponse.timelineElements);
+                const timelineElements = timelineResponse.timelineElements;
+
+                timelineElements.sort((a, b) => {
+                    if (a.createdAt > b.createdAt) {
+                        return 1;
+                    } else if (a.createdAt < b.createdAt) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                setTimelineElements(timelineElements);
                 setTitle(timelineResponse.title);
             }
         });
@@ -67,6 +77,7 @@ const TimelinePage = ({ }) => {
                 date={tElement.date}
                 description={tElement.description}
                 board={tElement.board}
+                createdAt={tElement.createdAt}
                 boards={boards}
                 deleteTimelineElement={deleteTimelineElement}
             />
@@ -124,7 +135,7 @@ const TimelinePage = ({ }) => {
 
     function deleteTimeline(e) {
         TimelineService.deleteTimeline(timelineId).then(async (response) => {
-            if(response.ok) {
+            if (response.ok) {
                 navigate('/');
             }
         });

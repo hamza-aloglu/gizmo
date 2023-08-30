@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -19,9 +20,9 @@ public class TimelineElement extends BaseModel {
     @ManyToOne
     @JsonIgnore
     private Timeline timeline;
-
     @ManyToOne
     private Board board;
+    private LocalDateTime createdAt;
 
     public TimelineElement() {
     }
@@ -72,5 +73,13 @@ public class TimelineElement extends BaseModel {
 
     public void setBoard(Board board) {
         this.board = board;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

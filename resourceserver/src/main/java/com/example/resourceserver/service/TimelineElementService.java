@@ -11,6 +11,7 @@ import com.example.resourceserver.repository.TimelineElementRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
@@ -38,6 +39,9 @@ public class TimelineElementService {
 
         Timeline timeline = timelineService.get(req.getTimelineId());
         timelineElement.setTimeline(timeline);
+
+        LocalDateTime currentDate = LocalDateTime.now();
+        timelineElement.setCreatedAt(currentDate);
 
         TimelineElement savedTimelineElement = timelineElementRepository.save(timelineElement);
         return timelineElementMapper.timelineElementToTimelineElementDto(savedTimelineElement);
