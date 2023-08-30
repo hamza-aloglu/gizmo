@@ -11,6 +11,9 @@ import com.example.resourceserver.repository.TimelineElementRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.Optional;
+
 @Service
 public class TimelineElementService {
     private TimelineElementRepository timelineElementRepository;
@@ -45,5 +48,49 @@ public class TimelineElementService {
             throw new NotFoundException("Timeline element not found with id: " + id);
         }
         timelineElementRepository.deleteById(id);
+    }
+
+    public void updateTitle(Long id, String title) {
+        TimelineElement timelineEl = this.get(id);
+        timelineEl.setTitle(title);
+        timelineElementRepository.save(timelineEl);
+    }
+
+    public void updateSubtitle(Long id, String subtitle) {
+        TimelineElement timelineEl = this.get(id);
+        timelineEl.setSubtitle(subtitle);
+        timelineElementRepository.save(timelineEl);
+    }
+
+    public void updateDate(Long id, Date date) {
+        TimelineElement timelineEl = this.get(id);
+        timelineEl.setDate(date);
+        timelineElementRepository.save(timelineEl);
+    }
+
+    public void updateDesc(Long id, String desc) {
+        TimelineElement timelineEl = this.get(id);
+        timelineEl.setDescription(desc);
+        timelineElementRepository.save(timelineEl);
+    }
+
+    public void updateBoard(Long id, Long boardId) {
+        TimelineElement timelineEl = this.get(id);
+
+        Board board = null;
+        if (boardId != 0) {
+            board = boardService.getBoard(boardId);
+        }
+
+        timelineEl.setBoard(board);
+        timelineElementRepository.save(timelineEl);
+    }
+
+    protected TimelineElement get(Long id) {
+        Optional<TimelineElement> timelineElementOptional = timelineElementRepository.findById(id);
+        if (timelineElementOptional.isEmpty()) {
+            throw new NotFoundException("Timeline element not found with id: " + id);
+        }
+        return timelineElementOptional.get();
     }
 }

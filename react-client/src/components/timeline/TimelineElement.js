@@ -41,20 +41,31 @@ const TimelineElement = ({ id, title, subtitle, date, description, board, onUpda
 
     function finishEditTitle() {
         setIsEditingTitle(false);
-        // put request.
-        onUpdate({ ...timelineElementObj });
+        TimelineService.updateTitle(id, localTitle).then(async (response) => {
+            if (response.ok) {
+                onUpdate({ ...timelineElementObj });
+            }
+        });
     }
 
     function finishEditSubtitle() {
         setIsEditingSubtitle(false);
         // put request
-        onUpdate({ ...timelineElementObj });
+        TimelineService.updateSubtitle(id, localSubtitle).then(async (response) => {
+            if (response.ok) {
+                onUpdate({ ...timelineElementObj });
+            }
+        });
     }
 
     function finishEditDate() {
         setIsEditingDate(false);
         // put request
-        onUpdate({ ...timelineElementObj });
+        TimelineService.updateDate(id, localDate).then(async (response) => {
+            if (response.ok) {
+                onUpdate({ ...timelineElementObj });
+            }
+        });
     }
 
     function handleKeyDowns(event) {
@@ -80,12 +91,24 @@ const TimelineElement = ({ id, title, subtitle, date, description, board, onUpda
     function finishEditDescription() {
         setIsEditingDescription(false);
         // put request
-        onUpdate({ ...timelineElementObj });
+        TimelineService.updateDesc(id, localDescription).then(async (response) => {
+            if (response.ok) {
+                onUpdate({ ...timelineElementObj });
+            }
+        });
     }
 
     function handleBoardSelect(e) {
-        console.log(e.target.value);
-        // send put request.
+        const targetBoardId = e.target.value;
+        if (localBoard && localBoard.id == targetBoardId) {
+            return;
+        }
+
+        TimelineService.updateBoard(id, targetBoardId).then(async (response) => {
+            if (response.ok) {
+                setLocalBoard(boards.find(b => b.id == targetBoardId));
+            }
+        });
     }
 
     function renderDescriptionWithNewlines(description) {
@@ -128,7 +151,7 @@ const TimelineElement = ({ id, title, subtitle, date, description, board, onUpda
 
             {isEditingDescription ? (
                 <textarea ref={textareaRef} className="description-editor" value={localDescription} onChange={(e) => setLocalDescription(e.target.value)}
-                 onKeyDown={handleKeyDowns} onBlur={finishEditDescription} autoFocus> </textarea>
+                    onKeyDown={handleKeyDowns} onBlur={finishEditDescription} autoFocus> </textarea>
             ) : (
                 <p className="description" onDoubleClick={() => setIsEditingDescription(true)}> {renderDescriptionWithNewlines(localDescription)} </p>
             )}
@@ -137,7 +160,6 @@ const TimelineElement = ({ id, title, subtitle, date, description, board, onUpda
             <div className="board-select-section">
                 <select className="timeline-element-border" defaultValue={localBoard ? localBoard.id : 0} onChange={handleBoardSelect}>
                     <option value={0}> none </option>
-                    {localBoard && <option value={localBoard.id}> {localBoard.title}  </option>}
                     {boards && boards.map(b => <option value={b.id} key={b.id}> {b.title} </option>)}
                 </select>
             </div>

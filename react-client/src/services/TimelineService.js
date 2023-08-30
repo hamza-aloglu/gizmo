@@ -60,6 +60,53 @@ const TimelineService = {
             headers: getHeaders(),
         });
     },
+
+    // <timeline element updates>
+    updateTitle: async (teId, teTitle) => {
+        const url = resourceUrl() + `/timelineelements/title?id=${teId}&title=${teTitle}`;
+        return fetch(url, {
+            method: 'PUT',
+            mode: 'cors',
+            headers: getHeaders(),
+        });
+    },
+
+    updateSubtitle: async (teId, teSubtitle) => {
+        const url = resourceUrl() + `/timelineelements/subtitle?id=${teId}&subtitle=${teSubtitle}`;
+        return fetch(url, {
+            method: 'PUT',
+            mode: 'cors',
+            headers: getHeaders(),
+        });
+    },
+
+    updateDate: async (teId, teDate) => {
+        const url = resourceUrl() + `/timelineelements/date?id=${teId}&date=${teDate}`;
+        return fetch(url, {
+            method: 'PUT',
+            mode: 'cors',
+            headers: getHeaders(),
+        });
+    },
+
+    updateDesc: async (teId, teDesc) => {
+        const url = resourceUrl() + `/timelineelements/desc?id=${teId}&desc=${teDesc}`;
+        return fetch(url, {
+            method: 'PUT',
+            mode: 'cors',
+            headers: getHeaders(),
+        });
+    },
+
+    updateBoard: async (teId, boardId) => {
+        const url = resourceUrl() + `/timelineelements/board?id=${teId}&boardId=${boardId}`;
+        return fetch(url, {
+            method: 'PUT',
+            mode: 'cors',
+            headers: getHeaders(),
+        });
+    },
+    // </timeline element updates>
 }
 
 export default TimelineService;
