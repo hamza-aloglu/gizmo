@@ -14,6 +14,7 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -56,6 +57,8 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    @Value("${ISSUER:http://localhost:8080}")
+    private String issuer;
 
     @Bean
     @Order(1)
@@ -199,7 +202,9 @@ public class SecurityConfig {
     // For Changing endpoint url (token, authorization, etc.)
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
-        return AuthorizationServerSettings.builder().build();
+        return AuthorizationServerSettings.builder()
+                .issuer(issuer)
+                .build();
     }
 
     @Bean

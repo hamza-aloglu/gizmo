@@ -4,10 +4,10 @@ logging:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/gizmodb
+    url: jdbc:postgresql://${POSTGRES_URL:localhost:5432/gizmo-db}
     driver-class-name: org.postgresql.Driver
-    username: admin
-    password: admin
+    username: ${POSTGRES_USERNAME:admin}
+    password: ${POSTGRES_PASSWORD:admin}
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
