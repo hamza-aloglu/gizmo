@@ -45,6 +45,4 @@ User is able to schedule the card' column replacement.
 
 Entity relationship diagram of resource server
 
-<img width=800 alt="185167091-6c7c6466-6743-4d79-a493-17f8d863700d" src="https://raw.githubusercontent.com/hamza-aloglu/gizmo/main/gizmo-db-ERD.png?token=GHSAT0AAAAAACEMKCWDGXGNRYAGI7DVBECGZH3JQ2Q">
-
-
+<img width=800 alt="185167091-6c7c6466-6743-4d79-a493-17f8d863700d" src="https://github.com/hamza-aloglu/gizmo/blob/main/gizmo-db-ERD.png?raw=true">
