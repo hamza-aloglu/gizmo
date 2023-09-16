@@ -121,8 +121,7 @@ public class SecurityConfig {
                 .clientId("public-client")
                 .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("http://127.0.0.1:3000/redirect")
-                .redirectUri("http://127.0.0.1:4200")
+                .redirectUri("${CLIENT_URI:http://127.0.0.1:3000}/redirect")
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
                 .clientSettings(ClientSettings.builder()
@@ -136,23 +135,6 @@ public class SecurityConfig {
                 )
                 .build();
 
-//        RegisteredClient confidentialClient = RegisteredClient.withId(UUID.randomUUID().toString())
-//                .clientId("client")
-//                // secret
-//                .clientSecret("{bcrypt}$2a$10$jdJGhzsiIqYFpjJiYWMl/eKDOd8vdyQis2aynmFN0dgJ53XvpzzwC")
-//                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-//                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-//                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-//                .redirectUri("http://127.0.0.1:8082/login/oauth2/code/spring")
-//                .scope(OidcScopes.OPENID)
-//                .scope("user.read")
-//                .scope("user.write")
-//                .clientSettings(ClientSettings.builder()
-//                        .build())
-//                .build();
-
-
-
         return new InMemoryRegisteredClientRepository(publicClient);
     }
 
@@ -162,8 +144,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-        config.addAllowedOrigin("http://127.0.0.1:3000");
-        config.addAllowedOrigin("http://127.0.0.1:4200");
+        config.addAllowedOrigin("${CLIENT_URI:http://127.0.0.1:3000}");
         config.setAllowCredentials(true);
         source.registerCorsConfiguration("/**", config);
         return source;
