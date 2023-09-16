@@ -10,6 +10,7 @@ services:
       - POSTGRES_USERNAME=${POSTGRES_USERNAME}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - ISSUER=http://authserver:8080
+      - CLIENT_URI=${CLIENT_URI}
 
   resourceserver:
     image: hamzul/resourceserver:0.1
