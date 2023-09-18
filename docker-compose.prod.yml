@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   authserver:
-    image: hamzul/authserver:0.1
+    image: hamzul/authserver:latest
     ports:
       - "8080:8080"
     environment:
@@ -13,7 +13,7 @@ services:
       - CLIENT_URI=${CLIENT_URI}
 
   resourceserver:
-    image: hamzul/resourceserver:0.1
+    image: hamzul/resourceserver:latest
     ports:
       - "8081:8081"
     environment:
