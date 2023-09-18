@@ -121,7 +121,7 @@ public class SecurityConfig {
                 .clientId("public-client")
                 .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("${CLIENT_URI:http://127.0.0.1:3000}/redirect")
+                .redirectUri("${CLIENT_URI:http://127.0.0.1:3000}/redirect}")
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
                 .clientSettings(ClientSettings.builder()
