@@ -60,6 +60,9 @@ public class SecurityConfig {
     @Value("${ISSUER:http://localhost:8080}")
     private String issuer;
 
+    @Value("${CLIENT_URI:http://127.0.0.1:3000}")
+    private String clientUri;
+
     @Bean
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
@@ -121,7 +124,7 @@ public class SecurityConfig {
                 .clientId("public-client")
                 .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("${CLIENT_URI:http://127.0.0.1:3000}/redirect}")
+                .redirectUri(clientUri +"/redirect")
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
                 .clientSettings(ClientSettings.builder()
@@ -144,7 +147,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-        config.addAllowedOrigin("${CLIENT_URI:http://127.0.0.1:3000}");
+        config.addAllowedOrigin(clientUri);
         config.setAllowCredentials(true);
         source.registerCorsConfiguration("/**", config);
         return source;
