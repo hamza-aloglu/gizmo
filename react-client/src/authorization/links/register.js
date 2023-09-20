@@ -1,5 +1,9 @@
+import authorizationServerUrl from "./authorizationServerUrl";
+
+
+
 const register = () => {
-    return `http://localhost:8080/register`;
+    return  authorizationServerUrl() + '/register';
 }
 
 export default register;
