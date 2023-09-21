@@ -22,5 +22,6 @@ services:
       - POSTGRES_USERNAME=${POSTGRES_USERNAME}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - ISSUER_URI=http://authserver:8080
+      - CLIENT_URI=${CLIENT_URI}
     depends_on:
       - authserver

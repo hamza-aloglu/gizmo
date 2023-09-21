@@ -1,5 +1,6 @@
 package com.example.resourceserver;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -15,6 +16,8 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 
 @Configuration
 public class SecurityConfig {
+    @Value("${CLIENT_URI:http://127.0.0.1:3000}")
+    private String clientUri;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -33,8 +36,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-        config.addAllowedOrigin("http://127.0.0.1:3000");
-        config.addAllowedOrigin("http://127.0.0.1:4200");
+        config.addAllowedOrigin(clientUri);
         config.setAllowCredentials(true);
         source.registerCorsConfiguration("/**", config);
         return source;
