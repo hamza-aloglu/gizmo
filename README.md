@@ -2,6 +2,9 @@
 
 A web based application that offers organizational tools for work or study.
 
+[See it live](http://gizmo-client.s3-website.eu-central-1.amazonaws.com)
+
+
 ## 1) Setup
 
 ### Run with docker
@@ -37,9 +40,9 @@ Created Kanban board with drag and drop feature between cards and between column
 
 ### Scheduler
 
-- With [ScheduledThreadPoolExecuter](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html), I ensured that requests can be processed after a given time.
+- With [ScheduledExecutorService](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ScheduledExecutorService.html) and [ConcurrentHashMap](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentHashMap.html), I ensured that requests can be executed after a given time and can be cancelled at any time.
 
-User is able to schedule the card' column replacement.
+User is able to schedule the card' column replacement for tomorrow.
 
 ## 3) Database
 
