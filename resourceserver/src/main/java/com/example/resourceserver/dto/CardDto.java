@@ -1,5 +1,7 @@
 package com.example.resourceserver.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class CardDto {
@@ -7,7 +9,9 @@ public class CardDto {
     private String title;
     private List<NoteDto> notes;
     private int index;
-    private boolean isSetForTomorrow;
+
+    @JsonProperty("setForTomorrow")
+    private boolean willUpdateTomorrow;
 
     private KanbanColumnDto kanbanColumn;
 
@@ -55,11 +59,11 @@ public class CardDto {
         this.kanbanColumn = kanbanColumn;
     }
 
-    public boolean isSetForTomorrow() {
-        return isSetForTomorrow;
+    public boolean isWillUpdateTomorrow() {
+        return willUpdateTomorrow;
     }
 
-    public void setSetForTomorrow(boolean setForTomorrow) {
-        isSetForTomorrow = setForTomorrow;
+    public void setWillUpdateTomorrow(boolean willUpdateTomorrow) {
+        this.willUpdateTomorrow = willUpdateTomorrow;
     }
 }

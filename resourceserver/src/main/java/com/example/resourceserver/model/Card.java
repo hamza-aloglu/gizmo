@@ -16,7 +16,6 @@ public class Card extends BaseModel {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore
     private KanbanColumn kanbanColumn;
-    private boolean isSetForTomorrow = false;
     private int index=0;
 
     public Card() {
@@ -53,13 +52,5 @@ public class Card extends BaseModel {
 
     public void setKanbanColumn(KanbanColumn kanbanColumn) {
         this.kanbanColumn = kanbanColumn;
-    }
-
-    public boolean isSetForTomorrow() {
-        return isSetForTomorrow;
-    }
-
-    public void setSetForTomorrow(boolean setForTomorrow) {
-        isSetForTomorrow = setForTomorrow;
     }
 }

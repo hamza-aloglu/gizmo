@@ -18,16 +18,19 @@ import java.util.concurrent.*;
 
 @Service
 public class CardService {
-    private CardRepository cardRepository;
-    private KanbanColumnService kanbanColumnService;
+    private final CardRepository cardRepository;
+    private final KanbanColumnService kanbanColumnService;
     private final BoardService boardService;
-    private final Map<Long, ScheduledFuture<?>> tasksMap = new ConcurrentHashMap<>();
+    private final ScheduleService scheduleService;
+    private final MapperService mapperService;
     CardMapper cardMapper = Mappers.getMapper(CardMapper.class);
 
-    public CardService(CardRepository cardRepository, KanbanColumnService kanbanColumnService, BoardService boardService) {
+    public CardService(CardRepository cardRepository, KanbanColumnService kanbanColumnService, BoardService boardService, ScheduleService scheduleService, MapperService mapperService) {
         this.cardRepository = cardRepository;
         this.kanbanColumnService = kanbanColumnService;
         this.boardService = boardService;
+        this.scheduleService = scheduleService;
+        this.mapperService = mapperService;
     }
 
     public CardDto saveCard(CardCreateRequest cardCreateRequest) {
@@ -49,7 +52,7 @@ public class CardService {
         }
 
         Card savedCard = cardRepository.save(card);
-        return cardMapper.cardToCardDto(savedCard);
+        return cardMapper.cardToCardDto(savedCard, mapperService);
     }
 
     public List<CardDto> getAllCards(Long kanbanColumnId) {
@@ -57,7 +60,7 @@ public class CardService {
             throw new NotFoundException("Kanban Column not found with id: " + kanbanColumnId);
         }
 
-        return cardMapper.listCardToListCardDto(cardRepository.findAllByKanbanColumn_Id(kanbanColumnId));
+        return cardMapper.listCardToListCardDto(cardRepository.findAllByKanbanColumn_Id(kanbanColumnId), mapperService);
     }
 
     public void deleteByCardId(Long cardId) {
@@ -86,7 +89,7 @@ public class CardService {
         }
 
         List<Card> cards = cardRepository.findAllCardsByBoardIdAndOrderOrderByIndex(boardId);
-        return cardMapper.listCardToListCardDto(cards);
+        return cardMapper.listCardToListCardDto(cards, mapperService);
     }
 
     public void updateCardTitle(String title, Long cardId) {
@@ -100,9 +103,8 @@ public class CardService {
         KanbanColumn targetColumn = kanbanColumnService.getKanbanColumnById(cardColumnUpdateRequest.getTargetColumnId());
         card.setKanbanColumn(targetColumn);
 
-        tasksMap.computeIfPresent(card.getId(), (cardId, scheduledFuture) -> {
+        scheduleService.tasksMap.computeIfPresent(card.getId(), (cardId, scheduledFuture) -> {
             scheduledFuture.cancel(true);
-            card.setSetForTomorrow(false);
             return null;
         });
 
@@ -111,32 +113,16 @@ public class CardService {
 
     public void updateColumnOfCardScheduled(CardColumnUpdateRequest cardColumnUpdateRequest, Date date) {
         Card card = this.getCardById(cardColumnUpdateRequest.getCardId());
-        if (card.isSetForTomorrow()) {
+        if (scheduleService.tasksMap.containsKey(card.getId())) {
             throw new AlreadyReportedException("This card is already set for tomorrow");
         }
 
-        ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);  // single-threaded
-        executor.setRemoveOnCancelPolicy(true);  // remove tasks from the queue upon cancellation
-        ScheduledExecutorService executorService = Executors.unconfigurableScheduledExecutorService(executor);
-
-        long delayTimeSeconds = (date.getTime() - System.currentTimeMillis()) / 1000;
-        ScheduledFuture<?> var = executorService.schedule(() -> updateColumnOfCard(cardColumnUpdateRequest),
-                delayTimeSeconds, TimeUnit.SECONDS);
-        tasksMap.put(card.getId(), var);
-
-        card.setSetForTomorrow(true);
-        cardRepository.save(card);
-
-        executorService.shutdown();
+        scheduleService.scheduleTask(card.getId(), () -> this.updateColumnOfCard(cardColumnUpdateRequest), date);
     }
 
     public void unsetUpdatingColumnOfCardScheduled(Long cardId) {
-        ScheduledFuture<?> task = tasksMap.remove(cardId);
-        task.cancel(true);
+        scheduleService.unsetTask(cardId);
 
-        Card card = this.getCardById(cardId);
-        card.setSetForTomorrow(false);
-        cardRepository.save(card);
     }
 
     public void updateCards(List<CardIndexUpdateRequest> cardRequests) {
