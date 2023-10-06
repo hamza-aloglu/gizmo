@@ -5,6 +5,8 @@ import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import com.example.authserver.service.JpaUserDetailsService;
@@ -28,6 +30,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -194,8 +197,13 @@ public class SecurityConfig {
     @Bean
     public OAuth2TokenCustomizer<JwtEncodingContext> auth2TokenCustomizer() {
         return context -> {
-            context.getClaims().claim("ass", "owned");
-            context.getClaims().claim("authorities", context.getAuthorizedScopes());
+
+            List<String> authorities = new ArrayList<>(context.getAuthorizedScopes());
+            for (GrantedAuthority role : context.getPrincipal().getAuthorities()) {
+                authorities.add(role.getAuthority());
+            }
+
+            context.getClaims().claim("authorities", authorities);
         };
     }
 

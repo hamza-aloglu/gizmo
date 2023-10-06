@@ -15,5 +15,21 @@ spring:
         jwt:
           issuer-uri: ${ISSUER_URI:http://localhost:8080}
 
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,info,threaddump
+
 server:
+  tomcat:
+    mbeanregistry:
+      enabled: true
   port: 8081
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG

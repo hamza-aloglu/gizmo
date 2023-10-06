@@ -23,7 +23,7 @@ class JpaUserDetailsServiceTest {
     @BeforeEach
     void setUp() {
         userService = Mockito.mock(UserService.class);
-        jpaUserDetailsService = new JpaUserDetailsService(userService);
+        jpaUserDetailsService = new JpaUserDetailsService(userService, "dummy", "dummy");
     }
 
     @Test
