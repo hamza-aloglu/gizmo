@@ -13,7 +13,7 @@ const Register = () => {
 
     function handleRegistrationSubmit(e) {
         e.preventDefault();
-        AuthService.registerUser(username, password, "basicuser").then(async (response) => {
+        AuthService.registerUser(username, password).then(async (response) => {
             const jsonResponse = await response.json();
             setStatus(Object.entries(jsonResponse));
 

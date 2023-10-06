@@ -27,6 +27,10 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    public void register(String username, String pw) {
+        this.register(username, pw, "ROLE_USER");
+    }
+
     public void register(String username, String pw, String roles) {
         if (userRepository.existsUserByUsername(username)) {
             throw new UserAlreadyExistsAuthenticationException("Username: " + username + " already exists");

@@ -29,14 +29,13 @@ const AuthService = {
         return false;
     },
 
-    registerUser: async (username, password, roles) => {
+    registerUser: async (username, password) => {
         const headers = new Headers();
         headers.set("Content-Type", "application/json");
         const url = register();
         const body = {
             "username": username,
             "password": password,
-            "roles": roles,
         };
 
         return fetch(url, {
