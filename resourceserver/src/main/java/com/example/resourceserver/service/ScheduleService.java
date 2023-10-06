@@ -9,7 +9,7 @@ import java.util.concurrent.*;
 
 @Service
 public class ScheduleService {
-    protected final Map<Long, ScheduledFuture<?>> tasksMap = new ConcurrentHashMap<>();
+    private final Map<Long, ScheduledFuture<?>> tasksMap = new ConcurrentHashMap<>();
 
     private final ScheduledThreadPoolExecutor executor;
 
@@ -27,9 +27,15 @@ public class ScheduleService {
 
     public void unsetTask(Long cardId) {
         ScheduledFuture<?> task = tasksMap.remove(cardId);
+
+        // Prevent running the task that has been removed
         if (task != null) {
             task.cancel(true);
         }
+    }
+
+    public boolean hasTask(Long cardId) {
+        return tasksMap.containsKey(cardId);
     }
 
     // Gracefully shutdown

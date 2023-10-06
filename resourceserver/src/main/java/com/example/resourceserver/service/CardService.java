@@ -14,7 +14,6 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.*;
 
 @Service
 public class CardService {
@@ -22,15 +21,13 @@ public class CardService {
     private final KanbanColumnService kanbanColumnService;
     private final BoardService boardService;
     private final ScheduleService scheduleService;
-    private final MapperService mapperService;
     CardMapper cardMapper = Mappers.getMapper(CardMapper.class);
 
-    public CardService(CardRepository cardRepository, KanbanColumnService kanbanColumnService, BoardService boardService, ScheduleService scheduleService, MapperService mapperService) {
+    public CardService(CardRepository cardRepository, KanbanColumnService kanbanColumnService, BoardService boardService, ScheduleService scheduleService) {
         this.cardRepository = cardRepository;
         this.kanbanColumnService = kanbanColumnService;
         this.boardService = boardService;
         this.scheduleService = scheduleService;
-        this.mapperService = mapperService;
     }
 
     public CardDto saveCard(CardCreateRequest cardCreateRequest) {
@@ -52,7 +49,7 @@ public class CardService {
         }
 
         Card savedCard = cardRepository.save(card);
-        return cardMapper.cardToCardDto(savedCard, mapperService);
+        return cardMapper.cardToCardDto(savedCard, scheduleService);
     }
 
     public List<CardDto> getAllCards(Long kanbanColumnId) {
@@ -60,7 +57,7 @@ public class CardService {
             throw new NotFoundException("Kanban Column not found with id: " + kanbanColumnId);
         }
 
-        return cardMapper.listCardToListCardDto(cardRepository.findAllByKanbanColumn_Id(kanbanColumnId), mapperService);
+        return cardMapper.listCardToListCardDto(cardRepository.findAllByKanbanColumn_Id(kanbanColumnId), scheduleService);
     }
 
     public void deleteByCardId(Long cardId) {
@@ -89,7 +86,7 @@ public class CardService {
         }
 
         List<Card> cards = cardRepository.findAllCardsByBoardIdAndOrderOrderByIndex(boardId);
-        return cardMapper.listCardToListCardDto(cards, mapperService);
+        return cardMapper.listCardToListCardDto(cards, scheduleService);
     }
 
     public void updateCardTitle(String title, Long cardId) {
@@ -103,17 +100,16 @@ public class CardService {
         KanbanColumn targetColumn = kanbanColumnService.getKanbanColumnById(cardColumnUpdateRequest.getTargetColumnId());
         card.setKanbanColumn(targetColumn);
 
-        scheduleService.tasksMap.computeIfPresent(card.getId(), (cardId, scheduledFuture) -> {
-            scheduledFuture.cancel(true);
-            return null;
-        });
+        if (scheduleService.hasTask(card.getId())) {
+            scheduleService.unsetTask(card.getId());
+        }
 
         cardRepository.save(card);
     }
 
     public void updateColumnOfCardScheduled(CardColumnUpdateRequest cardColumnUpdateRequest, Date date) {
         Card card = this.getCardById(cardColumnUpdateRequest.getCardId());
-        if (scheduleService.tasksMap.containsKey(card.getId())) {
+        if (scheduleService.hasTask(card.getId())) {
             throw new AlreadyReportedException("This card is already set for tomorrow");
         }
 
