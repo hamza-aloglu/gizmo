@@ -1,14 +1,13 @@
 package com.example.resourceserver.model;
 
+import com.example.resourceserver.listener.CardListener;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
+@EntityListeners(CardListener.class)
 public class Card extends BaseModel {
     private String title;
     @OneToMany(mappedBy = "card", cascade = CascadeType.REMOVE)
