@@ -20,8 +20,7 @@ public class UserController {
 
     @PostMapping(value = "/register")
     public Map<String, String> register(@Valid @RequestBody UserCreateRequest userCreateRequest) {
-        userService.register(userCreateRequest.getUsername(), userCreateRequest.getPassword(),
-                userCreateRequest.getRoles());
+        userService.register(userCreateRequest.getUsername(), userCreateRequest.getPassword());
 
         // Return simple string as valid JSON
         return Collections.singletonMap("message", "Successfully registered");
