@@ -7,14 +7,15 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
-    hibernate:
-      ddl-auto: create-drop
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: ${ISSUER_URI:http://localhost:8080}
-
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+  flyway:
+    enabled: false
 
 management:
   endpoints:
@@ -27,9 +28,3 @@ server:
     mbeanregistry:
       enabled: true
   port: 8081
-
-logging:
-  level:
-    org:
-      springframework:
-        security: DEBUG
