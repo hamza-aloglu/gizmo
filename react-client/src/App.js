@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Profile from './components/Profile';
 import Redirect from './components/authorization/Redirect';
@@ -12,6 +12,11 @@ import TimelinePage from './components/timeline/TimelinePage';
 
 
 function App() {
+
+  useEffect(() => {
+    document.title = "Gizmo"
+  }, []);
+
   return (
     <div className="App">
 
