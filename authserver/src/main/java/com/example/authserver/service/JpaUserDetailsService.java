@@ -11,10 +11,12 @@ import org.springframework.stereotype.Service;
 public class JpaUserDetailsService implements UserDetailsService {
     private final UserService userService;
 
-    public JpaUserDetailsService(UserService userService, @Value("${ADMIN_USERNAME}") String adminUsername,
-                                 @Value("${ADMIN_PW}") String adminPw) {
+    public JpaUserDetailsService(UserService userService, @Value("${ADMIN_USERNAME:admin}") String adminUsername,
+                                 @Value("${ADMIN_PW:admin}") String adminPw) {
         this.userService = userService;
-        userService.register(adminUsername, adminPw, "ROLE_ADMIN");
+        if (userService.findByUsername(adminUsername).isEmpty()) {
+            userService.register(adminUsername, adminPw, "ROLE_ADMIN");
+        }
     }
 
     @Override
