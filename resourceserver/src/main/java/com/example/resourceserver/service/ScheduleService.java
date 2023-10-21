@@ -13,9 +13,8 @@ public class ScheduleService {
 
     private final ScheduledThreadPoolExecutor executor;
 
-    public ScheduleService() {
-        this.executor = new ScheduledThreadPoolExecutor(10);
-        this.executor.setRemoveOnCancelPolicy(true);
+    public ScheduleService(ScheduledThreadPoolExecutor executor) {
+        this.executor = executor;
     }
 
     public void scheduleTask(Long cardId, Runnable command, Date date) {
@@ -49,5 +48,9 @@ public class ScheduleService {
         } catch (InterruptedException e) {
             executor.shutdownNow();
         }
+    }
+
+    public Map<Long, ScheduledFuture<?>> getTasksMap() {
+        return tasksMap;
     }
 }
