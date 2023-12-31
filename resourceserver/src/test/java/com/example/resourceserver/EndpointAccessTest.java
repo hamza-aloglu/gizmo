@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class EndpointAccessTest {
     @Autowired
     private MockMvc mockMvc;
-    
+
     @WithMockUser(roles = "ADMIN")
     @Test
     public void givenAdminRole_whenAccessActuator_thenOk() throws Exception {
