@@ -2,8 +2,6 @@
 
 A web based application that offers organizational tools for work or study.
 
-[See it live](http://gizmo-client.s3-website.eu-central-1.amazonaws.com) via AWS
-
 ## 1) Setup
 
 ### Run with docker
