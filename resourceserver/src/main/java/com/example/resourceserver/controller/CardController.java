@@ -75,6 +75,28 @@ public class CardController {
         return "Successfully unset";
     }
 
+    @PutMapping("/difficulty")
+    public void updateCardDifficulty(@RequestParam @Valid @NotNull int difficulty, @RequestParam @Valid @NotNull Long cardId) {
+        cardService.updateCardDifficulty(difficulty, cardId);
+    }
+
+    @PutMapping("/priority")
+    public void updateCardPriority(@RequestParam @Valid @NotNull int priority, @RequestParam @Valid @NotNull Long cardId) {
+        cardService.updateCardPriority(priority, cardId);
+    }
+
+    @PutMapping("/deadline")
+    public void updateCardDeadline(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")Date deadline,
+                                   @RequestParam @Valid @NotNull Long cardId) {
+        cardService.updateCardDeadline(deadline, cardId);
+    }
+
+    @PutMapping("/parentTask")
+    public void updateParentTask(@RequestParam @Valid @NotNull Long parentCardId,
+                                 @RequestParam @Valid @NotNull Long cardId) {
+        cardService.updateParentTask(parentCardId, cardId);
+    }
+
     public CardService getCardService() {
         return cardService;
     }

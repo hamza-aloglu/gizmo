@@ -40,6 +40,15 @@ public class CardService {
         KanbanColumn kanbanColumn = kanbanColumnService.getKanbanColumnById(kanbanColumnId);
         card.setKanbanColumn(kanbanColumn);
 
+        Long parentCardId = cardCreateRequest.getParentCardId();
+        if (parentCardId != null) {
+            if (!isExistByCardId(parentCardId)) {
+                throw new NotFoundException("Parent card not found with id: " + parentCardId);
+            }
+            Card parentCard = getCardById(parentCardId);
+            card.setParentCard(parentCard);
+        }
+
         List<Card> allCardsByBoard = cardRepository.findAllCardsByBoardId(kanbanColumn.getBoard().getId());
         OptionalInt maxIndex = allCardsByBoard.stream()
                 .mapToInt(Card::getIndex)
@@ -138,5 +147,30 @@ public class CardService {
                 .toList();
 
         cardRepository.saveAll(cards);
+    }
+
+    public void updateCardDifficulty(int difficulty, Long cardId) {
+        Card card = this.getCardById(cardId);
+        card.setDifficulty(difficulty);
+        cardRepository.save(card);
+    }
+
+    public void updateCardPriority(int priority, Long cardId) {
+        Card card = this.getCardById(cardId);
+        card.setPriority(priority);
+        cardRepository.save(card);
+    }
+
+    public void updateCardDeadline(Date date, Long cardId) {
+        Card card = this.getCardById(cardId);
+        card.setDate(date);
+        cardRepository.save(card);
+    }
+
+    public void updateParentTask(Long parentCardId, Long cardId) {
+        Card card = this.getCardById(cardId);
+        Card parentCard = this.getCardById(parentCardId);
+        card.setParentCard(parentCard);
+        cardRepository.save(card);
     }
 }
