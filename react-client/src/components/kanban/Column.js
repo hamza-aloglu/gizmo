@@ -92,8 +92,12 @@ const Column = ({ title, setAllCards, cards, columnId, moveCard, updateCardIndex
         }
     }
 
-    const renderCard = useCallback((card, index) => {
+    const renderCard = (card, index) => {
         if (card.kanbanColumn.id == columnId) {
+            let parentCardId;
+            if (card.parentCard != null) {
+                parentCardId = card.parentCard.id;
+            }
             return (
                 <Card
                     key={card.id}
@@ -101,6 +105,10 @@ const Column = ({ title, setAllCards, cards, columnId, moveCard, updateCardIndex
                     id={card.id}
                     title={card.title}
                     setForTomorrow={card.setForTomorrow}
+                    difficulty={card.difficulty}
+                    priority={card.priority}
+                    deadlineParam={card.date}
+                    parentCardId={parentCardId}
 
                     moveCard={moveCard}
                     updateCardIndexes={updateCardIndexes}
@@ -110,10 +118,11 @@ const Column = ({ title, setAllCards, cards, columnId, moveCard, updateCardIndex
                     handleCardTitleUpdate={handleCardTitleUpdate}
                     toggleSetForTomorrow={toggleSetForTomorrow}
                     setNotificationMessage={setNotificationMessage}
+                    cards={cards}
                 />
             );
         }
-    }, [columnTitle]);
+    }
 
     let opacity = 1;
     if (isOver && columnId != item.columnId) {

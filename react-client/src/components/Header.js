@@ -9,16 +9,23 @@ const Header = ({ backgroundColor }) => {
 
     return (
         <div className="header-container" style={{ background: backgroundColor }}>
-            {isLoggedIn ? (
-                <div>
-                    <Link className="link-text header-button" to={"/logout"}>logout</Link>
+            <Link to={"/"} >
+                <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                    <img src="/pen.png" alt="pen png" height={50} />
                 </div>
-            ) : (
-                <div>
-                    <Link className="link-text header-button" to={"/redirect"}> Login </Link>
-                    <Link className="link-text header-button" to={"/register"}> Register </Link>
-                </div>
-            )}
+            </Link>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                {isLoggedIn ? (
+                    <div>
+                        <Link className="link-text header-button" to={"/logout"}>logout</Link>
+                    </div>
+                ) : (
+                    <div>
+                        <Link className="link-text header-button" to={"/redirect"}> Login </Link>
+                        <Link className="link-text header-button" to={"/register"}> Register </Link>
+                    </div>
+                )}
+            </div>
         </div>
     )
 }

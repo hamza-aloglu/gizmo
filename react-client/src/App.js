@@ -37,8 +37,6 @@ function App() {
           <Route path='/timeline/:timelineId' element={<PrivateRoute />}>
             <Route path='/timeline/:timelineId' element={<TimelinePage />} />
           </Route>
-
-          <Route path='/test' element={<TimelinePage />} />
         </Routes>
       </BrowserRouter>
 

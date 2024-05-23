@@ -8,7 +8,8 @@ import update from "immutability-helper";
 import DateUtils from "../../utils/DateUtils";
 import PopupUtils from "../../utils/PopupUtils";
 
-const Board = ({ title, boardId, showSidebar, setShowSidebar, setNotificationMessage, setErrorMessage }) => {
+
+const Board = ({ title, boardId, showSidebar, setShowSidebar, setNotificationMessage, setErrorMessage, setIsHovered }) => {
     const [boardTitle, setBoardTitle] = useState(title);
     const [kanbanColumns, setKanbanColumns] = useState([]);
     const [cards, setCards] = useState([]);
@@ -26,7 +27,7 @@ const Board = ({ title, boardId, showSidebar, setShowSidebar, setNotificationMes
             const allCards = await response.json();
             setCards(allCards);
         });
-    }, []);
+    }, [boardId]);
 
     function handleCreateColumn(e) {
         e.preventDefault();
@@ -98,7 +99,7 @@ const Board = ({ title, boardId, showSidebar, setShowSidebar, setNotificationMes
                 // unset db.
                 tmpCards[cardIndex].setForTomorrow = false;
                 KanbanService.unsetColumnOfCardScheduled(cardId).then(async (response) => {
-                    if(!response.ok) {
+                    if (!response.ok) {
                         PopupUtils.setErrorMessage(setErrorMessage, 2700);
                         tmpCards[cardIndex].setForTomorrow = true;
                     }
@@ -110,7 +111,6 @@ const Board = ({ title, boardId, showSidebar, setShowSidebar, setNotificationMes
                 const doingColumn = kanbanColumns.find(c => c.title.toLowerCase() == "doing");
                 const targetId = doingColumn ? doingColumn.id : null;
 
-                console.log(kanbanColumns);
 
                 if (targetId == null) {
                     setErrorMessage("There are no doing column exists");
@@ -182,8 +182,10 @@ const Board = ({ title, boardId, showSidebar, setShowSidebar, setNotificationMes
                 <div id="board-header-section">
                     <div id="board-title-wrapper">
                         <div>
-                            <button className="sidebar-toggle-btn"
+                            <button className={`sidebar-toggle-btn ${showSidebar ? "closed" : ""}`}
                                 onClick={() => setShowSidebar(!showSidebar)}
+                                onMouseEnter={() => setIsHovered(true)}
+                                onMouseLeave={() => setIsHovered(false)}
                                 title="toggle sidebar"
                             >
                                 {showSidebar ? <span className="arrow-icon-left"></span> : <span className="arrow-icon-right"></span>}

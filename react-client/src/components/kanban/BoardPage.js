@@ -14,6 +14,9 @@ const BoardPage = () => {
     const navigate = useNavigate();
     const [notificationMessage, setNotificationMessage] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
+    const [isHovered, setIsHovered] = useState(false);
+    let bgImage = `${process.env.PUBLIC_URL}/pexels-asadphoto-3293148.jpg`;
+    let bgColor = "#1286b5";
 
     const { boardId } = useParams();
 
@@ -49,6 +52,7 @@ const BoardPage = () => {
                     setShowSidebar={setShowSidebar}
                     setNotificationMessage={setNotificationMessage}
                     setErrorMessage={setErrorMessage}
+                    setIsHovered={setIsHovered}
                 />
             )
         }
@@ -58,8 +62,8 @@ const BoardPage = () => {
     const isErrorVisible = errorMessage ? "visible" : "hidden";
 
     return (
-        <div className="boardPage-wrapper">
-            <Header backgroundColor={"#69aed1"} />
+        <div className="boardPage-wrapper" style={{backgroundImage: `url(${bgImage})`, backgroundSize: 'cover', zIndex: 999}}>
+            <Header backgroundColor={bgColor}/>
 
             <div style={{ visibility: isNotificationVisible }}>
                 <Info message={notificationMessage} backgroundColor={"#4CAF50"} />
@@ -67,24 +71,49 @@ const BoardPage = () => {
             <div style={{ visibility: isErrorVisible }}>
                 <Info message={errorMessage} backgroundColor={"#e60b6e"} />
             </div>
+            <div className={`sidebar ${showSidebar ? 'open' : ""}`} style={{backgroundColor: bgColor}}>
+                <div id="username-section">
+                    <div>
+                        <span> Workspace </span>
+                        <h4>{AuthService.generateUsername()} </h4>
+                    </div>
 
-            <div>
-                <div className={`sidebar ${showSidebar ? 'open' : ""}`}>
-                    <div id="delete-board-section">
-                        <button onClick={deleteBoard} id="delete-board-button" > Delete board </button>
-                    </div>
-                    <div id="username-section">
-                        <h2> {AuthService.generateUsername()} </h2>
-                    </div>
-                    <div className="boards">
-                        <h3> Boards </h3>
-                        {boards && boards.map((board) =>
-                            <button key={board.id} className="board-button" onClick={(e) => navigateToBoard(e, board.id)}>
-                                {board.title}
-                            </button>
-                        )}
-                    </div>
+                    <button className="sidebar-toggle-btn"
+                        onClick={() => setShowSidebar(!showSidebar)}
+                        title="toggle sidebar"
+                    >
+                        <span className="arrow-icon-left"></span>
+                    </button>
                 </div>
+                <div className="workspace-list">
+                    <a href="/" className="board-link">
+                        <img src="/kanban-3-32.png" alt="kanban-board-icon" className="board-img" />
+                        <p className="board-text">Boards</p>
+                    </a>
+                    <a href="/" className="board-link">
+                        <img src="/kanban-3-32.png" alt="kanban-board-icon" className="board-img" />
+                        <p className="board-text">Schedule Board</p>
+                    </a>
+                </div>
+                <div className="boards">
+                    <div className="boards-title">
+                        <h4> Your Boards </h4>
+                    </div>
+                    {boards && boards.map((board) =>
+                        <a key={board.id} className="board-link" onClick={(e) => navigateToBoard(e, board.id)}>
+                            <img src={`${bgImage}`} alt="board-img" className="board-img" height={32} width={32} />
+                            <p className="board-text">{board.title}</p>
+                        </a>
+                    )}
+
+                </div>
+                <div id="delete-board-section">
+                    <button onClick={deleteBoard} id="delete-board-button" > Delete Board </button>
+                </div>
+            </div>
+
+            <div className={`sidebar-overlay ${!showSidebar ? 'open' : ""} ${isHovered ? 'highlight' : ""}`}
+            style={{backgroundColor: bgColor}}>
             </div>
 
             <div className={`${showSidebar ? 'sidebar-space' : ''}`}>

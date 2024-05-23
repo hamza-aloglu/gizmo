@@ -1,50 +1,63 @@
-.container {
+.sidebar {
     display: flex;
-    transition: all 0.3s ease;
-    /* Enable horizontal scrolling */
-    overflow-x: auto;
+    flex-direction: column;
+    position: absolute;
+    width: 0;
+    height: calc(100vh - var(--header-length));
+    transition: width 0.2s ease;
+    visibility: hidden;
+    border-right: 1px solid black;
+    background-color: var(--sidebar-background-color);
 }
 
-.sidebar {
-    width: 0;
-    transition: width 0.3s ease;
-    visibility: hidden;
-
-    background: rgb(47, 151, 204);
-    background: -moz-linear-gradient(90deg, rgba(47, 151, 204, 1) 0%, rgba(145, 200, 228, 1) 100%);
-    background: -webkit-linear-gradient(90deg, rgba(47, 151, 204, 1) 0%, rgba(145, 200, 228, 1) 100%);
-    background: linear-gradient(90deg, rgba(47, 151, 204, 1) 0%, rgba(145, 200, 228, 1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#2f97cc", endColorstr="#91c8e4", GradientType=1);
-
+.sidebar-overlay {
     position: absolute;
-    top: 60px;
-    bottom: 0;
-    left: 0;
-    z-index: 99;
-
+    width: 0;
+    visibility: hidden;
+    height: calc(100vh - var(--header-length));
     border-right: 1px solid black;
+    z-index: 1;
+}
+
+.highlight {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar-overlay.open {
+    width: 20px;
+    visibility: visible;
 }
 
 .sidebar.open {
-    width: 200px;
+    width: var(--sidebar-width);
     visibility: visible;
 }
 
 .sidebar-space {
-    margin-left: 200px;
+    margin-left: var(--sidebar-width);
 }
 
 #username-section {
     display: flex;
-    justify-content: center;
-    margin-top: 60%;
-    font-size: x-large;
+    padding: 10px;
+    border-bottom: 1px solid black;
+}
+
+#username-section button {
+    margin-left: auto;
+}
+
+#username-section h4 {
+    font-size: small;   
 }
 
 #delete-board-section {
+    margin-top: auto;
     display: flex;
     justify-content: center;
     width: 100%;
+    padding: 6px;
+    border-top: 1px dotted black;
 }
 
 #delete-board-button {
@@ -52,7 +65,8 @@
     /* red color */
     border: none;
     color: white;
-    padding: 8px 22px;
+    width: 90%;
+    padding: 6px 0;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -73,11 +87,11 @@
 }
 
 .boards {
-    margin-top: 40%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 10px;
+    margin-top: 14px;
+}
+
+.boards h4 {
+    margin-left: 10px;
 }
 
 .board-button {
@@ -108,5 +122,36 @@
 
 .boardPage-wrapper {
     height: 100vh;
-    background-color: #91C8E4;
+    background-color: var(--app-background-color);
+}
+
+.workspace-list {
+    margin-top: 10px;
+}
+
+.board-link {
+    display: flex;
+    text-decoration: none;
+    align-items: center;
+    padding: 8px 8px;
+    cursor: pointer;
+    margin: 5px 0;
+}
+
+.board-link:hover {
+    background-color: #ffffff;
+}
+
+.board-img {
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.board-text {
+    display: block;
+    flex-grow: 1;
+    margin-left: 5px;
+    color: black;
+    font-size: small;
 }

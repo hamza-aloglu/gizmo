@@ -273,6 +273,42 @@ const KanbanService = {
             headers: getHeaders(),
         })
     },
+
+    updateCardDifficulty: async (difficulty, cardId) => {
+        const url = resourceUrl() + `/cards/difficulty?difficulty=${difficulty}&cardId=${cardId}`;
+        return fetch(url, {
+            method: 'PUT',
+            mode: 'cors',
+            headers: getHeaders(),
+        });
+    },
+
+    updateCardPriority: async (priority, cardId) => {
+        const url = resourceUrl() + `/cards/priority?priority=${priority}&cardId=${cardId}`;
+        return fetch(url, {
+            method: 'PUT',
+            mode: 'cors',
+            headers: getHeaders(),
+        });
+    },
+
+    updateCardDeadline: async (deadline, cardId) => {
+        const url = resourceUrl() + `/cards/deadline?deadline=${encodeURIComponent(deadline)}&cardId=${cardId}`;
+        return fetch(url, {
+            method: 'PUT',
+            mode: 'cors',
+            headers: getHeaders(),
+        });
+    },
+
+    updateParentTask: async (parentTaskId, cardId) => {
+        const url = resourceUrl() + `/cards/parentTask?parentCardId=${parentTaskId}&cardId=${cardId}`;
+        return fetch(url, {
+            method: 'PUT',
+            mode: 'cors',
+            headers: getHeaders(),
+        });
+    }
 }
 
 export default KanbanService;
