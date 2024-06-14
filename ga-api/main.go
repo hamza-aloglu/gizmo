@@ -7,6 +7,7 @@ import (
 	"math"
 	"math/rand"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -30,6 +31,7 @@ type ApiInput struct {
 	GenerationNumber int     `json:"generationNumber"`
 	PopulationSize   int     `json:"populationSize"`
 	MutationRate     float64 `json:"mutationRate"`
+	ElitismRate      float64 `json:"elitismRate"`
 }
 
 type ApiResponse struct {
@@ -59,16 +61,21 @@ type Schedule struct {
 	DayAmount               int       `json:"dayAmount"`
 	AverageDifficultyPerDay float64   `json:"averageDifficultyPerDay"`
 
-	WeightPriority   float64 `json:"weightPriority"`
-	WeightDifficulty float64 `json:"weightDifficulty"`
-	WeightDeadline   float64 `json:"weightDeadline"`
-	WeightParentTask float64 `json:"weightParentTask"`
+	WeightPriority         float64 `json:"weightPriority"`
+	WeightDifficulty       float64 `json:"weightDifficulty"`
+	WeightDeadline         float64 `json:"weightDeadline"`
+	WeightParentTask       float64 `json:"weightParentTask"`
+	PriorityContribution   float64 `json:"priorityContribution"`
+	DifficultyContribution float64 `json:"difficultyContribution"`
+	DeadlineContribution   float64 `json:"deadlineContribution"`
+	ParentTaskContribution float64 `json:"parentTaskContribution"`
 }
 
 const MINIMUM_FITNESS = 0.01
 
 func main() {
 	http.HandleFunc("/schedule", handlePostRequest)
+	http.HandleFunc("/schedule/fitness", handleScheduleFitnessCalculatorRequest)
 	err := http.ListenAndServe(":8084", nil)
 	if err != nil {
 		panic("http listen and serve err : " + err.Error())
@@ -77,6 +84,7 @@ func main() {
 
 func handlePostRequest(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Accept", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", "http://127.0.0.1:3000")
 	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 	w.Header().Set("Access-Control-Allow-Headers", "Accept, Accept-Encoding, Authorization, Content-Type, X-CSRF-Token")
@@ -92,11 +100,18 @@ func handlePostRequest(w http.ResponseWriter, r *http.Request) {
 	schedule := generateSchedule(input)
 
 	// run genetic algorithm
-	ga := src.NewCustomGA(input.GenerationNumber, input.PopulationSize, input.MutationRate, schedule, ScheduleModel{})
-	var bestSchedule Schedule
-	bestSchedule = ga.Run().(Schedule)
-
+	ga := src.NewCustomGA(input.GenerationNumber, input.PopulationSize, input.MutationRate, input.ElitismRate, schedule, ScheduleModel{})
+	var bestSchedule *Schedule
+	bestSchedule = ga.RunWithLog(printSchedule).(*Schedule)
+	schJson, _ := json.Marshal(bestSchedule)
+	os.WriteFile("schedule.json"+time.Now().String(), schJson, 0644)
 	fmt.Println("Best Schedule fitness: ", bestSchedule.CalculateFitness())
+	fmt.Println("Priority Contribution: ", bestSchedule.PriorityContribution)
+	fmt.Println("Difficulty Contribution: ", bestSchedule.DifficultyContribution)
+	fmt.Println("Deadline Contribution: ", bestSchedule.DeadlineContribution)
+	fmt.Println("Parent Task Contribution: ", bestSchedule.ParentTaskContribution)
+
+	fmt.Println("\n#################### End of request ####################\n")
 
 	apiResponse := ApiResponse{Days: bestSchedule.Genes}
 	err = json.NewEncoder(w).Encode(apiResponse)
@@ -106,14 +121,42 @@ func handlePostRequest(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s Schedule) CalculateFitness() float64 {
+func handleScheduleFitnessCalculatorRequest(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Accept", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "http://127.0.0.1:3000")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	w.Header().Set("Access-Control-Allow-Headers", "Accept, Accept-Encoding, Authorization, Content-Type, X-CSRF-Token")
+	w.WriteHeader(http.StatusOK)
+
+	decoder := json.NewDecoder(r.Body)
+	var schedule Schedule
+	err := decoder.Decode(&schedule)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	fitness := schedule.CalculateFitness()
+	fmt.Println("Priority Contribution: ", schedule.PriorityContribution)
+	fmt.Println("Difficulty Contribution: ", schedule.DifficultyContribution)
+	fmt.Println("Deadline Contribution: ", schedule.DeadlineContribution)
+	fmt.Println("Parent Task Contribution: ", schedule.ParentTaskContribution)
+	json.NewEncoder(w).Encode(fitness)
+}
+
+func (s *Schedule) CalculateFitness() float64 {
+	s.PriorityContribution = 0.0
+	s.DifficultyContribution = 0.0
+	s.DeadlineContribution = 0.0
+	s.ParentTaskContribution = 0.0
 	var fitnessScore float64
 	for dayIndex, day := range s.Genes {
 		dayDate := s.ScheduleStartDate.AddDate(0, 0, dayIndex)
 		difficultyForDay := 0
 		dayTasksAmount := float64(len(day.Tasks))
 		violateParentTaskAmount := 0.0
-		distanceToEnd := float64(s.DayAmount-dayIndex) / float64(s.DayAmount)
+		distanceToEnd := math.Pow(float64(s.DayAmount-dayIndex)/float64(s.DayAmount), 2)
 		for _, task := range day.Tasks {
 			// calculate parent task violation
 			if task.ParentTaskTitle != "" {
@@ -133,7 +176,9 @@ func (s Schedule) CalculateFitness() float64 {
 			daysExceedDeadline := int(millisecondsExceedDeadline.Hours() / 24)
 			if daysExceedDeadline > 0 {
 				daysExceedDeadline = int(math.Min(float64(daysExceedDeadline), 10))
-				fitnessScore -= s.WeightDeadline * float64(daysExceedDeadline)
+				deadlineContribution := s.WeightDeadline * float64(daysExceedDeadline)
+				fitnessScore -= deadlineContribution
+				s.DeadlineContribution -= deadlineContribution
 			} else if s.IsDeadlineMustMeet {
 				return MINIMUM_FITNESS
 			}
@@ -141,18 +186,24 @@ func (s Schedule) CalculateFitness() float64 {
 			difficultyForDay += task.Difficulty
 
 			// place high priority task early in schedule
-			fitnessScore += s.WeightPriority * float64(task.Priority) * distanceToEnd
+			priorityContribution := s.WeightPriority * float64(task.Priority) * distanceToEnd
+			fitnessScore += priorityContribution
+			s.PriorityContribution += priorityContribution
 		}
 
 		// punish if parent task is not scheduled before current task
 		violateParentTaskAmount = math.Min(float64(violateParentTaskAmount), 10)
-		fitnessScore -= s.WeightParentTask * violateParentTaskAmount
+		parentTaskContribution := s.WeightParentTask * violateParentTaskAmount
+		fitnessScore -= parentTaskContribution
+		s.ParentTaskContribution -= parentTaskContribution
 
 		// punish exceeding average difficulty
 		if dayTasksAmount > 0 {
 			dayAvgDifficulty := float64(difficultyForDay) / dayTasksAmount
 			difficultyImpact := gaussianReward(float64(difficultyForDay), s.AverageDifficultyPerDay)
-			fitnessScore += s.WeightDifficulty * difficultyImpact * dayTasksAmount * dayAvgDifficulty
+			difficultyContribution := s.WeightDifficulty * difficultyImpact * dayTasksAmount * dayAvgDifficulty
+			fitnessScore += difficultyContribution
+			s.DifficultyContribution += difficultyContribution
 		}
 
 	}
@@ -164,7 +215,7 @@ func (s Schedule) CalculateFitness() float64 {
 	return fitnessScore
 }
 
-func (s Schedule) GenerateIndividual() src.Individual {
+func (s *Schedule) GenerateIndividual() src.Individual {
 	var localTasks []Task
 	localTasks = append(localTasks, s.Tasks...)
 	apiInput := populateApiInput(s)
@@ -184,7 +235,7 @@ func (s Schedule) GenerateIndividual() src.Individual {
 	return individual
 }
 
-func generateSchedule(input ApiInput) Schedule {
+func generateSchedule(input ApiInput) *Schedule {
 	scheduleStartDate := input.ScheduleStartDate
 	scheduleEndDate := input.ScheduleEndDate
 	tasks := input.Tasks
@@ -197,30 +248,34 @@ func generateSchedule(input ApiInput) Schedule {
 	weightParentTask := input.WeightParentTask
 
 	duration := scheduleEndDate.Sub(scheduleStartDate)
-	dayAmount := int(duration.Hours() / 24)
+	dayAmount := float64(duration.Hours() / 24)
 	insertChance := 0.2
 	totalDifficulty := sumDifficulty(tasks)
 	averageDifficultyPerDay := totalDifficulty / dayAmount
 
-	return Schedule{
-		Genes:                   make([]Day, dayAmount),
+	return &Schedule{
+		Genes:                   make([]Day, int(dayAmount)),
 		ScheduleStartDate:       scheduleStartDate,
 		ScheduleEndDate:         scheduleEndDate,
 		Tasks:                   tasks,
 		IsDeadlineMustMeet:      isDeadlineMustMeet,
 		IsParentTaskMustMeet:    isParentTaskMustMeet,
 		IndividualInsertChance:  insertChance,
-		DayAmount:               dayAmount,
+		DayAmount:               int(dayAmount),
 		AverageDifficultyPerDay: float64(averageDifficultyPerDay),
 
-		WeightPriority:   weightPriority,
-		WeightDeadline:   weightDeadline,
-		WeightDifficulty: weightDifficulty,
-		WeightParentTask: weightParentTask,
+		WeightPriority:         weightPriority,
+		WeightDeadline:         weightDeadline,
+		WeightDifficulty:       weightDifficulty,
+		WeightParentTask:       weightParentTask,
+		PriorityContribution:   0.0,
+		DifficultyContribution: 0.0,
+		DeadlineContribution:   0.0,
+		ParentTaskContribution: 0.0,
 	}
 }
 
-func populateApiInput(schedule Schedule) ApiInput {
+func populateApiInput(schedule *Schedule) ApiInput {
 	return ApiInput{
 		ScheduleStartDate:    schedule.ScheduleStartDate,
 		ScheduleEndDate:      schedule.ScheduleEndDate,
@@ -233,4 +288,15 @@ func populateApiInput(schedule Schedule) ApiInput {
 		WeightDeadline:   schedule.WeightDeadline,
 		WeightParentTask: schedule.WeightParentTask,
 	}
+}
+
+func printSchedule(individual src.Individual) {
+	schedule := individual.(*Schedule)
+	fmt.Println("------------------------------------------------------------------")
+	fmt.Println("Fitness Score: ", schedule.CalculateFitness())
+	fmt.Println("Priority Contribution: ", schedule.PriorityContribution)
+	fmt.Println("Difficulty Contribution: ", schedule.DifficultyContribution)
+	fmt.Println("Deadline Contribution: ", schedule.DeadlineContribution)
+	fmt.Println("Parent Task Contribution: ", schedule.ParentTaskContribution)
+	fmt.Println("------------------------------------------------------------------")
 }
