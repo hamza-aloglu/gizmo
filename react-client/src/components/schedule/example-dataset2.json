@@ -1,0 +1,172 @@
+{
+    "tasks": [
+        {
+            "Deadline": "2024-06-14T00:00:00Z",
+            "Difficulty": 1,
+            "Priority": 10,
+            "Title": "Improve Error Handling",
+            "ParentTaskTitle": ""
+        },
+        {
+            "Deadline": "2024-06-14T00:00:00Z",
+            "Difficulty": 7,
+            "Priority": 10,
+            "Title": "Optimize API Endpoints",
+            "ParentTaskTitle": ""
+        },
+        {
+            "Deadline": "2024-06-14T00:00:00Z",
+            "Difficulty": 6,
+            "Priority": 10,
+            "Title": "Capture information about component scanning for subsequent use in diagnostic messages",
+            "ParentTaskTitle": ""
+        },
+        {
+            "Deadline": "2024-06-15T00:00:00Z",
+            "Difficulty": 3,
+            "Priority": 8,
+            "Title": "Introduce Elite Feature",
+            "ParentTaskTitle": "Optimize API Endpoints"
+        },
+        {
+            "Deadline": "2024-06-15T00:00:00Z",
+            "Difficulty": 7,
+            "Priority": 8,
+            "Title": "Simplify adding an authentication validator",
+            "ParentTaskTitle": "Optimize API Endpoints"
+        },
+        {
+            "Deadline": "2024-06-15T00:00:00Z",
+            "Difficulty": 6,
+            "Priority": 8,
+            "Title": "Registered vararg function incorrectly splits string arguments by comma when argument type is Object / Any",
+            "ParentTaskTitle": ""
+        },
+        {
+            "Deadline": "2024-06-16T00:00:00Z",
+            "Difficulty": 4,
+            "Priority": 7,
+            "Title": "Support Remember-Me for OAuth2 login",
+            "ParentTaskTitle": ""
+        },
+        {
+            "Deadline": "2024-06-16T00:00:00Z",
+            "Difficulty": 6,
+            "Priority": 6,
+            "Title": "Add SAML 2.0 Grant Type support",
+            "ParentTaskTitle": "Support Remember-Me for OAuth2 login"
+        },
+        {
+            "Deadline": "2024-06-16T00:00:00Z",
+            "Difficulty": 5,
+            "Priority": 6,
+            "Title": "Handle Null Pointer Exception",
+            "ParentTaskTitle": "Support Remember-Me for OAuth2 login"
+        },
+        {
+            "Deadline": "2024-06-16T00:00:00Z",
+            "Difficulty": 9,
+            "Priority": 6,
+            "Title": "Create WebFlux equivalent filter to handle URLs with trailing slashes",
+            "ParentTaskTitle": "Support Remember-Me for OAuth2 login"
+        },
+        {
+            "Deadline": "2025-03-10T00:00:00Z",
+            "Difficulty": 2,
+            "Priority": 5,
+            "Title": "NullPointerException when GrantedAuthority.getAuthority() returns null",
+            "ParentTaskTitle": "Handle Null Pointer Exception"
+        },
+        {
+            "Deadline": "2025-03-10T00:00:00Z",
+            "Difficulty": 3,
+            "Priority": 4,
+            "Title": "Implement Security Measures",
+            "ParentTaskTitle": "NullPointerException when GrantedAuthority.getAuthority() returns null"
+        },
+        {
+            "Deadline": "2024-06-17T00:00:00Z",
+            "Difficulty": 4,
+            "Priority": 4,
+            "Title": "Research JWT implementation",
+            "ParentTaskTitle": "NullPointerException when GrantedAuthority.getAuthority() returns null"
+        },
+        {
+            "Deadline": "2024-06-17T00:00:00Z",
+            "Difficulty": 5,
+            "Priority": 4,
+            "Title": "Document ControllerAdviceBean as internal usage",
+            "ParentTaskTitle": "NullPointerException when GrantedAuthority.getAuthority() returns null"
+        },
+        {
+            "Deadline": "2024-06-17T00:00:00Z",
+            "Difficulty": 2,
+            "Priority": 3,
+            "Title": "Consider Signing Metadata by Default",
+            "ParentTaskTitle": ""
+        },
+        {
+            "Deadline": "2025-03-05T00:00:00Z",
+            "Difficulty": 5,
+            "Priority": 2,
+            "Title": "Implement User Authentication",
+            "ParentTaskTitle": "Consider Signing Metadata by Default"
+        },
+        {
+            "Deadline": "2025-06-17T00:00:00Z",
+            "Difficulty": 7,
+            "Priority": 2,
+            "Title": "Implement API Rate Limiting",
+            "ParentTaskTitle": "Consider Signing Metadata by Default"
+        },
+        {
+            "Deadline": "2025-03-05T00:00:00Z",
+            "Difficulty": 9,
+            "Priority": 2,
+            "Title": "Type-based bean name resolution with fallback matching for incomplete generics",
+            "ParentTaskTitle": "Consider Signing Metadata by Default"
+        },
+        {
+            "Deadline": "2025-03-05T00:00:00Z",
+            "Difficulty": 2,
+            "Priority": 1,
+            "Title": "Refactor Database Layer",
+            "ParentTaskTitle": ""
+        },
+        {
+            "Deadline": "2025-03-05T00:00:00Z",
+            "Difficulty": 4,
+            "Priority": 1,
+            "Title": "Redesign User Onboarding Flow",
+            "ParentTaskTitle": ""
+        },
+        {
+            "Deadline": "2025-03-05T00:00:00Z",
+            "Difficulty": 2,
+            "Priority": 1,
+            "Title": "Allow the ability to deactivate the device authorization grant",
+            "ParentTaskTitle": ""
+        },
+        {
+            "Deadline": "2025-03-05T00:00:00Z",
+            "Difficulty": 8,
+            "Priority": 1,
+            "Title": "Allow configurable authenticationDetailsSource in OAuth2TokenRevocationEndpointFilter",
+            "ParentTaskTitle": ""
+        },
+        {
+            "Deadline": "2025-03-05T00:00:00Z",
+            "Difficulty": 5,
+            "Priority": 1,
+            "Title": "Deprecate bean definition overriding",
+            "ParentTaskTitle": ""
+        },
+        {
+            "Deadline": "2025-03-05T00:00:00Z",
+            "Difficulty": 5,
+            "Priority": 1,
+            "Title": "AutoGrow not applied for nested map values",
+            "ParentTaskTitle": "Implement API Rate Limiting"
+        }
+    ]
+}

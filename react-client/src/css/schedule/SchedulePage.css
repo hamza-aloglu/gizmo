@@ -1,0 +1,247 @@
+.ga-slider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: relative;
+}
+
+.slider-wrapper {
+    width: 70%;
+    margin-left: 15px;
+}
+
+.slider-wrapper span {
+    position: absolute;
+    top: 10%;
+    left: 64%;
+    transform: translate(-50%, -50%);
+}
+
+.ga-parameters {
+    padding: 8px;
+}
+
+.ga-weights {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.weight-label {
+    width: 70%;
+    height: 40px;
+    padding-left: 30px;
+    padding-right: 0px;
+    background-color: #eef5d5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.weights-wrapper {
+    display: none;
+    width: 70%;
+}
+
+.weight {
+    width: 100%;
+    height: 31px;
+    background-color: #eef5d5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: smaller;
+}
+
+.weight span {
+    width: 40%;
+    padding-left: 4px;
+}
+
+.weight input {
+    width: 40%;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+
+}
+
+.weights-wrapper input::-webkit-outer-spin-button,
+.weights-wrapper input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.arrow-down-wrapper {
+    border-left: 1px solid black;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+
+.arrow-down-wrapper:hover {
+    background-color: #d3d3d3;
+}
+
+.visible {
+    display: block;
+}
+
+.date-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 4px 1px;
+}
+
+.icon-arrow-right {
+    margin: 0 8px;
+}
+
+/* Removes the clear button from date inputs */
+input[type="date"]::-webkit-clear-button {
+    display: none;
+}
+
+/* Removes the spin button */
+input[type="date"]::-webkit-inner-spin-button {
+    display: none;
+}
+
+/* Always display the drop down caret */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    color: #2c3e50;
+}
+
+/* A few custom styles for date inputs */
+input[type="date"] {
+    appearance: none;
+    -webkit-appearance: none;
+    color: #95a5a6;
+    font-family: "Helvetica", arial, sans-serif;
+    font-size: 14px;
+    border: 1px solid #ecf0f1;
+    background: #ecf0f1;
+    padding: 5px;
+    display: inline-block !important;
+    visibility: visible !important;
+}
+
+input[type="date"],
+focus {
+    color: #95a5a6;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+
+.select-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+}
+
+select {
+    /* Reset Select */
+    appearance: none;
+    outline: 10px red;
+    border: 0;
+    box-shadow: none;
+    /* Personalize */
+    flex: 1;
+    padding: 0 1em;
+    background-color: #ecf0f1;
+    background-image: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+
+}
+
+/* Remove IE arrow */
+select::-ms-expand {
+    display: none;
+}
+
+/* Custom Select wrapper */
+.select {
+    position: relative;
+    display: flex;
+    width: 80%;
+    height: 3em;
+    border-radius: .25em;
+}
+
+/* Arrow */
+.select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 13px;
+    background-color: #ecf0f1;
+    transition: .25s all ease;
+    pointer-events: none;
+}
+
+/* Transition */
+.select:hover::after {
+    color: white
+}
+
+.up_note {
+    display: flex;
+    justify-content: center;
+    font-size: 12px;
+}
+
+#run-ga-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 6px;
+    border-top: 1px dotted black;
+}
+
+#run-ga-button {
+    background-color: #ecf0f1;
+    /* red color */
+    border: none;
+    width: 60%;
+    height: 46px;
+    padding: 6px 0;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 17px;
+    margin: 4px 2px;
+    border-radius: 3px;
+    transition: background-color 0.3s, transform 0.3s;
+    cursor: pointer;
+    /* Optional: Add a subtle shadow to give it some depth */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+#run-ga-button:hover {
+    background-color: #fcf0ff;
+    /* slightly darker red for hover */
+    transform: scale(1.05);
+    /* slightly enlarge the button when hovered */
+}

@@ -7,6 +7,7 @@ import Register from './components/authorization/Register';
 import PrivateRoute from './authorization/PrivateRoute';
 import BoardPage from './components/kanban/BoardPage';
 import TimelinePage from './components/timeline/TimelinePage';
+import SchedulePage from './components/schedule/SchedulePage';
 
 
 
@@ -36,6 +37,10 @@ function App() {
 
           <Route path='/timeline/:timelineId' element={<PrivateRoute />}>
             <Route path='/timeline/:timelineId' element={<TimelinePage />} />
+          </Route>
+
+          <Route path='/schedule' element={<PrivateRoute />}>
+            <Route path='/schedule' element={<SchedulePage />} />
           </Route>
         </Routes>
       </BrowserRouter>

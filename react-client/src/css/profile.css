@@ -3,10 +3,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 60px);
+    height: calc(100vh - var(--header-length));
     width: 100vw;
     position: absolute;
-    top: 60px;
+    top: var(--header-length);
     left: 0;
 }
 
@@ -55,10 +55,19 @@
     width: 35%;
 }
 
-.timeline-container {
+.schedule-container {
     width: 35%;
 }
 
 .bg-purpleish {
     background-color: #b06bed
+}
+
+.big-button {
+    font-size: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.big-button i {
+    margin-left: 10px;
 }

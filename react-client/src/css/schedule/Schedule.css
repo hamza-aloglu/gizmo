@@ -1,0 +1,10 @@
+.sidebar-closed-space {
+    margin-left: 20px;
+}
+
+.days-wrapper {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    height: calc(100vh - var(--header-length));
+}

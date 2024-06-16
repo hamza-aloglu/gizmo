@@ -4,8 +4,11 @@ import KanbanService from "../../services/KanbanService";
 import Header from "../Header";
 import AuthService from "../../services/AuthService";
 import '../../css/kanban/BoardPage.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Info from '../notification/Info';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock } from "@fortawesome/free-solid-svg-icons";
+
 
 
 const BoardPage = () => {
@@ -62,8 +65,8 @@ const BoardPage = () => {
     const isErrorVisible = errorMessage ? "visible" : "hidden";
 
     return (
-        <div className="boardPage-wrapper" style={{backgroundImage: `url(${bgImage})`, backgroundSize: 'cover', zIndex: 999}}>
-            <Header backgroundColor={bgColor}/>
+        <div className="boardPage-wrapper" style={{ backgroundImage: `url(${bgImage})`, backgroundSize: 'cover', zIndex: 999 }}>
+            <Header backgroundColor={bgColor} />
 
             <div style={{ visibility: isNotificationVisible }}>
                 <Info message={notificationMessage} backgroundColor={"#4CAF50"} />
@@ -71,7 +74,7 @@ const BoardPage = () => {
             <div style={{ visibility: isErrorVisible }}>
                 <Info message={errorMessage} backgroundColor={"#e60b6e"} />
             </div>
-            <div className={`sidebar ${showSidebar ? 'open' : ""}`} style={{backgroundColor: bgColor}}>
+            <div className={`sidebar ${showSidebar ? 'open' : ""}`} style={{ backgroundColor: bgColor }}>
                 <div id="username-section">
                     <div>
                         <span> Workspace </span>
@@ -87,13 +90,15 @@ const BoardPage = () => {
                 </div>
                 <div className="workspace-list">
                     <a href="/" className="board-link">
-                        <img src="/kanban-3-32.png" alt="kanban-board-icon" className="board-img" />
+                        <img src="/kanban-3-32.png" alt="kanban-board-icon" width={30} className="board-img" />
                         <p className="board-text">Boards</p>
                     </a>
-                    <a href="/" className="board-link">
-                        <img src="/kanban-3-32.png" alt="kanban-board-icon" className="board-img" />
+                    <Link to={{
+                        pathname: "/schedule",
+                    }} className="board-link">
+                        <FontAwesomeIcon icon={faClock} color="black" width={30} height={46} />
                         <p className="board-text">Schedule Board</p>
-                    </a>
+                    </Link>
                 </div>
                 <div className="boards">
                     <div className="boards-title">
@@ -113,7 +118,7 @@ const BoardPage = () => {
             </div>
 
             <div className={`sidebar-overlay ${!showSidebar ? 'open' : ""} ${isHovered ? 'highlight' : ""}`}
-            style={{backgroundColor: bgColor}}>
+                style={{ backgroundColor: bgColor }}>
             </div>
 
             <div className={`${showSidebar ? 'sidebar-space' : ''}`}>

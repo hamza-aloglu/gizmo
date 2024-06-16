@@ -5,6 +5,8 @@ import Header from "./Header";
 import '../css/profile.css';
 import AuthService from "../services/AuthService";
 import TimelineService from "../services/TimelineService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 const Profile = () => {
     const [boards, setBoards] = useState([]);
@@ -15,6 +17,8 @@ const Profile = () => {
     const [timelineTitle, setTimelineTitle] = useState('');
     const navigate = useNavigate();
     const isLoggedIn = AuthService.isLoggedIn();
+    const bgImage = `${process.env.PUBLIC_URL}/pexels-jplenio-1103970.jpg`;
+    const buttonBgImage = `${process.env.PUBLIC_URL}/pexels-eberhardgross-1287145.jpg`;
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -56,16 +60,6 @@ const Profile = () => {
         });
     }
 
-    function handleCreateTimeline(e) {
-        e.preventDefault();
-        TimelineService.createTimeline(timelineTitle).then(async (response) => {
-            if (response.ok) {
-                const timeline = await response.json()
-                navigate('/timeline/' + timeline.id);
-            }
-        })
-    }
-
     function renderBoard(board) {
         return (
             <div className="render-element-container">
@@ -76,24 +70,14 @@ const Profile = () => {
         )
     }
 
-    function renderTimeline(timeline) {
-        return (
-            <div className="render-element-container">
-                <div key={timeline.id} className="box bg-purpleish" onClick={() => navigate('/timeline/' + timeline.id)}>
-                    {timeline.title}
-                </div>
-            </div>
-        )
-    }
-
     return (
         <div>
-            <Header />
+            <Header backgroundColor={"#f8f4e4"} />
 
-            <div id="welcome-username">
+            {/* <div id="welcome-username">
                 Welcome {isLoggedIn && AuthService.generateUsername()}
-            </div>
-            <div className="profile-wrapper">
+            </div> */}
+            <div className="profile-wrapper" style={{ backgroundImage: `url(${bgImage})`, backgroundSize: 'cover', zIndex: 999 }}>
                 <div className="profile-container">
                     <div className="board-container">
                         {boards && boards.map((board) => renderBoard(board))}
@@ -113,24 +97,11 @@ const Profile = () => {
                         }
                     </div>
 
-                    <div className="timeline-container">
-                        {timelines && timelines.map((t) => renderTimeline(t))}
-
-                        {
-                            !isTimelineFormActive &&
-                            <div className="box create-box bg-purpleish" onClick={handleClickCreateTimeline}>
-                                Create Timeline
-                            </div>
-                        }
-                        {
-                            isTimelineFormActive &&
-                            <form className="create-box" onSubmit={handleCreateTimeline}>
-                                <input className="long-button" type="text" onChange={(e) => setTimelineTitle(e.target.value)}
-                                    autoFocus onBlur={() => setIsTimelineFormActive(false)} />
-                            </form>
-                        }
-
-
+                    <div className="schedule-container">
+                        <button className="big-button" onClick={() => navigate('/schedule')}
+                            style={{ backgroundImage: `url(${buttonBgImage})`, backgroundSize: 'cover', zIndex: 999}}>
+                            Schedule GA <FontAwesomeIcon icon={faArrowRight} style={{marginLeft: '10px'}} />
+                        </button>
                     </div>
 
                 </div>
